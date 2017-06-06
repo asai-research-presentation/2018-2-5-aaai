@@ -23,6 +23,9 @@
 /org-mode/
 /htmlize/
 /index.html
-/presen-nokey.pdf
-/presen.pdf
-/resume.pdf
+*.pdf
+*.fdb_latexmk
+*.fls
+.sass-cache/
+*.pyg
+*.ptc

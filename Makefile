@@ -1,22 +1,33 @@
 
+latexmk    = latexmk/latexmk.pl
+
 GH_USER    = guicho271828
 EMACS      = emacs
 EMACSFLAGS =
-styles     = anorg.sty user.sty
-# latex      = pdflatex
-# latex      = platex
-TEX 	   = platex
+styles     = sty/anorg.sty sty/user.sty
 
 ncpu       = $(shell grep "processor" /proc/cpuinfo | wc -l)
 
-.PHONY: auto all img scripts clean allclean html pdf resume index css deploy
+.PHONY: auto all img scripts clean allclean html pdf index css deploy
 .SECONDLY: *.elc *.org.*
+
+%.pdf: %.tex presen.org.tex img $(styles)
+	$(latexmk) -r latexmk/rc_ja.pl \
+		   -latexoption="-halt-on-error" \
+		   -pdfdvi \
+		   -bibtex \
+		   $<
+
+%.org.tex: %.org scripts org-mode
+	scripts/org-latex.sh $< $@
+
+%.org.html: %.org scripts org-mode
+	scripts/org-html.sh $< $@
 
 all: index
 html: img css presen.org.html MathJax
-pdf: img presen.pdf
-nokey: img presen-nokey.pdf
-resume: img resume.pdf
+pdf:    key.pdf
+nokey:  nokey.pdf
 
 deploy: index
 	+scripts/deploy.sh git@github.com:$(GH_USER)/$$(basename $$(readlink -ef .)).git
@@ -30,7 +41,7 @@ MathJax:
 	$(call get-archive, https://github.com/mathjax/MathJax/archive/2.6.1.tar.gz, MathJax-2.6.1, $@)
 
 org-mode:
-	$(call get-archive, http://orgmode.org/org-8.2.10.tar.gz, org-8.2.10, $@)
+	$(call get-archive, http://orgmode.org/org-8.3.6.tar.gz, org-8.3.6, $@)
 	$(MAKE) -C $@ compile
 
 scripts:
@@ -44,22 +55,8 @@ img:
 css:
 	$(MAKE) -C css
 
-presen.dvi: presen.org.tex
-resume.dvi: presen.org.tex
-presen-nokey.dvi: presen.org.tex
 presen.org: head.org
 	touch presen.org
-
-%.org.tex: %.org scripts org-mode
-	scripts/org-latex.sh $< $@
-
-%.org.html: %.org scripts org-mode
-	scripts/org-html.sh $< $@
-
-%.dvi: %.tex img $(styles)
-
-%.pdf : %.dvi
-	nohup bash -c "nohup dvipdfmx -f ipa.map -o $@ $* > /dev/null ; cp $@ ~/Dropbox/repos/presentations/$(shell basename $(CURDIR))-$@" &
 
 clean:
 	-rm *~ *.org.* *.pdf \

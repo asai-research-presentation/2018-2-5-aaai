@@ -11,6 +11,10 @@
 \usepackage{relsize}
 \usepackage{parskip}
 \usepackage{pxjahyper}
+\usepackage{enumitem}
+\usepackage{titletoc}
+\usepackage{color}
+\usepackage[cache=false]{minted}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% user field
@@ -20,9 +24,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% default style 
 
-\newenvironment{xlarge}{\huge}{}
-\renewenvironment{larger}{\relsize{1}}{}
-\renewenvironment{smaller}{\relsize{-1}}{}
+\newenvironment{xlarge}{\par\huge\bf}{}
+\renewenvironment{larger}{\par\relsize{1}}{}
+\renewenvironment{smaller}{\par\relsize{-1}}{}
 
 \newenvironment{outline-text-1}{}{}
 
@@ -42,8 +46,8 @@
 \NewEnviron{resume}{\blfootnote{\BODY}}
 \NewEnviron{inline}{\BODY}
 \NewEnviron{expanded}{\BODY}
-\NewEnviron{container-fluid}{\BODY}
-\NewEnviron{row-fluid}{\BODY}
+\NewEnviron{container-fluid}{\par\BODY}
+\NewEnviron{row-fluid}{\par\BODY}
 
 % \strip@pt removes pt from the expression
 \newcommand{\ddwidth}[1]{\dimexpr (\linewidth * #1 / 12) - 1.5em \relax}% duodecimal width
@@ -80,3 +84,15 @@
 % \setlength{\baselineskip}{4em}
 % \setlength{\parsep}{0.5em}
 % \setlength{\parskip}{0.5em}
+
+\setlist{nosep}
+
+\usepackage[compact]{titlesec}
+\titleformat{\section}[hang]{\large\bfseries}{}{1em}{\thesection\ }
+\titleformat{\subsection}[hang]{\large\bfseries}{}{1em}{\thesubsection\ }
+\titleformat{\subsubsection}[hang]{\large\bfseries}{}{1em}{\thesubsubsection\ }
+
+\titlespacing{\section}{0pt}{0pt}{0pt}
+\titlespacing{\subsection}{0pt}{0pt}{0pt}
+\titlespacing{\subsubsection}{0pt}{0pt}{0pt}
+
