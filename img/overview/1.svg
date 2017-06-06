@@ -120,7 +120,7 @@
          sodipodi:role="line"
          id="tspan9330"
          x="251.52315"
-         y="144.33319">パネル0を隣と移動</tspan></text>
+         y="144.33319">Swap panel-0 with panel-6</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.31797528px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#marker9408);marker-end:url(#marker8300)"
        d="M 116.00668,8.4926827 C 22.422338,9.5733482 24.115522,18.404275 24.115522,39.123079 c 0,18.307368 -0.100531,29.802508 92.718998,29.802508"
@@ -137,7 +137,7 @@
          sodipodi:role="line"
          id="tspan4257"
          x="135.17572"
-         y="-109.54417">アクション実行前の画像</tspan></text>
+         y="-109.54417">Before-state</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:20.00000191px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -148,7 +148,7 @@
          sodipodi:role="line"
          id="tspan4257-6"
          x="364.85422"
-         y="-108.0123">アクション実行後の画像</tspan></text>
+         y="-108.0123">After-state</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:50.00000763px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"

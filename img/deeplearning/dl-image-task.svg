@@ -105,7 +105,7 @@
              sodipodi:role="line"
              id="tspan4189"
              x="95.95475"
-             y="534.15393">画像分類</tspan></text>
+             y="534.15393">Classification</tspan></text>
       </g>
     </g>
     <text
@@ -118,7 +118,7 @@
          sodipodi:role="line"
          id="tspan4331"
          x="239.69368"
-         y="495.18744">画像系</tspan></text>
+         y="495.18744">Computer Vision</tspan></text>
     <g
        id="g4282"
        transform="matrix(0.5945183,0,0,0.5945183,305.87765,87.91668)">
@@ -152,11 +152,11 @@
              sodipodi:role="line"
              id="tspan4185"
              x="190.03613"
-             y="763.43829">スタイルの</tspan><tspan
+             y="763.43829">Style</tspan><tspan
              sodipodi:role="line"
              x="190.03613"
              y="803.83832"
-             id="tspan4217">抽出/合成</tspan></text>
+             id="tspan4217">Extraction/Synthesis</tspan></text>
       </g>
     </g>
     <g
@@ -195,7 +195,7 @@
              sodipodi:role="line"
              id="tspan3381"
              x="509.11688"
-             y="521.02191">物体認識</tspan></text>
+             y="521.02191">Object Recognition</tspan></text>
       </g>
     </g>
   </g>

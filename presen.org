@@ -169,7 +169,7 @@ Classical Planning
 #+END_CENTER
 #+END_XLARGE
 
-** 利点
+** Advantages
 
 #+BEGIN_XLARGE
 */Perception/* based on DLNN
@@ -190,7 +190,7 @@ Classical Planning
 --- *Decision Making Independent from Learning*
 
 #+BEGIN_CENTER
-*/Unsupervised/* (No data required), *Explaninable* (Search by logic)
+*/Unsupervised/* (No data required), *Explainable* (Search by logic)
 #+END_CENTER
 
 # 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
@@ -207,9 +207,9 @@ Optimal solutions can be obtained by admissible heuristics
 
 [[sjpg:puzzle]]
 
-** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example nor Prior Knowledge
+** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example, Prior Knowledge
 
-*DLNN + *
+*DLNN + Classical Planning*
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
@@ -217,7 +217,7 @@ Optimal solutions can be obtained by admissible heuristics
 
 [[sjpg:puzzle]]
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Knowledge
 
 #+BEGIN_XLARGE
 */No Prior Knowledge/*

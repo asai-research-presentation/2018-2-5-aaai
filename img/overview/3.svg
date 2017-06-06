@@ -923,7 +923,7 @@
          y="184.83304"
          x="154.97827"
          id="tspan12994"
-         sodipodi:role="line">提案手法</tspan></text>
+         sodipodi:role="line">Our system</tspan></text>
   </g>
   <g
      ns1:transitionOut="name:appear;length:800"
@@ -1047,7 +1047,7 @@
          y="129.10693"
          x="191.91162"
          id="tspan13421-3"
-         sodipodi:role="line">学習</tspan></text>
+         sodipodi:role="line">Training</tspan></text>
     <text
        sodipodi:linespacing="98.000002%"
        id="text14176-3"
@@ -1082,7 +1082,7 @@
          id="tspan8954-4"
          sodipodi:role="line"><tspan
    style="fill:#ff2d2d;fill-opacity:1"
-   id="tspan6595">8-パズル</tspan> 問題画像</tspan></text>
+   id="tspan6595">8-puzzle</tspan> instance</tspan></text>
     <image
        transform="translate(-228.22821,69.85289)"
        clip-path="url(#clipPath13012)"
@@ -1104,9 +1104,9 @@
          y="283.04733"
          x="294.62109"
          id="tspan9266"
-         sodipodi:role="line">この<tspan
+         sodipodi:role="line">The visualized plan for<tspan
    style="fill:#ff0000;fill-opacity:1"
-   id="tspan6603">8-パズル</tspan>を解くプランを 画像で提示</tspan></text>
+   id="tspan6603">8-puzzle</tspan></tspan></text>
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
@@ -1123,7 +1123,7 @@
          id="tspan14202-8"
          y="65.374512"
          x="292.03308"
-         sodipodi:role="line">入力1: 状態遷移</tspan></text>
+         sodipodi:role="line">Input1: State Transition</tspan></text>
     <text
        sodipodi:linespacing="98.000002%"
        id="text14176-2-8"
@@ -1134,7 +1134,7 @@
          y="116.2075"
          x="-0.52500004"
          id="tspan14178-4-7"
-         sodipodi:role="line">入力2:</tspan></text>
+         sodipodi:role="line">Input2:</tspan></text>
     <text
        sodipodi:linespacing="98.000002%"
        id="text6256-8-9"
@@ -1145,7 +1145,7 @@
          y="155.39929"
          x="54.947666"
          id="tspan6258-9-7"
-         sodipodi:role="line">初期画像</tspan></text>
+         sodipodi:role="line">Initial Image</tspan></text>
     <text
        sodipodi:linespacing="98.000002%"
        id="text6260-0-3"
@@ -1156,7 +1156,7 @@
          y="265.38898"
          x="56.165966"
          id="tspan6262-6-6"
-         sodipodi:role="line">ゴール画像</tspan></text>
+         sodipodi:role="line">Goal Image</tspan></text>
   </g>
   <script
      id="JessyInk"

@@ -109,7 +109,7 @@
          id="tspan4331"
          x="133.32132"
          y="544.0899"
-         style="stroke-width:0.29593024">自然言語/Seq-to-Seq/時系列解析</tspan></text>
+         style="stroke-width:0.29593024">NLP/Time-series</tspan></text>
     <rect
        ry="9.3713465"
        rx="9.3713465"
@@ -130,7 +130,7 @@
          id="tspan4215"
          x="168.78326"
          y="600.26038"
-         style="stroke-width:0.24129373">自動翻訳</tspan></text>
+         style="stroke-width:0.24129373">Machine Translation</tspan></text>
     <g
        id="g4742"
        transform="translate(-53.101761,-0.51427496)">
@@ -153,7 +153,7 @@
            y="619.6756"
            x="516.62476"
            id="tspan4413"
-           sodipodi:role="line">音声書き起こし</tspan></text>
+           sodipodi:role="line">Captioning</tspan></text>
     </g>
     <rect
        ry="9.3713465"
@@ -174,6 +174,6 @@
          sodipodi:role="line"
          id="tspan4413-5"
          x="111.43301"
-         y="712.72089">動画の未来予測</tspan></text>
+         y="712.72089">Frame Prediction</tspan></text>
   </g>
 </svg>
