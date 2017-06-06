@@ -1114,17 +1114,17 @@
          x="230.56335"
          y="443.14093"
          id="tspan7995"
-         style="stroke:none;stroke-width:0.32916966">ドメイン非依存</tspan><tspan
+         style="stroke:none;stroke-width:0.32916966">Domain-independent</tspan><tspan
          sodipodi:role="line"
          x="230.56335"
          y="458.96371"
          style="stroke:none;stroke-width:0.32916966"
-         id="tspan3862">古典的プランニング</tspan><tspan
+         id="tspan3862">Classical Planning</tspan><tspan
          sodipodi:role="line"
          x="230.56335"
          y="474.78653"
          style="stroke:none;stroke-width:0.32916966"
-         id="tspan3864">ソルバ</tspan></text>
+         id="tspan3864">solver</tspan></text>
     <text
        xml:space="preserve"
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:19.61992836px;line-height:98.00000191%;font-family:'Noto Sans CJK JP';-inkscape-font-specification:'Noto Sans CJK JP Bold';text-indent:0;text-align:center;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:middle;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ff2d2d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.32916966;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;"
@@ -1581,7 +1581,7 @@
          x="373.42688"
          y="344.48483"
          id="tspan23907"
-         style="font-size:22.07241631px;text-align:center;text-anchor:middle;stroke:none;stroke-width:0.32916966">Symbolic世界</tspan></text>
+         style="font-size:22.07241631px;text-align:center;text-anchor:middle;stroke:none;stroke-width:0.32916966">Symbolic World</tspan></text>
     <text
        xml:space="preserve"
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:17.78505516px;line-height:98.00000191%;font-family:'Noto Sans CJK JP';-inkscape-font-specification:'Noto Sans CJK JP Medium';text-indent:0;text-align:center;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:middle;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.38622046;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
@@ -1621,7 +1621,7 @@
          x="373.42688"
          y="325.16824"
          id="tspan23907-6"
-         style="font-size:22.07241631px;text-align:center;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.32916966">Subsymbolic世界</tspan></text>
+         style="font-size:22.07241631px;text-align:center;text-anchor:middle;fill:#000000;stroke:none;stroke-width:0.32916966">Subsymbolic World</tspan></text>
     <image
        y="-317.17273"
        x="-783.82465"
@@ -2367,7 +2367,7 @@
          id="tspan14202-8"
          y="281.16492"
          x="263.35867"
-         sodipodi:role="line">入力1: 状態遷移</tspan></text>
+         sodipodi:role="line">Input1: State Transition</tspan></text>
     <text
        sodipodi:linespacing="98.000002%"
        id="text14176-2-8"
@@ -2378,7 +2378,7 @@
          y="337.20877"
          x="-23.903757"
          sodipodi:role="line"
-         id="tspan3794">入力2:</tspan></text>
+         id="tspan3794">Input2:</tspan></text>
     <text
        xml:space="preserve"
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:16.25px;line-height:98.00000191%;font-family:'Noto Sans CJK JP';-inkscape-font-specification:'Noto Sans CJK JP Bold';text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
@@ -2389,11 +2389,11 @@
          sodipodi:role="line"
          id="tspan3802"
          x="-22.829838"
-         y="362.68466">初期画像・</tspan><tspan
+         y="362.68466">Initial Image・</tspan><tspan
          sodipodi:role="line"
          x="-22.829838"
          y="378.60965"
-         id="tspan3804">ゴール画像</tspan></text>
+         id="tspan3804">Goal Image</tspan></text>
     <text
        xml:space="preserve"
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:11.25px;line-height:125%;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold';text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"

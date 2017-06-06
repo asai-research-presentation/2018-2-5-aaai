@@ -369,39 +369,82 @@ DLNN + Classical Planner
 
   + *How to interpret these /foreign/ symbols?*
 
-* Latent-Space Planner: */LatPlan/*
+* Latent-Space Planner: *LatPlan*
 
-We propose LatPlan */architechture/*, and *LatPlanα*, an implementation
+We propose LatPlan *architechture*, and *LatPlanα*, an implementation
 
  [[png:overview/planning1]]
 
-* Step 1: State Autoencoder
+* Step 1: State Autoencoder (*/Core Contribution/*)
 
 A neural network *bridging the Symbolic/Subsymbolic boundary*
 
  [[png:overview/planning2]]
 
+** Step 1: State Autoencoder (*/Core Contribution/*)
+
+[[png:train-state-ae]]
+
+Trained SAE gives us:
+
++ $b = Encode(r)$ : *Function that maps a raw datum $r$ to a bit vector $b$ (propositions)*
+
++ $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b$ to a raw datum $\tilde{r}$*
+
+* Step 2: Domain Acquisition
+
+bitvector -> PDDL domain description
+
+ [[png:overview/planning3]]
+
+** PDDL generation in LatPlan α (an implementation of Latplan)
+
+Individual actions are mapped to PDDL actions
+
+#+begin_src lisp
+ 0011 → 0101
+
+　　　↓
+
+(:action ...
+ :precondition (and (b0-false) (b1-false) (b2-true) (b3-true)) ; before-state
+ :effect       (and (not (b1-false)) (b1-true)    ; state diff
+                    (not (b2-true))  (b2-false)))
+#+end_src
+
+ポイント:
+
+#+begin_center
+ $i$-th bit is 1 → Proposition ($b_i$-true)
+
+ $i$-th bit is 0 → Proposition ($b_i$-false)
+#+end_center
+
+* Step 3: Solve the PDDL instance w/ off-the-shelf planner
+
+ [[png:overview/planning4]]
+
+* Step 4: Mapping the symbolic plan (human-incomprehensive) to images (human-comprehensive)
+
+ [[png:overview/planning5]]
+
+* *Our Core Contribution : SAE*
+
+Obtain a bidirectional mapping between subsymbolic - symbolic representation
+
+→ Use a *Variational Autoencoder with Gumbel-Softmax reparametrization*
+
+*Core Contribution* : */Introduction of SAE/*
+
 ** Neural Network 101
-
-　
-
-　
 
 [[png:deeplearning/1]]
 
 ** Neural Network 101
 
-Layers of inner products of vectors and matrices
-
-　
-
 [[png:deeplearning/2]]
 
 ** Neural Network 101
-
-Layers of inner products of vectors and matrices
-
-→ Update *W* using *error* = derivatives → Back propagation learning
 
 [[png:deeplearning/3]]
 
@@ -409,15 +452,21 @@ Layers of inner products of vectors and matrices
 
 [[spng:gradient-descent]]
 
+Plus misc techniques e.g. Batchnorm, Dropout
+
+Pretty much everything is on the standard online tutorial / lecture cource / MOOP
+
+Good libraries --- Tensorflow, Keras
+
 ** Standard Classification / Mapping Tasks
 
-+ Target Function $y^*=f^*(x)$
+Target Function $y^*=f^*(x)$
   
-  | Task                 | Input x  | Output y                           |
-  |----------------------+----------+------------------------------------|
-  | Image classification | Image    | Label (1=car, 2=cat, 3=monkey ...) |
-  | Translation          | Sentence | Sentence                           |
-  | Go eval. function    | State    | Number                             |
+| Task                 | Input x  | Output y                           |
+|----------------------+----------+------------------------------------|
+| Image classification | Image    | Label (1=car, 2=cat, 3=monkey ...) |
+| Translation          | Sentence | Sentence                           |
+| Go eval. function    | State    | Number                             |
 
 + Actual output $y=f(x)$
 
@@ -425,48 +474,47 @@ Layers of inner products of vectors and matrices
 
 ** AutoEncoder : Unsupervised Learning
 
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
 + Target Function: Identity function $x=f^*(x)$
 + Map the input vector $x$ to *latent vector* $z$, then back to $x$
 + Dimensionality reduction (space compression): $X \rightarrow Z \rightarrow X$
 + You can extract the compression/decompression part: $Encode: x \mapsto z, Decode: z \mapsto x$
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span3
-
-#+end_span3
+#+end_span6
 #+begin_span6
 [[png:static/autoenc]]
 #+end_span6
-#+begin_span3
-
-#+end_span3
 #+end_row-fluid
 #+end_container-fluid
 
 #+begin_alignright
-→ However, */✘ Latent vector is a real-valued blob, incompatible to classical planning/*
++ → However, */✘ Latent vector is real-valued, incompatible to classical planning/*
 #+end_alignright
 
-** Variational AutoEncoder
+** Variational AutoEncoder (VAE)
 
-An AutoEncoder that *can enforce a certain distribution* on the latent vector over the dataset $X$
+An AutoEncoder that *enforce a certain distribution* on $Z \subset \mathbb{R}^n$ over the dataset $X$
 
 #+begin_quote
-Example: You have $X=$ { 10k images of apples }. If you train a VAE on $X$, then $Encode(X) \approx N(\mu,\sigma)$. for some \mu,\sigma.
+You have $X=$ { 10k images of apples }. If you train a VAE on $X$, then $z = Encode(X) \approx N(\mu,\sigma)$ for some $\mu,\sigma \in \mathbb{R}^n$.
 #+end_quote
 
-To train a VAE, you need a *reparametrization trick* because random distributions are non-differentiable.
+VAE needs a *reparametrization trick* because random distributions are non-differentiable.
 
 #+begin_quote
-Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$, $\mu$ and $\sigma$ is differentiable, $N(0,1)$ is not.
+Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
+
+#+BEGIN_CENTER
+\mu and \sigma are differentiable vectors, $N(0,1)$ is not.
+#+END_CENTER
 #+end_quote
 
 ** Gumbel-Softmax Reparametrization (Jang, Gu, ICLR2017)
 
-A Reparametrization trick for enforcing *categorical distribution*.
+A Reparametrization trick for *categorical distribution*.
 
-Categorical distribution: 1-hot vector like <0,0,0,1,0,0> .
+Categorical distribution: 1-hot vector e.g.  $\langle 0,0,0,1,0,0 \rangle$ .
 
 Below: Represent an MNIST image with 30 variables of 8 categories.
 
@@ -479,126 +527,115 @@ Below: Represent an MNIST image with 30 variables of 8 categories.
  #+END_HTML
 #+end_center
 
-#+begin_alignright
 #+begin_larger
-Key idea: *These categorical variables are /directly/ usable as a source of PDDL/SAS*
+#+begin_center
+Key idea: *These categorical variables are /directly/ usable*
 
-*N variables with 2 Categories → N propositional variables (true/false)*
+*as a source of PDDL/SAS*
+
+In particular, *2 Categories → propositional variables (true/false)*
+#+end_center
 #+end_larger
-#+end_alignright
 
-** Step 1: State Autoencoder                                       :noexport:
+
+** Step 1: State Autoencoder (*/before training/*)
+
+ [[png:sae/state-ae-before]]
+
+
+** Step 1: State Autoencoder (_/after training/_)
 
  [[png:sae/state-ae]]
 
-** Gumbel-Softmax: Gumbel-Max の微分可能な近似                     :noexport:
+** Gumbel-Softmax: Differential Approximation of Gumbel-Max
 
-Gumbel-Max: カテゴリごとの確率 ($x$) から one-hot vector ($z$) をサンプルする手法
+Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probability ($x$)
 
-+ 例: $x=[0.1, 0.1, 0.8] \rightarrow z = [0, 0, 1] \text{or} [1,0,0] \text{or} [0,1,0]$ (確率にそって)
+#+begin_smaller
++ E.g.: $x=[0.1, 0.1, 0.8] \rightarrow z = [1,0,0] \text{or} [0,1,0] \text{or} [0,0,1]$
 
 + $z = \text{ GumbelMax}(x) = [ i == \arg \max_j (\text{ Gumbel}(0,1)+\log x_j) \; ? \; 1 : 0 ]$
 
-+ 微分可能でない → BP法が使えない → max を 微分可能なsoftmax で近似
++ argmax is non-differentiable → softmax approximation (differentiable)
 
 + $z = \text{ GumbelSoftmax}_\tau (x) = \text{ Softmax}( [\text{ Gumbel}(0,1)+\log x_j]/\tau )$
 
-+ 温度 $\tau$ を0に近づけるとGumbelMaxに収束: $z$ もone-hotに収束
++ Temparature $\tau \rightarrow 0$ , $z\rightarrow \text{one-hot vector}$
 
-  \[
-  \text{ GumbelSoftmax}_\tau (x) \rightarrow \text{ GumbelMax}(x) \quad (\tau\rightarrow 0)
-  \]
+  # \[
+  # \text{ GumbelSoftmax}_\tau (x) \rightarrow \text{ GumbelMax}(x) \quad (\tau\rightarrow 0)
+  # \]
+#+end_smaller
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span2
+
+#+end_span2
+#+begin_span8
+#+begin_center
+[[png:sae/gumbel]]
+#+end_center
+#+end_span8
+#+begin_span2
+
+#+end_span2
+#+end_row-fluid
+#+end_container-fluid
 
 #+begin_note
 Maddison et. al., 2014
 #+end_note
 
-** Step 1: State Autoencoder
+* Why bother the off-the-shelf planner? Shouldn't the blind search do?
 
-[[png:train-state-ae]]
+*Domain-independent heuristics works, /SURPRISINGLY!/*
 
-SAEを学習させることにより以下の関数を得る:
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
++ This is *NOT* a trivial finding!
 
-+ $b = Encode(r)$ : *生データ $r$ を 命題列 $b$ に変換する関数*
+  Heuristics are...
 
-+ $\tilde{r} = Decode(b)$ : *命題列 $b$ を 生データ $\tilde{r}$ に変換する関数*
+  + taylored for *man-made* domains
+  
+  + assuming a *certain structure*
 
-* Step 2: Domain Acquisition (ドメイン獲得)
+  PDB may even sometimes lose to Blind on IPC instances (Edelkamp 12)
 
-bitvector から PDDL モデルを生成する
-
- [[png:overview/planning3]]
-
-** LatPlan の実装 LatPlan α での アクション集合の生成
-
-個別アクション遷移をPDDLアクション表現にマップ
-
-#+begin_src lisp
- 0011 → 0101
-
-　　　↓
-
-(:action ...
- :precondition (and (b0-false) (b1-false) (b2-true) (b3-true)) ; 遷移前の状態
- :effect       (and (not (b1-false)) (b1-true)    ; false命題を取り除き、true命題を追加
-                    (not (b2-true))  (b2-false)))
-#+end_src
-
-ポイント:
-
-#+begin_center
- $i$ ビット目が 1 → 命題 ($b_i$-true)
-
- $i$ ビット目が 0 → 命題 ($b_i$-false)
-#+end_center
-
-* Step 3: PDDL モデルを解く
-
- [[png:overview/planning4]]
-
-* Step 4: 記号的プラン(人には理解不能)を 人の理解できる画像に戻す
-
- [[png:overview/planning5]]
-
-* わざわざプランニングソルバを使う理由は?
-
-なぜ、ただの幅優先やDijkstra探索ではだめなの?
-
-→ 大規模な問題(5x5パズル等)で *指数爆発* し、非実用的
-
-→ *ドメイン非依存下界関数* (*PDB*) による枝刈り が、この未知のドメインでも有効
-
++ *Would allow to solve the more difficult problems (future work)*
+#+end_span6
+#+begin_span6
 #+begin_smaller
-|------------------------+----------+----------+--------|
-| /                      |        < |        > | <>     |
-|                        |          |      <r> |        |
-| 探索ノード数           | Dijkstra |   A*+PDB | 高速化 |
-|------------------------+----------+----------+--------|
-| MNIST 8-puzzle         |   193924 | *109096* | x2     |
-|------------------------+----------+----------+--------|
-| MNIST 8-puzzle         |   201156 | *111642* | x2     |
-|------------------------+----------+----------+--------|
-| MNIST 8-puzzle         |   186767 |  *84561* | x2     |
-|------------------------+----------+----------+--------|
-| MNIST 8-puzzle         |   183336 |  *82518* | x2     |
-|------------------------+----------+----------+--------|
-| MNIST 8-puzzle         |   169907 |  *52084* | x3     |
-|------------------------+----------+----------+--------|
-| MNIST 8-puzzle         |   130863 |  *26967* | x5     |
-|------------------------+----------+----------+--------|
-| Hanoi (4 peg)          |       55 |     *17* | x3     |
-|------------------------+----------+----------+--------|
-| LightsOut (4x4)        |      952 |     *27* | x30    |
-|------------------------+----------+----------+--------|
-| Spiral LightsOut (3x3) |      522 |    *214* | x2.5   |
-|------------------------+----------+----------+--------|
-| Mandrill 8-puzzle      |   335378 |  *88851* | x4     |
-|------------------------+----------+----------+--------|
+|------------------------+----------+----------+---------|
+| /                      |        < |        > | <>      |
+|                        |          |      <r> |         |
+| Expanded nodes         | Dijkstra |   A*+PDB | Speedup |
+|------------------------+----------+----------+---------|
+| MNIST 8-puzzle         |   193924 | *109096* | x2      |
+| MNIST 8-puzzle         |   201156 | *111642* | x2      |
+| MNIST 8-puzzle         |   186767 |  *84561* | x2      |
+| MNIST 8-puzzle         |   183336 |  *82518* | x2      |
+| MNIST 8-puzzle         |   169907 |  *52084* | x3      |
+| MNIST 8-puzzle         |   130863 |  *26967* | x5      |
+|------------------------+----------+----------+---------|
+| Hanoi (4 peg)          |       55 |     *17* | x3      |
+|------------------------+----------+----------+---------|
+| LightsOut (4x4)        |      952 |     *27* | x30     |
+|------------------------+----------+----------+---------|
+| Spiral LightsOut (3x3) |      522 |    *214* | x2.5    |
+|------------------------+----------+----------+---------|
+| Mandrill 8-puzzle      |   335378 |  *88851* | x4      |
+|------------------------+----------+----------+---------|
 #+end_smaller
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
 #+begin_larger
 #+begin_alignright
-→ */プランナを使えば既存の様々な下界関数を利用できる!/*
+→ */Leverage the effort from ICAPS community!/*
 #+end_alignright
 #+end_larger
 
@@ -610,24 +647,21 @@ bitvector から PDDL モデルを生成する
 
 * Conclusion
 
-+ 入力: ラベル無しの 状態遷移の画像・初期画像・ゴール画像
-+ 出力: ゴールを達成するためのプランを表す画像列
-+ State AutoEncoder(SAE): Gumbel-Softmaxを用いたVAE
-+ */成果/* : *SAEによって生データから命題を生成 → 古典プランニング問題として解ける* ことを実証
-+ */限りなく単純に作った/* プロトタイプ 
++ Input: Unlabelled pairs of images, initial image, goal image
++ Output: Visualized plans to achieve the goal
++ State AutoEncoder(SAE): VAE with Gumbel-Softmax
++ */Contribution/* : *SAE generates /propositions/ from raw data*
 
-  → 記号/非記号AI分野の様々な技術を取り入れることで */より発展/*
+  → *compatible to the symbolic classical planners*
++ Latplan α : *A prototype made /as simple as possible/*
 
-JSAI予稿論文は 短縮版です。
+  → Can leverege from the future development of both symbolic/subsymbolic AI research
 
 #+begin_larger
 Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
-
-KEPS17採択版: *Classical Planning in Deep Latent Space: From Unlabeled Images to PDDL (and back).*  /Knowledge Engineering for Planning and Scheduling (KEPS) Workshop in ICAPS2017/
 #+end_larger
 
-
-* LatPlan の実装 LatPlan α でのSAE
+* SAE implementation in LatPlan α
 
 Keras, Adam optimizer (learning rate:0.001)
 
@@ -643,40 +677,40 @@ Keras, Adam optimizer (learning rate:0.001)
 
 　
 
-+ なぜ全結合?? ::
-             論文の主題は *SAEで命題を作る方針がそもそもうまく行くかどうか*
++ Why full-connected layers ? ::
+             Main focus is on *whether propositions made by SAE are feasible*
              
-             *→余計な要素を省いて限りなくシンプルに*
+             *→No complication due to CNN, ResNet, etc...*
              
-+ 8-パズルでの訓練 ::
-               可能な全状態 (362880) 中 *12000 枚* で訓練 → 汎化能力あり
++ Training on 8-puzzle ::
+               *12000 images* out of entire states (362880) → *Generalization*
+
+* Domain Acquisition implementation in LatPlan α
+
+_Entire transitions $R$_ → $Encode(R)$ → PDDL
+
+Why? → *Trivial domain acquisition, no generalization*
+
+: Ground      actions 0011 → 0101  (state variables are fully specified)
+: Generalized actions *01* → *10*  (state variables are partially specified)
+
++ LatPlanα: No generalization wrto domain acquisition ::
+
+     Main focus is on *whether propositions made by SAE are /feasible/*
+             
+     *→No complication due to domain acquisition*
+     
+     *Developping a generalizer is an entirely different topic*, leave it to existing work
+
+#+begin_note
+[Konidaris et.al. 14; Cresswell et al 13]
+#+end_note
 
 * Gumbel-Softmax
 
 [[png:sae/gumbel]]
 
 $N\times M$ 行列を出力, $N$: 変数の数 $M$: カテゴリの数
-
-* LatPlan の実装 LatPlan α での アクション集合の生成
-
-_全遷移の画像ペア $R$ を生成_ → $Encode(R)$ → PDDL
-
-なぜ? → *本来は汎化されたルールを得られると良い*
-
-: 未汎化の遷移   0011 → 0101  (遷移前の全ビットを指定)
-: 汎化された遷移 *01* → *10*  (一部のビットのみを指定)
-
-+ LatPlanα: 一般化を行わない ::
-
-     論文の主題は *SAEで命題を作る方針がそもそもうまく行くかどうか*
-     
-     *→余計な要素を省いて限りなくシンプルに*
-     
-     *汎化ルール → 他の Domain Acquisition 学習機^1 をそのまま使えば良い (Future work)*
-
-#+begin_note
-[Konidaris et.al. 14; Cresswell et al 13]
-#+end_note
 
 * 他の実行例 (Lights Out)
 
@@ -780,46 +814,6 @@ LatPlan は あくまで *アーキテクチャ*
  "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
 #+end_note
 
-* 苦言                                                             :noexport:
-
-日本には記号的AIの研究者が居なさすぎて完全に砂漠状態 (OR除く)
-
-意思決定と推論に重要な *抽象(abstraction)* や *緩和(relaxation)* といった概念
-
-特に、対話技術とかを古典AIの概念と推論を用いずにやっているかぎり、人工無能以上には成り得ない
-
-# JSAI は *技術* でなくて *目的* によってOSを分けるべき
-# 
-# + *ディープラーニング* OSと *論理* ではなく 
-
-* AIMA 3rd Ed.                                                     :noexport:
-
-1. Introduction
-2. Intelligent Agents
-3. Solving Problems by Searching
-4. Beyond Classical Search
-5. Adversarial Search
-6. Constraint Satisfaction Problems
-7. Logical Agents
-8. First-Order Logic
-9. Inference in First-Order Logic
-10. Classical Planning
-11. Planning and Acting in the Real World
-12. Knowledge Representation
-13. Quantifying Uncertainty
-15. Probabilistic Reasoning over Time
-16. Making Simple Decisions
-17. Making Complex Decisions
-18. Learning from Examples
-19. Knowledge in Learning
-20. Learning Probabilistic Models
-21. Reinforcement Learning
-22. Natural Language Processing
-23. Natural Language for Communication
-24. Perception
-25. Robotics
-26. Philosophical Foundations
-27. AI: The Present and Future
 
 * 記号・記号処理とは
 
@@ -857,10 +851,6 @@ LatPlan は あくまで *アーキテクチャ*
 */「古典プランニング超大事!」/*
 #+end_xlarge
 #+end_center
-
-* 日本のプランニング研究者: */DL研究者よりさらに少ない/*
-
-[[png:planning-researchers]]
 
 * 評価
 
