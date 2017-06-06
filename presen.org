@@ -9,14 +9,14 @@
 #+LINK: sjpg file:img/static/%s.jpg
 #+LINK: ssvg file:img/static/%s.svg
 
-#+BEGIN_outline-text-1
-#+BEGIN_CENTER
+#+begin_outline-text-1
+#+begin_center
 
-#+BEGIN_LARGER
+#+begin_larger
 _Masataro Asai_, Alex Fukunaga, The University of Tokyo
-#+END_LARGER
+#+end_larger
 
-#+BEGIN_XLARGE
+#+begin_xlarge
 Classical Planning
 
 in Deep Latent Space:
@@ -24,41 +24,41 @@ in Deep Latent Space:
 From Unlabelled Images
 
 to PDDL (and back)
-#+END_XLARGE
+#+end_xlarge
 
-#+END_CENTER
+#+end_center
 
-#+BEGIN_NOTE
-#+BEGIN_ALIGNRIGHT
+#+begin_note
+#+begin_alignright
 Made by guicho2.71828 (Masataro Asai)
-#+END_ALIGNRIGHT
-#+END_NOTE
-#+END_outline-text-1
+#+end_alignright
+#+end_note
+#+end_outline-text-1
 
 * The */Killer App/* of AI Planning                                :noexport:
 
 
-#+BEGIN_CONTAINER-FLUID
-#+BEGIN_ROW-FLUID
-#+BEGIN_SPAN7
-#+BEGIN_LARGER
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span7
+#+begin_larger
 + Places unreachable to mankind :: Nuclear Plant, Deep Space, Mars, Deep Sea
 + Where completeness, soundness and optimality matters :: 
      Satellite, Manufacturing, Logistics
 + Explainable systems :: 
      Rescue mission, Spaceship
-#+END_LARGER
+#+end_larger
 
 # [[sjpg:martian]]
 
-#+END_SPAN7
-#+BEGIN_SPAN5
+#+end_span7
+#+begin_span5
 
 [[sjpg:gravity-m]]
 
-#+END_SPAN5
-#+END_ROW-FLUID
-#+END_CONTAINER-FLUID
+#+end_span5
+#+end_row-fluid
+#+end_container-fluid
 
 * Deep Neural Networks
 
@@ -159,51 +159,51 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 * Our Goal
 
-#+BEGIN_XLARGE
-#+BEGIN_CENTER
+#+begin_xlarge
+#+begin_center
 Deep Learning
 
 ＋
 
 Classical Planning
-#+END_CENTER
-#+END_XLARGE
+#+end_center
+#+end_xlarge
 
 ** Advantages
 
-#+BEGIN_XLARGE
+#+begin_xlarge
 */Perception/* based on DLNN
-#+END_XLARGE
+#+end_xlarge
 
 --- Robust systems augmented by the latest DL tech
 
-#+BEGIN_XLARGE
+#+begin_xlarge
 */Decision Making/* based on Classical Planning
-#+END_XLARGE
+#+end_xlarge
 
 --- *Better Theoretical Guarantee than Reinforcement Learning*
 
-#+BEGIN_CENTER
+#+begin_center
 *Completeness* (Finds solution whenever possible), */Solution Optimality/*
-#+END_CENTER
+#+end_center
 
 --- *Decision Making Independent from Learning*
 
-#+BEGIN_CENTER
+#+begin_center
 */Unsupervised/* (No data required), *Explainable* (Search by logic)
-#+END_CENTER
+#+end_center
 
 # 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
 
 ** 3x3 Sliding Tile Puzzle
 
-#+BEGIN_CENTER
+#+begin_center
 362880 configurations
 
 4x4、5x5 puzzles : infeasible under blind search (memory exhaust)
 
 Optimal solutions can be obtained by admissible heuristics
-#+END_CENTER
+#+end_center
 
 [[sjpg:puzzle]]
 
@@ -219,35 +219,35 @@ Optimal solutions can be obtained by admissible heuristics
 
 ** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Knowledge
 
-#+BEGIN_XLARGE
+#+begin_xlarge
 */No Prior Knowledge/*
 
-#+BEGIN_ALIGNRIGHT
+#+begin_alignright
 *＝ /Domain-independent Planning/*
-#+END_ALIGNRIGHT
-#+END_XLARGE
+#+end_alignright
+#+end_xlarge
 
-#+BEGIN_CONTAINER-FLUID
-#+BEGIN_ROW-FLUID
-#+BEGIN_SPAN6
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
 Tower of Hanoi
 
 [[sjpg:hanoi]]
-#+END_SPAN6
-#+BEGIN_SPAN4
+#+end_span6
+#+begin_span4
 Lights-Out
 
 [[sjpg:lightsout]]
-#+END_SPAN4
-#+END_ROW-FLUID
-#+END_CONTAINER-FLUID
+#+end_span4
+#+end_row-fluid
+#+end_container-fluid
 * -
 
-#+BEGIN_XLARGE
-#+BEGIN_CENTER
+#+begin_xlarge
+#+begin_center
 System Overview
-#+END_CENTER
-#+END_XLARGE
+#+end_center
+#+end_xlarge
 
 ** Input1: Training Inputs -- Image Pairs
 
@@ -278,14 +278,14 @@ Visual depiction of the initial state and a single goal state
 
 [[png:results/mnist-plan]]
 
-#+BEGIN_LARGER
+#+begin_larger
 An instance whose the optimal solution length is known
-#+BEGIN_XLARGE
-#+BEGIN_ALIGNRIGHT
+#+begin_xlarge
+#+begin_alignright
  → *31 step optimal plan*
-#+END_ALIGNRIGHT
-#+END_XLARGE
-#+END_LARGER
+#+end_alignright
+#+end_xlarge
+#+end_larger
 
 ** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
 
@@ -297,11 +297,11 @@ MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 
 [[png:results/mandrill-plan]]
 
-#+BEGIN_XLARGE
-#+BEGIN_ALIGNRIGHT
+#+begin_xlarge
+#+begin_alignright
  → *Optimal Solution*
-#+END_ALIGNRIGHT
-#+END_XLARGE
+#+end_alignright
+#+end_xlarge
 
 ** Tower of Hanoi
 
@@ -311,11 +311,11 @@ Completely different puzzle problem can be solved with no change
 
 [[png:results/hanoi4]]
 
-#+BEGIN_ALIGNRIGHT
-#+BEGIN_XLARGE
+#+begin_alignright
+#+begin_xlarge
  → *Optimal Solution* (7 steps,15 steps)
-#+END_XLARGE
-#+END_ALIGNRIGHT
+#+end_xlarge
+#+end_alignright
 
 ** Lights Out
 
@@ -323,11 +323,11 @@ Completely different puzzle problem can be solved with no change
 
 [[png:results/lights-out]]
 
-#+BEGIN_ALIGNRIGHT
-#+BEGIN_XLARGE
+#+begin_alignright
+#+begin_xlarge
  → *Optimal Solution*
-#+END_XLARGE
-#+END_ALIGNRIGHT
+#+end_xlarge
+#+end_alignright
 
 ** Twisted Lights Out
 
@@ -335,11 +335,11 @@ Does not assume grid-like structures
 
 [[png:results/lights-out-skewed]]
 
-#+BEGIN_ALIGNRIGHT
-#+BEGIN_XLARGE
+#+begin_alignright
+#+begin_xlarge
  → *Optimal Solution*
-#+END_XLARGE
-#+END_ALIGNRIGHT
+#+end_xlarge
+#+end_alignright
 
 ** Handling the Noisy Input
 
@@ -347,11 +347,11 @@ Does not assume grid-like structures
 
 [[png:results/noise]]
 
-#+BEGIN_XLARGE
-#+BEGIN_ALIGNRIGHT
+#+begin_xlarge
+#+begin_alignright
  → *Optimal Solutions*
-#+END_ALIGNRIGHT
-#+END_XLARGE
+#+end_alignright
+#+end_xlarge
 
 * Sure it works, how?
 
@@ -430,37 +430,37 @@ Layers of inner products of vectors and matrices
 + Dimensionality reduction (space compression): $X \rightarrow Z \rightarrow X$
 + You can extract the compression/decompression part: $Encode: x \mapsto z, Decode: z \mapsto x$
 
-#+BEGIN_CONTAINER-FLUID
-#+BEGIN_ROW-FLUID
-#+BEGIN_SPAN3
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span3
 
-#+END_SPAN3
-#+BEGIN_SPAN6
+#+end_span3
+#+begin_span6
 [[png:static/autoenc]]
-#+END_SPAN6
-#+BEGIN_SPAN3
+#+end_span6
+#+begin_span3
 
-#+END_SPAN3
-#+END_ROW-FLUID
-#+END_CONTAINER-FLUID
+#+end_span3
+#+end_row-fluid
+#+end_container-fluid
 
-#+BEGIN_ALIGNRIGHT
+#+begin_alignright
 → However, */✘ Latent vector is a real-valued blob, incompatible to classical planning/*
-#+END_ALIGNRIGHT
+#+end_alignright
 
 ** Variational AutoEncoder
 
 An AutoEncoder that *can enforce a certain distribution* on the latent vector over the dataset $X$
 
-#+BEGIN_QUOTE
+#+begin_quote
 Example: You have $X=$ { 10k images of apples }. If you train a VAE on $X$, then $Encode(X) \approx N(\mu,\sigma)$. for some \mu,\sigma.
-#+END_QUOTE
+#+end_quote
 
 To train a VAE, you need a *reparametrization trick* because random distributions are non-differentiable.
 
-#+BEGIN_QUOTE
+#+begin_quote
 Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$, $\mu$ and $\sigma$ is differentiable, $N(0,1)$ is not.
-#+END_QUOTE
+#+end_quote
 
 ** Gumbel-Softmax Reparametrization (Jang, Gu, ICLR2017)
 
@@ -470,22 +470,22 @@ Categorical distribution: 1-hot vector like <0,0,0,1,0,0> .
 
 Below: Represent an MNIST image with 30 variables of 8 categories.
 
-#+BEGIN_CENTER
+#+begin_center
  #+BEGIN_HTML
  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="649px" height="206px" version="1.1" content="&lt;mxfile userAgent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36&quot; version=&quot;6.0.1.2&quot; editor=&quot;www.draw.io&quot; type=&quot;google&quot;&gt;&lt;diagram name=&quot;Page-1&quot;&gt;3ZhLc5swEMc/Dcd0kAQCX+O67SGd6TTTaXqU0fJoZcsjy69++oogDBjs0MZ2TONDpL9ey29Xi5BDxrPtR8UW6WfJQTjY5VuHvHcwxshF5l+u7AqF+rgQEpXxQkKV8Jj9Biu6Vl1lHJaNjlpKobNFU4zkfA6RbmhMKblpdoulaK66YAm0hMeIibb6PeM6LdTQdyv9E2RJWq6MXNsyY2VnKyxTxuWmJpGJQ8ZKSl2UZtsxiBxeyaUY9+FI694wBXPdZ0AQh1EYx4xP46kXRHBnZ1gzsbIPaw3Vu/LpN2mm4XHBory+MR52yH2qZ8LUkCnGmRBjKaR67k0AcR8Coy+1kr+g1jKiAWHUtCi5mnPgdrw1AJSG7dGnQntWJshAzkCrneliB5CAFENsfCHPL+qbylt7n6Q1T+HAisxGSLKfu4JoCpZjT6a4xRT71MFUmFXvebY2xSQvfoWHb6VsFqm1tHygUjmbroyR9y944ww08QFN7LktmmEHzPASLEmLpY/wcFiiW2LptVAAN3nOVqXSqUzknIlJpdb2qtuEA9tMP9XKP/Iu7/y8NjeGPtkRz5Wq7SdovbMJnq20NFK17oOUiwb63LzT4M3TyJWK4HT0aKYS0Kd2a9uBCgTT2bq5/mvc4eEIU4xG4PsesCDqCO1z+ufKpBHugZq8FeorRf6VmfdBfiQ9XR45HXbi9kf4zRJ3i2Uw7AOFd0ssw//9JXgseupponu3Ht8MwYEDL+KZ0cDehyeBBqd3BB31B2pn+SIzY0D/KYqYsKMO3LK36N88hc7+1cgZhHHU9dVIoxCm8SW+GukINQm67bSEaEde2otnDX901nAfRGaiPTYSutYJ5uiRdthRfldeot1IlPfI8i9Abcb8AeLYz3+diJ//Xgm1hIg6IHpdEL1LQCxvEwcK0Q4I3IP8+8ZQX/9SuwGoJGxud+STFtSQtpli3/trpqZa3VwX54rq/p9M/gA=&lt;/diagram&gt;&lt;/mxfile&gt;"><defs/><g transform="translate(0.5,0.5)"><rect x="288" y="0.75" width="75" height="202.5" rx="11.25" ry="11.25" fill="#e1d5e7" stroke="#9673a6" pointer-events="none"/><path d="M 243 72 L 273 102 L 243 132 L 213 102 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g transform="translate(231.5,91.5)scale(0.75)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="30" height="26" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 32px; white-space: nowrap; word-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;">256<div>ReLU</div></div></div></foreignObject><text x="15" y="19" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">[Not supported by viewer]</text></switch></g><path d="M 168 72 L 198 102 L 168 132 L 138 102 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g transform="translate(156.5,91.5)scale(0.75)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="30" height="26" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 32px; white-space: nowrap; word-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;">512<div>ReLU</div></div></div></foreignObject><text x="15" y="19" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">[Not supported by viewer]</text></switch></g><path d="M 198 102 L 208.22 102" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 212.16 102 L 206.91 104.63 L 208.22 102 L 206.91 99.38 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 120.75 102 L 135.75 102 L 123 102 L 133.22 102" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 137.16 102 L 131.91 104.63 L 133.22 102 L 131.91 99.38 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 273 102 L 288 102 L 273 102 L 283.22 102" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 287.16 102 L 281.91 104.63 L 283.22 102 L 281.91 99.38 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 482.25 72 L 512.25 102 L 482.25 132 L 452.25 102 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g transform="translate(470.5,91.5)scale(0.75)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="30" height="26" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 32px; white-space: nowrap; word-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;">512<div>ReLU</div></div></div></foreignObject><text x="15" y="19" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">[Not supported by viewer]</text></switch></g><path d="M 407.25 72 L 437.25 102 L 407.25 132 L 377.25 102 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><g transform="translate(395.5,91.5)scale(0.75)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="30" height="26" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 32px; white-space: nowrap; word-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;">256<div>ReLU</div></div></div></foreignObject><text x="15" y="19" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">[Not supported by viewer]</text></switch></g><path d="M 437.25 102 L 447.47 102" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 451.41 102 L 446.16 104.63 L 447.47 102 L 446.16 99.38 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 360 102 L 375 102 L 362.25 102 L 372.47 102" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 376.41 102 L 371.16 104.63 L 372.47 102 L 371.16 99.38 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="526.5" y="42" width="120" height="120" rx="18" ry="18" fill="#dae8fc" stroke="#6c8ebf" pointer-events="none"/><path d="M 512.25 102 L 521.72 102" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 525.66 102 L 520.41 104.63 L 521.72 102 L 520.41 99.38 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="0.75" y="42" width="120" height="120" rx="18" ry="18" fill="#dae8fc" stroke="#6c8ebf" pointer-events="none"/>
  <image xlink:href="img/static/x0.gif" x="8.25" y="49.5" width="105" height="105" fill="#f5f5f5" stroke="#666666" pointer-events="none"/>
  <image xlink:href="img/static/x1.gif" x="534" y="49.5" width="105" height="105" fill="#f5f5f5" stroke="#666666" pointer-events="none"/>
  <image xlink:href="img/static/y.gif" x="293.25" y="6.75" width="64.5" height="190.5" fill="#f5f5f5" stroke="#666666" pointer-events="none"/></g></svg>
  #+END_HTML
-#+END_CENTER
+#+end_center
 
-#+BEGIN_ALIGNRIGHT
-#+BEGIN_LARGER
+#+begin_alignright
+#+begin_larger
 Key idea: *These categorical variables are /directly/ usable as a source of PDDL/SAS*
 
 *N variables with 2 Categories → N propositional variables (true/false)*
-#+END_LARGER
-#+END_ALIGNRIGHT
+#+end_larger
+#+end_alignright
 
 ** Step 1: State Autoencoder                                       :noexport:
 
@@ -509,9 +509,9 @@ Gumbel-Max: カテゴリごとの確率 ($x$) から one-hot vector ($z$) をサ
   \text{ GumbelSoftmax}_\tau (x) \rightarrow \text{ GumbelMax}(x) \quad (\tau\rightarrow 0)
   \]
 
-#+BEGIN_NOTE
+#+begin_note
 Maddison et. al., 2014
-#+END_NOTE
+#+end_note
 
 ** Step 1: State Autoencoder
 
@@ -533,7 +533,7 @@ bitvector から PDDL モデルを生成する
 
 個別アクション遷移をPDDLアクション表現にマップ
 
-#+BEGIN_SRC lisp
+#+begin_src lisp
  0011 → 0101
 
 　　　↓
@@ -542,15 +542,15 @@ bitvector から PDDL モデルを生成する
  :precondition (and (b0-false) (b1-false) (b2-true) (b3-true)) ; 遷移前の状態
  :effect       (and (not (b1-false)) (b1-true)    ; false命題を取り除き、true命題を追加
                     (not (b2-true))  (b2-false)))
-#+END_SRC
+#+end_src
 
 ポイント:
 
-#+BEGIN_CENTER
+#+begin_center
  $i$ ビット目が 1 → 命題 ($b_i$-true)
 
  $i$ ビット目が 0 → 命題 ($b_i$-false)
-#+END_CENTER
+#+end_center
 
 * Step 3: PDDL モデルを解く
 
@@ -568,7 +568,7 @@ bitvector から PDDL モデルを生成する
 
 → *ドメイン非依存下界関数* (*PDB*) による枝刈り が、この未知のドメインでも有効
 
-#+BEGIN_SMALLER
+#+begin_smaller
 |------------------------+----------+----------+--------|
 | /                      |        < |        > | <>     |
 |                        |          |      <r> |        |
@@ -594,13 +594,13 @@ bitvector から PDDL モデルを生成する
 |------------------------+----------+----------+--------|
 | Mandrill 8-puzzle      |   335378 |  *88851* | x4     |
 |------------------------+----------+----------+--------|
-#+END_SMALLER
+#+end_smaller
 
-#+BEGIN_LARGER
-#+BEGIN_ALIGNRIGHT
+#+begin_larger
+#+begin_alignright
 → */プランナを使えば既存の様々な下界関数を利用できる!/*
-#+END_ALIGNRIGHT
-#+END_LARGER
+#+end_alignright
+#+end_larger
 
 # #+BEGIN_LARGER
 # PDB: Pattern DataBase ヒューリスティクス
@@ -620,11 +620,11 @@ bitvector から PDDL モデルを生成する
 
 JSAI予稿論文は 短縮版です。
 
-#+BEGIN_LARGER
+#+begin_larger
 Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
 
 KEPS17採択版: *Classical Planning in Deep Latent Space: From Unlabeled Images to PDDL (and back).*  /Knowledge Engineering for Planning and Scheduling (KEPS) Workshop in ICAPS2017/
-#+END_LARGER
+#+end_larger
 
 
 * LatPlan の実装 LatPlan α でのSAE
@@ -674,9 +674,9 @@ _全遷移の画像ペア $R$ を生成_ → $Encode(R)$ → PDDL
      
      *汎化ルール → 他の Domain Acquisition 学習機^1 をそのまま使えば良い (Future work)*
 
-#+BEGIN_NOTE
+#+begin_note
 [Konidaris et.al. 14; Cresswell et al 13]
-#+END_NOTE
+#+end_note
 
 * 他の実行例 (Lights Out)
 
@@ -686,11 +686,11 @@ _全遷移の画像ペア $R$ を生成_ → $Encode(R)$ → PDDL
 
 [[png:results/lights-out]]
 
-#+BEGIN_XLARGE
-#+BEGIN_ALIGNRIGHT
+#+begin_xlarge
+#+begin_alignright
  → *同様に最適解を返却*
-#+END_ALIGNRIGHT
-#+END_XLARGE
+#+end_alignright
+#+end_xlarge
 
 * 他の実行例 (Skewed Lights Out)
 
@@ -700,11 +700,11 @@ _全遷移の画像ペア $R$ を生成_ → $Encode(R)$ → PDDL
 
 [[png:results/lights-out-skewed]]
 
-#+BEGIN_XLARGE
-#+BEGIN_ALIGNRIGHT
+#+begin_xlarge
+#+begin_alignright
  → *同様に最適解を返却*
-#+END_ALIGNRIGHT
-#+END_XLARGE
+#+end_alignright
+#+end_xlarge
 
 * 正しくない解が出力される可能性はないの？
 
@@ -714,21 +714,21 @@ _全遷移の画像ペア $R$ を生成_ → $Encode(R)$ → PDDL
 
  → *でたらめな離散グラフ上の正しいプラン* が生成 / *グラフが非連結* で解なし
 
-#+BEGIN_ALIGNRIGHT
+#+begin_alignright
  (アルゴリズムの完全性、健全性、最適性により保証)
-#+END_ALIGNRIGHT
+#+end_alignright
 
  → でたらめな画像プラン / 解が存在しない
 
-#+BEGIN_CENTER
-#+BEGIN_LARGER
+#+begin_center
+#+begin_larger
 LatPlan に */認識の間違いはある/* が */判断の間違いはない!/*
-#+END_LARGER
-#+END_CENTER
+#+end_larger
+#+end_center
 
-#+BEGIN_ALIGNRIGHT
+#+begin_alignright
  (完全性,最適性) →強化学習に対する強み
-#+END_ALIGNRIGHT
+#+end_alignright
 
 ** 強化学習
 
@@ -738,20 +738,20 @@ LatPlan に */認識の間違いはある/* が */判断の間違いはない!/*
 
 → */Policy関数が正しく学習されなかった局面では失敗する。/*
 
-#+BEGIN_QUOTE
+#+begin_quote
 セドルはそれから、左手で首の後ろに触れたまま次の手を打った。... 
 コンピューターは驚きを隠せなかった。もちろん目をパチクリさせたわけではないが、次の1手はひどいものだった。
 [白78手について]
-#+END_QUOTE
-#+BEGIN_ALIGNRIGHT
+#+end_quote
+#+begin_alignright
 Cade Metz. "Two Moves, that Redifined the Future." /Wired/, 2016
-#+END_ALIGNRIGHT
+#+end_alignright
 
-#+BEGIN_CENTER
-#+BEGIN_LARGER
+#+begin_center
+#+begin_larger
 RLは *判断に間違いがあり得る。*
-#+END_LARGER
-#+END_CENTER
+#+end_larger
+#+end_center
 
 * Future Work (SAE)
 
@@ -774,11 +774,11 @@ LatPlan は あくまで *アーキテクチャ*
   + *Here's an Apple, Here's a pen → oh, ApplePen!*
 + SAEを学習してプランナで解く → *数千ステップの高速な言語レベル推論が可能に*
 
-#+BEGIN_NOTE
+#+begin_note
  "A hierarchical neural autoencoder for paragraphs and documents." (2015)
 
  "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
-#+END_NOTE
+#+end_note
 
 * 苦言                                                             :noexport:
 
@@ -850,13 +850,13 @@ LatPlan は あくまで *アーキテクチャ*
 
  [[png:twitter]]
 
-#+BEGIN_CENTER
-#+BEGIN_XLARGE
+#+begin_center
+#+begin_xlarge
 */AlphaGo チーム全員:/*
 
 */「古典プランニング超大事!」/*
-#+END_XLARGE
-#+END_CENTER
+#+end_xlarge
+#+end_center
 
 * 日本のプランニング研究者: */DL研究者よりさらに少ない/*
 
@@ -883,9 +883,9 @@ Test 入力: 訓練画像に含まれていない画像 (注!)
 
 [[spng:experiment/autoencoding_test]]
 
-#+BEGIN_ALIGNRIGHT
+#+begin_alignright
 きちんと学習できている
-#+END_ALIGNRIGHT
+#+end_alignright
 
 ** State AutoEncoder
 
@@ -897,7 +897,7 @@ Test 入力: 訓練画像に含まれていない画像 (注!)
 
 $N=25$ の例
 
-#+BEGIN_SRC lisp
+#+begin_src lisp
 (define (domain latent)
  (:requirements :strips :negative-preconditions)
  (:predicates (z0) (z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z9) (z10)
@@ -912,20 +912,20 @@ $N=25$ の例
   :effect (and (z5) (not (z6)) (z13) (z20)))
  (:action a10000010010110111100011110000001001011011110001110
   ...
-#+END_SRC
+#+end_src
 
 ** 先ほどの結果
 
-#+BEGIN_CONTAINER-FLUID
-#+BEGIN_ROW-FLUID
-#+BEGIN_SPAN6
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
 
 [[png:results/mnist-plan]]
 
 [[png:results/mandrill-plan]]
 
-#+END_SPAN6
-#+BEGIN_SPAN6
+#+end_span6
+#+begin_span6
 
 [[png:results/hanoi3]]
 
@@ -934,13 +934,14 @@ $N=25$ の例
 [[png:results/lights-out]]
 
 [[png:results/lights-out-skewed]]
-#+END_SPAN6
-#+END_ROW-FLUID
-#+END_CONTAINER-FLUID
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
 ** Fast Downward Log Trace (Search Statistics)                     :noexport:
 
-#+BEGIN_SRC
+
+#+begin_example
 reading input... [t=5.479e-05 (sec)]
 ...
 Building successor generator...done! [t=31.7737 (sec)]
@@ -965,5 +966,5 @@ Generated 1924 state(s).
 Dead ends: 24 state(s).
 Search time: 2693.06 (sec)
 Total time: 2724.89 (sec)
-#+END_SRC
+#+end_example
 
