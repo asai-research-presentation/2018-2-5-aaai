@@ -62,19 +62,11 @@ Made by guicho2.71828 (Masataro Asai)
 
 * Deep Neural Networks
 
-　
-
-　
-
 [[png:deeplearning/1]]
 
 ** Human-competitive results in cognitive tasks
 
 [[png:deeplearning/dl-image-task]]
-
-** Human-competitive results in cognitive tasks
-
-[[png:deeplearning/dl-nlp-task]]
 
 * Deep Learning vs Planning
 
@@ -207,17 +199,17 @@ Optimal solutions can be obtained by admissible heuristics
 
 [[sjpg:puzzle]]
 
-** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example, Prior Knowledge
+** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example, Prior Explicit Knowledge
 
 *DLNN + Classical Planning*
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
-*No Plan Examples* : (AlphaGo) eval. function learned from expert plans → *admissible heuristic function*
+*No Plan Examples* : (AlphaGo) eval. function from expert plans → *admissible heuristics*
 
 [[sjpg:puzzle]]
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Knowledge
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Explicit Knowledge
 
 #+begin_xlarge
 */No Prior Knowledge/*
@@ -303,7 +295,7 @@ MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 #+end_alignright
 #+end_xlarge
 
-** Tower of Hanoi
+** Tower of Hanoi (3 disks, 4 disks)
 
 Completely different puzzle problem can be solved with no change
 
@@ -361,9 +353,9 @@ DLNN + Classical Planner
 
   + *For what, and how?*
 
-+ 2. Neural Output is subsymbolic real-valued activations ↔ Symbolic, discrete values, propositions?
++ 2. Neural output is subsymbolic real-valued activations
 
-  + *Symbol Grounding*
+  + Symbolic, discrete values, propositions? *Symbol Grounding*
 
 + 3. Machine-generated symbols are *not human-comprehensive*
 
@@ -385,11 +377,11 @@ A neural network *bridging the Symbolic/Subsymbolic boundary*
 
 [[png:train-state-ae]]
 
-Trained SAE gives us:
+Trained SAE provides two functions:
 
-+ $b = Encode(r)$ : *Function that maps a raw datum $r$ to a bit vector $b$ (propositions)*
++ $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
 
-+ $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b$ to a raw datum $\tilde{r}$*
++ $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
 
 * Step 2: Domain Acquisition
 
@@ -412,12 +404,12 @@ Individual actions are mapped to PDDL actions
                     (not (b2-true))  (b2-false)))
 #+end_src
 
-ポイント:
+Conversion from a bit to a proposition:
 
 #+begin_center
- $i$-th bit is 1 → Proposition ($b_i$-true)
+ $i$-th bit is 1 → Proposition ($b_i$ -true)
 
- $i$-th bit is 0 → Proposition ($b_i$-false)
+ $i$-th bit is 0 → Proposition ($b_i$ -false)
 #+end_center
 
 * Step 3: Solve the PDDL instance w/ off-the-shelf planner
@@ -474,12 +466,14 @@ Target Function $y^*=f^*(x)$
 
 ** AutoEncoder : Unsupervised Learning
 
+Auto = "self" --- Autoencoding = "encoding itself"
+
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-+ Target Function: Identity function $x=f^*(x)$
-+ Map the input vector $x$ to *latent vector* $z$, then back to $x$
-+ Dimensionality reduction (space compression): $X \rightarrow Z \rightarrow X$
++ Target Function: Identity $x=f^*(x)$
++ Map the input $x\;$ to a *latent vector* $z$, then back to $x$
++ Dimension reduction (space compression): $X \rightarrow Z \rightarrow X$
 + You can extract the compression/decompression part: $Encode: x \mapsto z, Decode: z \mapsto x$
 #+end_span6
 #+begin_span6
@@ -512,9 +506,7 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 
 ** Gumbel-Softmax Reparametrization (Jang, Gu, ICLR2017)
 
-A Reparametrization trick for *categorical distribution*.
-
-Categorical distribution: 1-hot vector e.g.  $\langle 0,0,0,1,0,0 \rangle$ .
+A reparametrization trick for *categorical distribution*: 1-hot vector e.g.  $\langle 0,0,0,1,0,0 \rangle$ .
 
 Below: Represent an MNIST image with 30 variables of 8 categories.
 
@@ -533,7 +525,7 @@ Key idea: *These categorical variables are /directly/ usable*
 
 *as a source of PDDL/SAS*
 
-In particular, *2 Categories → propositional variables (true/false)*
+In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 #+end_larger
 
@@ -660,6 +652,18 @@ Maddison et. al., 2014
 #+begin_larger
 Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
 #+end_larger
+
+* I expect mixed responses such as...
+
+#+begin_xlarge
++ Wait, what!? you solved the symbol grounding!?
++ Huh, I hate deep learning hype.
++ This is not a planning research.
++ This lacks statistical results.^*
++ This isn't a domain-acquisition.^*
+#+end_xlarge
+
+(^* I actually received these responses)
 
 * SAE implementation in LatPlan α
 

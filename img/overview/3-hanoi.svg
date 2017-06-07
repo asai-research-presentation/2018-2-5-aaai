@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="209.3767"
-     inkscape:cy="227.39618"
+     inkscape:zoom="1.4"
+     inkscape:cx="185.47489"
+     inkscape:cy="118.72783"
      inkscape:document-units="px"
      inkscape:current-layer="layer10"
      showgrid="false"
@@ -1248,7 +1248,7 @@
          id="tspan8954-4"
          sodipodi:role="line"><tspan
    style="fill:#fe0000;fill-opacity:1"
-   id="tspan11617">ToH</tspan> instance</tspan></text>
+   id="tspan11617">Tower of Hanoi</tspan> instance</tspan></text>
     <text
        sodipodi:linespacing="98.000002%"
        id="text6256-8"
@@ -1283,7 +1283,7 @@
          id="tspan9266"
          sodipodi:role="line">The visualized plan for<tspan
    style="fill:#ff0000;fill-opacity:1"
-   id="tspan11623"> ToH</tspan></tspan></text>
+   id="tspan11623"> Tower of Hanoi</tspan></tspan></text>
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
