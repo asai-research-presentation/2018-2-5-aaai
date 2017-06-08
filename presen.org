@@ -723,6 +723,30 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
 
 + = a nonlinear function that recognize the entanglements between multiple pixels
 
+* SAE implementation in LatPlan α
+
+Keras, Adam optimizer (learning rate:0.001)
+
+  1764(42x42)
+
+  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
+
+  →FC(49,GumbelSoftmax) (variational loss)
+
+  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
+
+  →1764(42x42) (loss: Binary crossentropy)
+
+　
+
++ Why full-connected layers ? ::
+             Main focus is on *whether propositions made by SAE are feasible*
+             
+             *→No complication due to CNN, ResNet, etc...*
+             
++ Training on 8-puzzle ::
+               *12000 images* out of entire states (362880) → *Generalization*
+
 * Does it have something to do with symbolic planning (BDDs) ?
 
 No.
@@ -757,30 +781,6 @@ Why? → *Trivial domain acquisition, no generalization*
 #+begin_note
 [Konidaris et.al. 14; Cresswell et al 13]
 #+end_note
-
-* SAE implementation in LatPlan α
-
-Keras, Adam optimizer (learning rate:0.001)
-
-  1764(42x42)
-
-  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
-
-  →FC(49,GumbelSoftmax) (variational loss)
-
-  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
-
-  →1764(42x42) (loss: Binary crossentropy)
-
-　
-
-+ Why full-connected layers ? ::
-             Main focus is on *whether propositions made by SAE are feasible*
-             
-             *→No complication due to CNN, ResNet, etc...*
-             
-+ Training on 8-puzzle ::
-               *12000 images* out of entire states (362880) → *Generalization*
 
 * When Latplan returns a /wrong/ solution?
 
