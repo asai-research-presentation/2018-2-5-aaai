@@ -372,15 +372,15 @@ Trained SAE provides two functions:
 
 + $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
 
-* Step 2: Domain Acquisition
+* Step 2: Domain Acquisition (_/NOT our core contribution/_)
 
 bitvector -> PDDL domain description
 
  [[png:overview/planning3]]
 
-** PDDL generation in LatPlan α (an implementation of Latplan)
+** PDDL generation in LatPlan α (_/NOT our core contribution/_)
 
-Individual actions are mapped to PDDL actions
+Individual actions are mapped to PDDL actions (trivial domain acquisition)
 
 #+begin_src lisp
  0011 → 0101
@@ -433,11 +433,13 @@ Obtain a bidirectional mapping between subsymbolic - symbolic representation
 
 [[spng:gradient-descent]]
 
-Plus misc techniques e.g. Batchnorm, Dropout
+Plus misc techniques e.g. *Batchnorm*, *Dropout*
 
-Pretty much everything is on the standard online tutorial / lecture cource / MOOP
+#+begin_larger
+*Pretty much everything is on the standard online tutorial / lecture cource / MOOP*
 
-Good libraries --- Tensorflow, Keras
+*Good libraries --- Tensorflow, Keras* --- you can learn in 1-2 months
+#+end_larger
 
 ** Standard Classification / Mapping Tasks
 
@@ -449,7 +451,7 @@ Target Function $y^*=f^*(x)$
 | Translation          | Sentence | Sentence                           |
 | Go eval. function    | State    | Number                             |
 
-+ Actual output $y=f(x)$
++ Actual output of the network $y=f(x)$
 
 + Learn to minimize $||y-y^*||$ by Backpropagation / SGD
 
@@ -530,9 +532,13 @@ In particular, *2 categories → propositional variables (true/false)*
 
 ** Gumbel-Softmax: Differential Approximation of Gumbel-Max
 
-Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probability ($x$)
+#+begin_larger
+It uses *annealing* to approximate discrete vectors
+#+end_larger
 
 #+begin_smaller
+Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probability ($x$)
+
 + E.g.: $x=[0.1, 0.1, 0.8] \rightarrow z = [1,0,0] \text{or} [0,1,0] \text{or} [0,0,1]$
 
 + $z = \text{ GumbelMax}(x) = [ i == \arg \max_j (\text{ Gumbel}(0,1)+\log x_j) \; ? \; 1 : 0 ]$
@@ -656,9 +662,9 @@ SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
 
 LatPlan is an *architecture*
 
-Any systems that follow "raw → symbol → raw" is a LatPlan implementation
+Any systems that use SAE is a LatPlan implementation
 
-*With a different SAE impl., you should be able to reason about various raw data*
+*With a different SAE impl., you should be able to reason about different raw data*
 
 + AutoEncoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
 + Examples:
@@ -717,7 +723,11 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
 
 + = a nonlinear function that recognize the entanglements between multiple pixels
 
-* Domain Acquisition implementation in LatPlan α
+* Does it have something to do with symbolic planning (BDDs) ?
+
+No.
+
+* Domain Acquisition implementation in LatPlan α (_/NOT our core contribution/_)
 
 _Entire transitions $R$_ → $Encode(R)$ → PDDL
 
@@ -728,17 +738,21 @@ Why? → *Trivial domain acquisition, no generalization*
 
 + LatPlanα: No generalization wrto domain acquisition ::
 
-     Main focus is on *whether propositions made by SAE are /feasible/*
+     Main focus is on */SAE/: whether propositions made by SAE are /feasible/*
              
      *→No complication due to domain acquisition*
      
-     *Developping a generalizer is an entirely different topic*, leave it to existing work
+     *Developping a generalizer is an entirely different topic*, we leave it to existing work
 
 + We made flour and demonstrated a sugarless cookie with it. ::
 
      Others study how to make the most beautiful piece of chocolate cake from given flour
 
      --- which is future work.
+
+     Domain acquisition typically requires exisiting models (such as Semi-MDP)
+
+     We made *inputs* for existing work.
 
 #+begin_note
 [Konidaris et.al. 14; Cresswell et al 13]
