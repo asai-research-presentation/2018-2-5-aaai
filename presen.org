@@ -1,5 +1,4 @@
-#+title: 
-#+author: 
+#+title: Classical Planning in Deep Latent Space: From Unlabelled Images to PDDL (and back) 
 #+include: "head.org"
 #+LINK: img file:img/%s
 #+LINK: png file:img/%s.png
@@ -15,16 +14,6 @@
 #+begin_larger
 _Masataro Asai_, Alex Fukunaga, The University of Tokyo
 #+end_larger
-
-#+begin_xlarge
-Classical Planning
-
-in Deep Latent Space:
-
-From Unlabelled Images
-
-to PDDL (and back)
-#+end_xlarge
 
 #+end_center
 
