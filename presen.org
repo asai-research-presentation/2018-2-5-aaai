@@ -15,6 +15,7 @@
 _Masataro Asai_, Alex Fukunaga, The University of Tokyo
 #+end_larger
 
+20+ min
 #+end_center
 
 #+begin_note
