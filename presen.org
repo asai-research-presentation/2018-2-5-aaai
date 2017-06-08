@@ -642,17 +642,107 @@ Maddison et. al., 2014
 Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
 #+end_larger
 
+* Future Work (SAE)
+
+SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
+
++ 1st-order logic (predicate $p(a,b)$ )
+
++ We need *object recognition from images* (parameters $a,b$)
+
++ SAE with networks for object recognition (e.g. R-CNN) should achieve this
+
+* Future Work (input format)
+
+LatPlan is an *architecture*
+
+Any systems that follow "raw → symbol → raw" is a LatPlan implementation
+
+*With a different SAE impl., you should be able to reason about various raw data*
+
++ AutoEncoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
++ Examples:
+  + *This is an apple, this is a pen → oh, ApplePen!* (ugh embarassing)
+    
+    when actions resembling "word concatenation" was learned
++ SAE will bring subsymbolic reasoning to a whole new level:
+  
+  *1k steps of optimal reasoning over natural language, powered by ICAPS*
+
+#+begin_note
+ "A hierarchical neural autoencoder for paragraphs and documents." (2015)
+
+ "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
+#+end_note
+
 * I expect mixed responses such as...
 
 #+begin_xlarge
-+ Wait, what!? you solved the symbol grounding!?
-+ Huh, I hate deep learning hype.
-+ This is not a planning research.
-+ This lacks statistical results.^*
-+ This isn't a domain-acquisition.^*
++ Wait, what!? You /solved/ the symbol grounding!?
++ Huh, I hate deep learning hype, NN cannot be trusted.
++ This is not finding symbols.
++ This isn't a domain-acquisition.^* / symbol grounding.
 #+end_xlarge
 
+These are the results of confusions in an unexplored area.
+
 (^* I actually received these responses)
+* Did we find symbols? It doesn't sound like what I think symbols are
+
+#+begin_smaller
+You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a domain-acquisition.
+#+end_smaller
+
+*PDDL implies there are several kinds of symbols and we solved only /one/ issue*
+
++ Each issue requires a different approach. LatPlan should be combined with these work.
+
+  |                        | <c>                |
+  | Types of symbols       | addressed by       |
+  |------------------------+--------------------|
+  | Propositions           | SAE                |
+  | Object labels          | Computer Vision    |
+  | Predicates (relations) | -                  |
+  | Actions                | Domain Acquisition |
+
+* Did we find symbols? Why not individual pixels? Why DL?
+
+*Individual pixels lacks generalization*
+
++ Noise / variations can make the data entirely different
+
+  [[png:results/noise]]
+
++ must acquire the *generalized features*
+
++ = a nonlinear function that recognize the entanglements between multiple pixels
+
+* Domain Acquisition implementation in LatPlan α
+
+_Entire transitions $R$_ → $Encode(R)$ → PDDL
+
+Why? → *Trivial domain acquisition, no generalization*
+
+: Ground      actions 0011 → 0101  (state variables are fully specified)
+: Generalized actions *01* → *10*  (state variables are partially specified)
+
++ LatPlanα: No generalization wrto domain acquisition ::
+
+     Main focus is on *whether propositions made by SAE are /feasible/*
+             
+     *→No complication due to domain acquisition*
+     
+     *Developping a generalizer is an entirely different topic*, leave it to existing work
+
++ We made flour and demonstrated a sugarless cookie with it. ::
+
+     Others study how to make the most beautiful piece of chocolate cake from given flour
+
+     --- which is future work.
+
+#+begin_note
+[Konidaris et.al. 14; Cresswell et al 13]
+#+end_note
 
 * SAE implementation in LatPlan α
 
@@ -678,207 +768,99 @@ Keras, Adam optimizer (learning rate:0.001)
 + Training on 8-puzzle ::
                *12000 images* out of entire states (362880) → *Generalization*
 
-* Domain Acquisition implementation in LatPlan α
+* When Latplan returns a /wrong/ solution?
 
-_Entire transitions $R$_ → $Encode(R)$ → PDDL
+*Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
 
-Why? → *Trivial domain acquisition, no generalization*
++ Images → Fraud symbols/model/graph
 
-: Ground      actions 0011 → 0101  (state variables are fully specified)
-: Generalized actions *01* → *10*  (state variables are partially specified)
++ *Optimal path on a fraud graph* or *graph disconnected*
+  
+  A* completeness, soundness, optimality
 
-+ LatPlanα: No generalization wrto domain acquisition ::
-
-     Main focus is on *whether propositions made by SAE are /feasible/*
-             
-     *→No complication due to domain acquisition*
-     
-     *Developping a generalizer is an entirely different topic*, leave it to existing work
-
-#+begin_note
-[Konidaris et.al. 14; Cresswell et al 13]
-#+end_note
-
-* Gumbel-Softmax
-
-[[png:sae/gumbel]]
-
-$N\times M$ 行列を出力, $N$: 変数の数 $M$: カテゴリの数
-
-* 他の実行例 (Lights Out)
-
-8-puzzle も hanoi も 「物体」のようなものが「消えない」という性質がある。
-
-この実験 は このシステムがそのような特性に左右されないことを示す
-
-[[png:results/lights-out]]
-
-#+begin_xlarge
-#+begin_alignright
- → *同様に最適解を返却*
-#+end_alignright
-#+end_xlarge
-
-* 他の実行例 (Skewed Lights Out)
-
-8-puzzle, hanoi, LightsOut は 「物体」のようなものが格子状に並んでいる
-
-この実験 は このシステムがそのような特性に左右されないことを示す
-
-[[png:results/lights-out-skewed]]
-
-#+begin_xlarge
-#+begin_alignright
- → *同様に最適解を返却*
-#+end_alignright
-#+end_xlarge
-
-* 正しくない解が出力される可能性はないの？
-
-*ニューラルネットの誤差が大きい場合のみ発生* (収束保証は $t\rightarrow \infty$ のみ, not 実時間)
-
- → でたらめなシンボル/グラフが生成
-
- → *でたらめな離散グラフ上の正しいプラン* が生成 / *グラフが非連結* で解なし
-
-#+begin_alignright
- (アルゴリズムの完全性、健全性、最適性により保証)
-#+end_alignright
-
- → でたらめな画像プラン / 解が存在しない
++ Fraud visualized plan (noisy) / no plan found
 
 #+begin_center
 #+begin_larger
-LatPlan に */認識の間違いはある/* が */判断の間違いはない!/*
+LatPlan may make */wrong observations/* but no */wrong decisions/*
 #+end_larger
+
+BTW, "correctness" is defined by error prone observations by humans anyways ...
 #+end_center
 
 #+begin_alignright
- (完全性,最適性) →強化学習に対する強み
+ (completeness, optimality) → better reliablility than Reinforcement Learning
 #+end_alignright
 
-** 強化学習
+** Reinforcement Learning
 
-*意思決定も学習に依存する*
+Not only *perception* but *decision making also depends on training*
 
-→ */個別の学習結果に理論保証はない。/*
++ */Each training result does not have admissibility/*
 
-→ */Policy関数が正しく学習されなかった局面では失敗する。/*
++ */When the learned policy is wrong, the solution could be suboptimal/*
 
 #+begin_quote
-セドルはそれから、左手で首の後ろに触れたまま次の手を打った。... 
-コンピューターは驚きを隠せなかった。もちろん目をパチクリさせたわけではないが、次の1手はひどいものだった。
-[白78手について]
-#+end_quote
+... AlphaGo was unprepared for Lee Sedol’s Move 78 because it
+didn’t think that a human would ever play it.
+
 #+begin_alignright
-Cade Metz. "Two Moves, that Redifined the Future." /Wired/, 2016
+Cade Metz. "In Two Moves, that Redifined the Future." /Wired/, 2016
 #+end_alignright
+#+end_quote
 
 #+begin_center
 #+begin_larger
-RLは *判断に間違いがあり得る。*
+RL may make *wrong decisions*.
 #+end_larger
 #+end_center
 
-* Future Work (SAE)
+* Why symbols?
 
-SAEは命題の検出が可能 (状態s = p∧q∧r...)
+Symbols are strong abstraction mechanisms becasue
 
-→ 一階述語への一般化 (述語 p(a,b) )
-
-→ オブジェクトの検出 (引数 a,b) が必要
-
-→ 物体認識(R-CNN) などを内部で用いる より複雑なSAEの使用で対処可能
-
-* Future Work (問題ドメイン)
-
-LatPlan は あくまで *アーキテクチャ*
-
-*SAE の実装を変えれば(原理的には)画像以外の任意の入力データに対応可能なはず*
-
-+ テキスト用のAE [Li et.al. 2015]、 音声用のAE [Deng, Li, et al. 2010]
-+ 改造してSAEにすれば・・・
-  + *Here's an Apple, Here's a pen → oh, ApplePen!*
-+ SAEを学習してプランナで解く → *数千ステップの高速な言語レベル推論が可能に*
-
-#+begin_note
- "A hierarchical neural autoencoder for paragraphs and documents." (2015)
-
- "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
-#+end_note
-
-
-* 記号・記号処理とは
-
-*記号の特徴と強み* : なぜ記号は強力な抽象化の道具なのか？
-
-+ 理解する必要がない ::
-     ルールを機械的に適用することだけによって論理推論を行える
++ Meanings do not matter ::
+     You do not have to understand it: Does a symbol $X$ mean an apple or a car?
+ 
+     Logical reasoning can be performed by mechanical application of rules
      
-     シンボル $X$ の意味がリンゴだろうと車だろうと ルールが正しければ推論できる
+     + Domain-independent planning : *mystery* vs *nomystery*
+
+       Logistic domains where *symbol names are mangled* (truck → shark)
+
++ Composable :: 
+     A latent vector is a conjunction (and)
      
-     + ドメイン非依存ソルバの顕著な例: *mystery* ドメインと *nomystery* ドメイン
+     Heuristic functions use modus ponens to derive guidance
 
-       *シンボル名だけデタラメ* にした荷物配送ベンチマーク (truck → shark)
-
-       */(名前を見て特殊アルゴリズムを使う不正を禁じるため)/*
-  
-+ 組み合わせが可能 :: 
-     Latent vector は 複数の命題の連言 (and) → modus ponens が適用可能になる
-     
-     探索の下界関数はこれらを適用してゴールへの近さを見積もる
-
-+ ノイズを含む画像ピクセルはそのままではシンボルになれない ::
-
-     ノイズの有無で画像は全く異なるデータになる → 何か *共通の特徴* の抽出が必要
-     
-     
-* Arxiv版を上げた際のTwitterでの議論
-
- [[png:twitter]]
-
-#+begin_center
-#+begin_xlarge
-*/AlphaGo チーム全員:/*
-
-*/「古典プランニング超大事!」/*
-#+end_xlarge
-#+end_center
-
-* 評価
+* More details
 
 GTX1070, PhenomII X6 (3.4GHz OC), 16GB Mem
 
-+ 学習: 30分程度
-+ 求解: 3秒程度
++ Training: ~30 min
++ Solving: ~3 sec
 
-** State AutoEncoder
+** State AutoEncoder (Train data)
 
-1: Train入力 2: 生Latent 3: 生Autoencoding 4: 切り捨てLatent 5: 切り捨てLatentのAutoencoding
+1: $x$ 2: $z$ 3: $y$ 4: $round(z)$ 5: $Decode(round(z))$
 
 [[spng:experiment/autoencoding_train]]
 
-** State AutoEncoder
+** State AutoEncoder (Validation)
 
-1: Test入力 2: 生Latent 3: 生Autoencoding 4: 切り捨てLatent 5: 切り捨てLatentのAutoencoding
-
-Test 入力: 訓練画像に含まれていない画像 (注!)
+1: $x$ 2: $z$ 3: $y$ 4: $round(z)$ 5: $Decode(round(z))$
 
 [[spng:experiment/autoencoding_test]]
 
-#+begin_alignright
-きちんと学習できている
-#+end_alignright
-
 ** State AutoEncoder
 
-入力2: 初期画像とゴール画像
+Input 2: intial/goal images
 
 [[spng:experiment/init_goal]]
 
 ** PDDL Domain Definition
 
-$N=25$ の例
+Examples in $N=25$ (in the paper we bypassed PDDL-SAS converter though)
 
 #+begin_src lisp
 (define (domain latent)
@@ -897,7 +879,7 @@ $N=25$ の例
   ...
 #+end_src
 
-** 先ほどの結果
+** Results in one place
 
 #+begin_container-fluid
 #+begin_row-fluid
