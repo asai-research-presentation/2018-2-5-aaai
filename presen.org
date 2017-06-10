@@ -25,30 +25,156 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* The */Killer App/* of AI Planning                                :noexport:
-
+* Knowledge-Acquisition Bottleneck
 
 #+begin_container-fluid
 #+begin_row-fluid
-#+begin_span7
-#+begin_larger
-+ Places unreachable to mankind :: Nuclear Plant, Deep Space, Mars, Deep Sea
-+ Where completeness, soundness and optimality matters :: 
-     Satellite, Manufacturing, Logistics
-+ Explainable systems :: 
-     Rescue mission, Spaceship
-#+end_larger
+#+begin_span6
++ The manual overhead of converting real-world problems into inputs for
+  domain-independent symbolic systems
+#+end_span6
+#+begin_span6
++ There are *several kinds of symbols that can appear in PDDL*
 
-# [[sjpg:martian]]
-
-#+end_span7
-#+begin_span5
-
-[[sjpg:gravity-m]]
-
-#+end_span5
+  | Types of symbols       |
+  |------------------------|
+  | Propositions           |
+  | Object labels          |
+  | Predicates (relations) |
+  | Actions                |
+  | Problem name           |
+  | Domain name            |
+#+end_span6
 #+end_row-fluid
 #+end_container-fluid
+
+* Backgrounds
+
+#+begin_xlarge
+Exisiting Knowledge Acquisition Techniques
+#+end_xlarge
+
+** LOCM
+
+** Konidaris, Kaelbring
+
+** 
+
+* Limitatins of Existing Systems
+
+All existing systems require symbolic, discrete labels
+
+|                 | (1) Action Labels | (2) State Feature | (3) Feature Value      | Contribution          |
+|-----------------+-------------------+-------------------+------------------------+-----------------------|
+| Konidaris et al | *Known*           | *Structured*      | Probabilistic/Discrete | Semi-MDP → Classical |
+| LOCM            |                   |                   |                        |                       |
+|                 |                   |                   |                        |                       |
+
+** Structured Input
+
+
+
+* The Problem
+
+#+begin_center
+3x3 Sliding Tile Puzzle: 362880 configurations
+
+4x4、5x5 puzzles : infeasible under blind search (memory exhaust)
+
+Optimal solutions can be obtained by admissible heuristics
+#+end_center
+
+[[sjpg:puzzle]]
+
+** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example, Prior Explicit Knowledge
+
+*No Plan Examples* : No labels distinguishing actions
+
+*No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
+
+[[sjpg:puzzle]]
+
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Explicit Knowledge
+
+*No Plan Examples* : No labels distinguishing actions
+
+*No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
+Tower of Hanoi
+
+[[sjpg:hanoi]]
+#+end_span6
+#+begin_span4
+Lights-Out
+
+[[sjpg:lightsout]]
+#+end_span4
+#+end_row-fluid
+#+end_container-fluid
+
+** Input1: Training Inputs -- Image Pairs
+
+Image pairs showing the before/after states of valid actions
+
+[[png:overview/1]]
+
+** Input1: Training Inputs -- Image Pairs
+
+[[png:overview/2]]
+
+** Input2: Planning Inputs -- Initial Image & Goal Image
+
+Visual depiction of the initial state and a single goal state
+
+[[png:overview/input2]]
+
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
+
+#+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
+
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
+
+#+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
+
+#+begin_larger
++ You can't directly apply previous KEPS-community work to this, there's *no symbolic representation*
+#+end_larger
+
+
+
+* latter part
+
+
+** Advantages
+
+#+begin_xlarge
+*/Perception/* based on DLNN
+#+end_xlarge
+
+--- Robust systems augmented by the latest DL tech
+
+#+begin_xlarge
+*/Decision Making/* based on Classical Planning
+#+end_xlarge
+
+--- *Better Theoretical Guarantee than Reinforcement Learning*
+
+#+begin_center
+*Completeness* (Finds solution whenever possible), */Solution Optimality/*
+#+end_center
+
+--- *Decision Making Independent from Learning*
+
+#+begin_center
+*/Unsupervised/* (No data required), *Explainable* (Search by logic)
+#+end_center
+
+# 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
+
+
 
 * Deep Neural Networks
 
@@ -139,121 +265,6 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 [[png:lecun]]
 
-* Our Goal
-
-#+begin_xlarge
-#+begin_center
-Deep Learning
-
-＋
-
-Classical Planning
-#+end_center
-#+end_xlarge
-
-** Advantages
-
-#+begin_xlarge
-*/Perception/* based on DLNN
-#+end_xlarge
-
---- Robust systems augmented by the latest DL tech
-
-#+begin_xlarge
-*/Decision Making/* based on Classical Planning
-#+end_xlarge
-
---- *Better Theoretical Guarantee than Reinforcement Learning*
-
-#+begin_center
-*Completeness* (Finds solution whenever possible), */Solution Optimality/*
-#+end_center
-
---- *Decision Making Independent from Learning*
-
-#+begin_center
-*/Unsupervised/* (No data required), *Explainable* (Search by logic)
-#+end_center
-
-# 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
-
-** 3x3 Sliding Tile Puzzle
-
-#+begin_center
-362880 configurations
-
-4x4、5x5 puzzles : infeasible under blind search (memory exhaust)
-
-Optimal solutions can be obtained by admissible heuristics
-#+end_center
-
-[[sjpg:puzzle]]
-
-** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example, Prior Explicit Knowledge
-
-*DLNN + Classical Planning*
-
-*No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
-
-*No Plan Examples* : (AlphaGo) eval. function from expert plans → *admissible heuristics*
-
-[[sjpg:puzzle]]
-
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Explicit Knowledge
-
-#+begin_xlarge
-*/No Prior Knowledge/*
-
-#+begin_alignright
-*＝ /Domain-independent Planning/*
-#+end_alignright
-#+end_xlarge
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-Tower of Hanoi
-
-[[sjpg:hanoi]]
-#+end_span6
-#+begin_span4
-Lights-Out
-
-[[sjpg:lightsout]]
-#+end_span4
-#+end_row-fluid
-#+end_container-fluid
-* -
-
-#+begin_xlarge
-#+begin_center
-System Overview
-#+end_center
-#+end_xlarge
-
-** Input1: Training Inputs -- Image Pairs
-
-Image pairs showing the before/after states of valid actions
-
-[[png:overview/1]]
-
-** Input1: Training Inputs -- Image Pairs
-
-[[png:overview/2]]
-
-** Input2: Planning Inputs -- Initial Image & Goal Image
-
-Visual depiction of the initial state and a single goal state
-
-[[png:overview/input2]]
-
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
-
-#+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
-
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
-
-#+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 * Results (MNIST 8-puzzle)
 
 8-puzzle using digits from MNIST database
