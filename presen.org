@@ -676,7 +676,9 @@ Does not assume grid-like structures
 Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
 #+end_larger
 
-* Deep Learning vs Planning
+* Appendix
+
+** Deep Learning vs Planning
   
  Main differences: Purposes and the abstraction layer
 
@@ -736,7 +738,7 @@ Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsym
 
 + AlphaGo = Subsymbolic (DLNN eval. function) + Symbolic (MCTS)
 
-* Human-Competitive Systems
+** Human-Competitive Systems
 
  AlphaGo = Subsymbolic (NN eval. func) + Symbolic (MCTS)
  + However, *domain-specific* -- specialized in Go, "Grids" / "Stones" are known
@@ -753,7 +755,7 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
   
  # 実際 *Sokoban など論理思考ゲームでは性能が悪い* ↔ 倉庫番ソルバ
 
-* Latplan Advantages
+** Latplan Advantages
 
 #+begin_xlarge
 */Perception/* based on DLNN
@@ -779,7 +781,7 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 # 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
 
-* Future Work (SAE)
+** Future Work (SAE)
 
 SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
 
@@ -789,7 +791,7 @@ SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
 
 + SAE with networks for object recognition (e.g. R-CNN) should achieve this
 
-* Future Work (input format)
+** Future Work (input format)
 
 LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
 
@@ -810,7 +812,7 @@ LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
  "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
 #+end_note
 
-* I expect mixed responses such as...
+** I expect mixed responses such as...
 
 #+begin_xlarge
 + Wait, what!? You /solved/ the symbol grounding!?
@@ -822,7 +824,7 @@ LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
 These are the results of confusions in an unexplored area.
 
 (^* I actually received these responses)
-* Did we find symbols? It doesn't sound like what I think symbols are
+** Did we find symbols? It doesn't sound like what I think symbols are
 
 #+begin_smaller
 You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a domain-acquisition.
@@ -840,7 +842,7 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
   | Predicates (relations) | ???                     |
   | Actions                | Domain Acquisition      |
 
-* Did we find symbols? Why not individual pixels? Why DL?
+** Did we find symbols? Why not individual pixels? Why DL?
 
 *Systems based on individual pixels lack generalization*
 
@@ -852,7 +854,7 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
 
 + = a nonlinear function that recognize the entanglements between multiple pixels
 
-* When Latplan returns a /wrong/ solution?
+** When Latplan returns a /wrong/ solution?
 
 *Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
 
@@ -876,7 +878,7 @@ BTW, "correctness" is defined by error prone observations by humans anyways ...
  (completeness, optimality) → better reliablility than Reinforcement Learning
 #+end_alignright
 
-** Reinforcement Learning
+*** Reinforcement Learning
 
 Not only *perception* but *decision making also depends on training*
 
@@ -899,7 +901,7 @@ RL may make *wrong decisions*.
 #+end_larger
 #+end_center
 
-* SAE implementation in LatPlan α
+** SAE implementation in LatPlan α
 
 Keras, Adam optimizer (learning rate:0.001)
 
@@ -923,7 +925,7 @@ Keras, Adam optimizer (learning rate:0.001)
 + Training on 8-puzzle ::
                *12000 images* out of entire states (362880) → *Generalization*
 
-* Domain Acquisition implementation in LatPlan α (_/NOT our core contribution/_)
+** Domain Acquisition implementation in LatPlan α (_/NOT our core contribution/_)
 
 _Entire transitions $R$_ → $Encode(R)$ → PDDL
 
@@ -954,7 +956,7 @@ Why? → *Trivial domain acquisition, no generalization*
 [Konidaris et.al. 14; Cresswell et al 13]
 #+end_note
 
-* Why symbols?
+** Why symbols?
 
 Symbols are strong abstraction mechanisms becasue
 
@@ -972,32 +974,32 @@ Symbols are strong abstraction mechanisms becasue
      
      Heuristic functions use modus ponens to derive guidance
 
-* More details
+** More details
 
 GTX1070, PhenomII X6 (3.4GHz OC), 16GB Mem
 
 + Training: ~30 min
 + Solving: ~3 sec
 
-** State AutoEncoder (Train data)
+*** State AutoEncoder (Train data)
 
 1: $x$ 2: $z$ 3: $y$ 4: $round(z)$ 5: $Decode(round(z))$
 
 [[spng:experiment/autoencoding_train]]
 
-** State AutoEncoder (Validation)
+*** State AutoEncoder (Validation)
 
 1: $x$ 2: $z$ 3: $y$ 4: $round(z)$ 5: $Decode(round(z))$
 
 [[spng:experiment/autoencoding_test]]
 
-** State AutoEncoder
+*** State AutoEncoder
 
 Input 2: intial/goal images
 
 [[spng:experiment/init_goal]]
 
-** PDDL Domain Definition
+*** PDDL Domain Definition
 
 Examples in $N=25$ (in the paper we bypassed PDDL-SAS converter though)
 
@@ -1018,7 +1020,7 @@ Examples in $N=25$ (in the paper we bypassed PDDL-SAS converter though)
   ...
 #+end_src
 
-** Results in one place
+*** Results in one place
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1042,7 +1044,7 @@ Examples in $N=25$ (in the paper we bypassed PDDL-SAS converter though)
 #+end_row-fluid
 #+end_container-fluid
 
-** Fast Downward Log Trace (Search Statistics)                     :noexport:
+*** Fast Downward Log Trace (Search Statistics)                    :noexport:
 
 
 #+begin_example
@@ -1072,7 +1074,7 @@ Search time: 2693.06 (sec)
 Total time: 2724.89 (sec)
 #+end_example
 
-* Does it have something to do with symbolic planning (BDDs) ?
+** Does it have something to do with symbolic planning (BDDs) ?
 
 No.
 
