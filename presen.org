@@ -25,56 +25,113 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Knowledge-Acquisition Bottleneck
+* Knowledge-Acquisition Bottleneck (Cullen, 1988)
 
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-+ The manual overhead of converting real-world problems into inputs for
-  domain-independent symbolic systems
-#+end_span6
-#+begin_span6
+#+begin_quote
+The *cost of human involved* for converting real-world problems into inputs for
+domain-independent *symbolic* systems
+#+end_quote
+
++ *Symbols: Labels for identifiable entities*
+
 + There are *several kinds of symbols that can appear in PDDL*
 
-  | Types of symbols       |
-  |------------------------|
-  | Propositions           |
-  | Object labels          |
-  | Predicates (relations) |
-  | Actions                |
-  | Problem name           |
-  | Domain name            |
-#+end_span6
-#+end_row-fluid
-#+end_container-fluid
+  | Types of symbols       |              |
+  |------------------------+--------------|
+  | Propositions           | (handempty)  |
+  | Object labels          | a, b, c      |
+  | Predicates (relations) | (*on* a b)   |
+  | Actions                | (*move* a b) |
+  | Problem name           | blocks-4-10  |
+  | Domain name            | blocksworld  |
+
+#+begin_note
+The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
+#+end_note
 
 * Backgrounds
 
 #+begin_xlarge
-Exisiting Knowledge Acquisition Techniques
+Survey of Exisiting Knowledge Acquisition Techniques
+#+end_xlarge
+     
+** Limitations of Existing Systems
+
+#+begin_xlarge
+#+begin_center
+So far, ALL existing systems require */symbolic / near-symbolic, accurate inputs and/or discrete action labels/*.
+#+end_center
 #+end_xlarge
 
-** LOCM
+** ARMS (Action-Relation Modelling System) (Yang 07)
 
-** Konidaris, Kaelbring
+Taking the *symbolic* inputs
 
-** 
+[[spng:arms]]
 
-* Limitatins of Existing Systems
+** LOCM (ICAPS09)
 
-All existing systems require symbolic, discrete labels
+Taking the *symbolic* inputs
 
-|                 | (1) Action Labels | (2) State Feature | (3) Feature Value      | Contribution          |
-|-----------------+-------------------+-------------------+------------------------+-----------------------|
-| Konidaris et al | *Known*           | *Structured*      | Probabilistic/Discrete | Semi-MDP → Classical |
-| LOCM            |                   |                   |                        |                       |
-|                 |                   |                   |                        |                       |
+[[spng:locm]]
 
-** Structured Input
+** Framer (ICAPS17)
+
+*Near-Symbols* : Requires NLP sentences with a clear grammatical structure.
 
 
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
+[[spng:framer]]
+#+end_span6
+#+begin_span6
++ Alleviates the burden of domain experts, but *still requires human*
++ Not handling "Natural Language":
+  
+  #+begin_quote
+  Pick up that parcel over there ... yeah, it has a label on it, it says Parcel1, you can see
+  it from here, the Location B. Then put it in the car, I mean the truck, the red one.
+  #+end_quote
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
-* The Problem
+** Konidaris, Kaelbring (AAAI14, IJCAI15)
+
+"Constructing Symbolic Representations for High-Level Planning" (AAAI14)
+
++ What it does :: Converting *Semi-MDP Model* to *PDDL Model* by set-theoretic representation
+                  
+                  i.e. *Model-to-Model* conversion, not *generating a model from the scratch*
++ Semi-MDP contains Action Labels :: =move= and =interact= (Playroom)
++ Sensor inputs are structured :: x/y-distance, light level, whether a monkey cries
+     
+     → Each sensor has a distinct meaning (no overwrap)
+
+     → Labels for "State Variable" are known, they directly form a state space vector
++ Low-dimensional, accurate input :: 33 vars (Playroom), 9 vars (Treasure), no noise
+     
+     Although IJCAI15 shows "visual depiction", it is not used by the system
+
+** Learning from Observation (Argall 09, Mourao 12)
+
+Noisy, incomplete, but symbolic states/actions
+
+[[spng:mourao]]
+
+[[spng:mourao2]]
+
+** Learning from Video for Board Game (Bardu 10; Kaiser 12; Kirk 16)
+
++ Handles Images, but with strong assumptions (almost symbol) ::
+     e.g. Understands *Tic-Tac-Toe* with *3x3 Ellipse Detector* (Bardu 10)
+     
+     Almost immediately provides propositions
+
+     Domain-dependent ("3x3 grid" is hard-coded)
+
+* Consider an */image-based/* 8-puzzle
 
 #+begin_center
 3x3 Sliding Tile Puzzle: 362880 configurations
@@ -86,19 +143,23 @@ Optimal solutions can be obtained by admissible heuristics
 
 [[sjpg:puzzle]]
 
-** Goal: Solving Imaged-Based 8-puzzle w/o Plan Example, Prior Explicit Knowledge
-
-*No Plan Examples* : No labels distinguishing actions
+** Goal: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example, Prior Explicit Knowledge
+** Goal: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
-*No Plan Examples* : No labels distinguishing actions
+*/No Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
 
-*No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
+[[sjpg:puzzle]]
+
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+
+#+begin_larger
+*/No Prior Knowledge/* : */Domain-independent Image-based planner/*
+#+end_larger
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -131,52 +192,59 @@ Visual depiction of the initial state and a single goal state
 
 [[png:overview/input2]]
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Plan Example nor Prior Knowledge
+#+begin_larger
+　
+
+　
+#+end_larger
+
+** Goal: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
 #+begin_larger
-+ You can't directly apply previous KEPS-community work to this, there's *no symbolic representation*
+#+begin_center
++ *Previous KE method cannot be applied*
+
+  *Since there's /no symbolic representation !/*
+#+end_center
 #+end_larger
 
-
-
-* latter part
-
-
-** Advantages
+* -
 
 #+begin_xlarge
-*/Perception/* based on DLNN
+We provide a solution
+#+begin_center
+for applying */existing KE methods/*
+#+end_center
+#+begin_alignright
+to unstructured data.
+#+end_alignright
 #+end_xlarge
 
---- Robust systems augmented by the latest DL tech
+* -
 
 #+begin_xlarge
-*/Decision Making/* based on Classical Planning
+
+#+begin_center
+Classical Planning
+
+in */Deep Latent Space/*:
+
+From */Unlabelled Images/*
+
+to PDDL (and back)
+#+end_center
+#+begin_alignright
+
+#+end_alignright
 #+end_xlarge
 
---- *Better Theoretical Guarantee than Reinforcement Learning*
-
-#+begin_center
-*Completeness* (Finds solution whenever possible), */Solution Optimality/*
-#+end_center
-
---- *Decision Making Independent from Learning*
-
-#+begin_center
-*/Unsupervised/* (No data required), *Explainable* (Search by logic)
-#+end_center
-
-# 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
-
-
-
-* Deep Neural Networks
+* Deep Neural Networks                                             :noexport:
 
 [[png:deeplearning/1]]
 
@@ -184,169 +252,11 @@ Visual depiction of the initial state and a single goal state
 
 [[png:deeplearning/dl-image-task]]
 
-* Deep Learning vs Planning
-
- Main differences: Purposes and the abstraction layer
-
- #+begin_container-fluid
- #+begin_row-fluid
- #+begin_span6
- *Machine Learning, Neural Networks* 
- 
- for *Recognition, Reflex*
- + *Subsymbolic Input* (continuous)
-   
-   Images, Audio, unstructured text: 
- + *Soft Intelligence*:
-   
-   　 */Reflex Agent/, /Immediate/ actions*
-   #+begin_smaller
-   *Pavlov's dog* : food → drool
-
-   *Autonomous Driving* : Pedestrian → Stop.
-
-   *Machine Translation* : Sentence → Sentence
-
-   *Eval. Function for Go* : board → win-rate
-   #+end_smaller
-   #+begin_larger
-   ☺ Efficient 1-to-1 mapping
-   
-   ☹ Simple tasks
-   #+end_larger
- #+end_span6
- #+begin_span6
- *Deliberation, Search*
-
- for *Planning, Game, Theorem Proving*
- + *Symbolic Input/Output*
-   
-   Logic, objects, induction rules
- + *Hard Intelligence by Logic:*
-
-   　 */Multi-step/ strategies*
-   
-   #+begin_smaller
-   *Rescue Robot* : actions → help the surviver
-
-   *Theorem Proving* : theorems → QED
-
-   *Compiler* : x86 instructions
-   
-   *Game of Go* : stones → Win
-   #+end_smaller
-   #+begin_larger
-   ☺ Ordering constraint + complex tasks
-   #+end_larger
- #+end_span6
- #+end_row-fluid
- #+end_container-fluid
-
-+ AlphaGo = Subsymbolic (DLNN eval. function) + Symbolic (MCTS)
-
-* Human-Competitive Systems
-
- AlphaGo = Subsymbolic (NN eval. func) + Symbolic (MCTS)
- + However, *domain-specific* -- specialized in Go, "Grids" / "Stones" are known
- + *Huge expert trace DB* --- Not applicable when data are scarse (e.g. *space exploration*)
- + */Is supervised learning necessary for human?/*
-  
-   *True intelligence should search / collect data by itself*
-
- DQN = Subsymbolic (DLNN) + Reinforcement Learning (DLNN)
-
-Domain-independent Atari Game solver (Invader, Packman…), however:
- + RL Acting: Greedily follow the learned policy → *no deliberation!*
- + You can survive most Atari games *by reflex*
-  
- # 実際 *Sokoban など論理思考ゲームでは性能が悪い* ↔ 倉庫番ソルバ
-
 * Combining Symbolic AIs and Subsymbolic AIs
 
 [[png:lecun]]
 
-* Results (MNIST 8-puzzle)
-
-8-puzzle using digits from MNIST database
-
-[[png:results/mnist-plan]]
-
-#+begin_larger
-An instance whose the optimal solution length is known
-#+begin_xlarge
-#+begin_alignright
- → *31 step optimal plan*
-#+end_alignright
-#+end_xlarge
-#+end_larger
-
-** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
-
-MNIST 8-puzzle has cleanly separated objects -> This domain does not.
-
-[[png:results/mandrill-intro]]
-
-** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
-
-[[png:results/mandrill-plan]]
-
-#+begin_xlarge
-#+begin_alignright
- → *Optimal Solution*
-#+end_alignright
-#+end_xlarge
-
-** Tower of Hanoi (3 disks, 4 disks)
-
-Completely different puzzle problem can be solved with no change
-
-[[png:results/hanoi3]]
-
-[[png:results/hanoi4]]
-
-#+begin_alignright
-#+begin_xlarge
- → *Optimal Solution* (7 steps,15 steps)
-#+end_xlarge
-#+end_alignright
-
-** Lights Out
-
-Completely different puzzle problem can be solved with no change
-
-[[png:results/lights-out]]
-
-#+begin_alignright
-#+begin_xlarge
- → *Optimal Solution*
-#+end_xlarge
-#+end_alignright
-
-** Twisted Lights Out
-
-Does not assume grid-like structures
-
-[[png:results/lights-out-skewed]]
-
-#+begin_alignright
-#+begin_xlarge
- → *Optimal Solution*
-#+end_xlarge
-#+end_alignright
-
-** Handling the Noisy Input
-
-# Denoising AE を使っているため入力ノイズに左右されずにプランを求められる
-
-[[png:results/noise]]
-
-#+begin_xlarge
-#+begin_alignright
- → *Optimal Solutions*
-#+end_alignright
-#+end_xlarge
-
-* Sure it works, how?
+* Sure it works, how?                                              :noexport:
 
 DLNN + Classical Planner
 
@@ -368,13 +278,13 @@ We propose LatPlan *architechture*, and *LatPlanα*, an implementation
 
  [[png:overview/planning1]]
 
-* Step 1: State Autoencoder (*/Core Contribution/*)
+** Step 1: State Autoencoder (*/Core Contribution/*)
 
 A neural network *bridging the Symbolic/Subsymbolic boundary*
 
  [[png:overview/planning2]]
 
-** Step 1: State Autoencoder (*/Core Contribution/*)
+*** Step 1: State Autoencoder (*/Core Contribution/*)
 
 [[png:train-state-ae]]
 
@@ -383,14 +293,17 @@ Trained SAE provides two functions:
 + $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
 
 + $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
-
-* Step 2: Domain Acquisition (_/NOT our core contribution/_)
+** Step 2: Domain Acquisition (_/NOT our contribution/_)
 
 bitvector -> PDDL domain description
 
  [[png:overview/planning3]]
 
-** PDDL generation in LatPlan α (_/NOT our core contribution/_)
+*** Our PDDL generation in LatPlan α (_/NOT our contribution/_)
+
+#+begin_larger
+*/Placeholder for Existing KE methods/*
+#+end_larger
 
 Individual actions are mapped to PDDL actions (trivial domain acquisition)
 
@@ -413,13 +326,39 @@ Conversion from a bit to a proposition:
  $i$-th bit is 0 → Proposition ($b_i$ -false)
 #+end_center
 
-* Step 3: Solve the PDDL instance w/ off-the-shelf planner
+*** Example PDDL Domain Definition
 
- [[png:overview/planning4]]
+Examples in $N=25$ (in the paper we bypassed PDDL-SAS translater)
 
-* Step 4: Mapping the symbolic plan (human-incomprehensive) to images (human-comprehensive)
+#+begin_src lisp
+(define (domain latent)
+ (:requirements :strips :negative-preconditions)
+ (:predicates (z0) (z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z9) (z10)
+  (z11) (z12) (z13) (z14) (z15) (z16) (z17) (z18) (z19) (z20) (z21)
+  (z22) (z23) (z24))
+ (:action a10000010010110111100011111000010001011111110011111
+  :parameters () :precondition
+  (and (z0) (not (z1)) (not (z2)) (not (z3)) (not (z4)) (not (z5))
+       (z6) (not (z7)) (not (z8)) (z9) (not (z10)) (z11) (z12)
+       (not (z13)) (z14) (z15) (z16) (z17) (not (z18)) (not (z19))
+       (not (z20)) (z21) (z22) (z23) (z24))
+  :effect (and (z5) (not (z6)) (z13) (z20)))
+ (:action a10000010010110111100011110000001001011011110001110
+  ...
+#+end_src
 
- [[png:overview/planning5]]
+
+** Step 3: Solve the PDDL instance w/ off-the-shelf planner
+
+  [[png:overview/planning4]]
+
+** Step 4: Executing the symbolic plan
+
+  [[png:overview/planning5]]
+
+** Step 5: Mapping the plan to images (human-comprehensive)
+
+  [[png:overview/planning6]]
 
 * *Our Core Contribution : SAE*
 
@@ -532,11 +471,9 @@ In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 #+end_larger
 
-
 ** Step 1: State Autoencoder (*/before training/*)
 
  [[png:sae/state-ae-before]]
-
 
 ** Step 1: State Autoencoder (_/after training/_)
 
@@ -586,6 +523,86 @@ Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probabi
 Maddison et. al., 2014
 #+end_note
 
+* Results (MNIST 8-puzzle)
+
+8-puzzle using digits from MNIST database
+
+[[png:results/mnist-plan]]
+
+#+begin_larger
+An instance whose the optimal solution length is known
+#+begin_xlarge
+#+begin_alignright
+ → *31 step optimal plan*
+#+end_alignright
+#+end_xlarge
+#+end_larger
+
+** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
+
+MNIST 8-puzzle has cleanly separated objects -> This domain does not.
+
+[[png:results/mandrill-intro]]
+
+** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
+
+[[png:results/mandrill-plan]]
+
+#+begin_xlarge
+#+begin_alignright
+ → *Optimal Solution*
+#+end_alignright
+#+end_xlarge
+
+** Tower of Hanoi (3 disks, 4 disks)
+
+Completely different puzzle problem can be solved with no change
+
+[[png:results/hanoi3]]
+
+[[png:results/hanoi4]]
+
+#+begin_alignright
+#+begin_xlarge
+ → *Optimal Solution* (7 steps,15 steps)
+#+end_xlarge
+#+end_alignright
+
+** Lights Out
+
+Completely different puzzle problem can be solved with no change
+
+[[png:results/lights-out]]
+
+#+begin_alignright
+#+begin_xlarge
+ → *Optimal Solution*
+#+end_xlarge
+#+end_alignright
+
+** Twisted Lights Out
+
+Does not assume grid-like structures
+
+[[png:results/lights-out-skewed]]
+
+#+begin_alignright
+#+begin_xlarge
+ → *Optimal Solution*
+#+end_xlarge
+#+end_alignright
+
+** Handling the Noisy Input
+
+# Denoising AE を使っているため入力ノイズに左右されずにプランを求められる
+
+[[png:results/noise]]
+
+#+begin_xlarge
+#+begin_alignright
+ → *Optimal Solutions*
+#+end_alignright
+#+end_xlarge
 * Why bother the off-the-shelf planner? Shouldn't the blind search do?
 
 *Domain-independent heuristics works, /SURPRISINGLY!/*
@@ -643,7 +660,6 @@ Maddison et. al., 2014
 # 
 # 注: *プランニングでは理論保証付き下界関数のことをヒューリスティック関数と呼ぶ*
 # #+end_larger
-
 * Conclusion
 
 + Input: Unlabelled pairs of images, initial image, goal image
@@ -651,14 +667,117 @@ Maddison et. al., 2014
 + State AutoEncoder(SAE): VAE with Gumbel-Softmax
 + */Contribution/* : *SAE generates /propositions/ from raw data*
 
-  → *compatible to the symbolic classical planners*
-+ Latplan α : *A prototype made /as simple as possible/*
+  → *compatible to the symbolic KE systems, classical planners*
++ Latplan α : *A simplified prototype*
 
-  → Can leverege from the future development of both symbolic/subsymbolic AI research
+  → Can leverege from the development of both symbolic/subsymbolic research
 
 #+begin_larger
 Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
 #+end_larger
+
+* Deep Learning vs Planning
+  
+ Main differences: Purposes and the abstraction layer
+
+ #+begin_container-fluid
+ #+begin_row-fluid
+ #+begin_span6
+ *Machine Learning, Neural Networks* 
+ 
+ for *Recognition, Reflex*
+ + *Subsymbolic Input* (continuous)
+   
+   Images, Audio, unstructured text: 
+ + *Soft Intelligence*:
+   
+   　 */Reflex Agent/, /Immediate/ actions*
+   #+begin_smaller
+   *Pavlov's dog* : food → drool
+
+   *Autonomous Driving* : Pedestrian → Stop.
+
+   *Machine Translation* : Sentence → Sentence
+
+   *Eval. Function for Go* : board → win-rate
+   #+end_smaller
+   #+begin_larger
+   ☺ Efficient 1-to-1 mapping
+   
+   ☹ Simple tasks
+   #+end_larger
+ #+end_span6
+ #+begin_span6
+ *Deliberation, Search*
+
+ for *Planning, Game, Theorem Proving*
+ + *Symbolic Input/Output*
+   
+   Logic, objects, induction rules
+ + *Hard Intelligence by Logic:*
+
+   　 */Multi-step/ strategies*
+   
+   #+begin_smaller
+   *Rescue Robot* : actions → help the surviver
+
+   *Theorem Proving* : theorems → QED
+
+   *Compiler* : x86 instructions
+   
+   *Game of Go* : stones → Win
+   #+end_smaller
+   #+begin_larger
+   ☺ Ordering constraint + complex tasks
+   #+end_larger
+ #+end_span6
+ #+end_row-fluid
+ #+end_container-fluid
+
++ AlphaGo = Subsymbolic (DLNN eval. function) + Symbolic (MCTS)
+
+* Human-Competitive Systems
+
+ AlphaGo = Subsymbolic (NN eval. func) + Symbolic (MCTS)
+ + However, *domain-specific* -- specialized in Go, "Grids" / "Stones" are known
+ + *Huge expert trace DB* --- Not applicable when data are scarse (e.g. *space exploration*)
+ + */Is supervised learning necessary for human?/*
+  
+   *True intelligence should search / collect data by itself*
+
+ DQN = Subsymbolic (DLNN) + Reinforcement Learning (DLNN)
+
+Domain-independent Atari Game solver (Invader, Packman…), however:
+ + RL Acting: Greedily follow the learned policy → *no deliberation!*
+ + You can survive most Atari games *by reflex*
+  
+ # 実際 *Sokoban など論理思考ゲームでは性能が悪い* ↔ 倉庫番ソルバ
+
+* Latplan Advantages
+
+#+begin_xlarge
+*/Perception/* based on DLNN
+#+end_xlarge
+
+--- Robust systems augmented by the latest DL tech
+
+#+begin_xlarge
+*/Decision Making/* based on Classical Planning
+#+end_xlarge
+
+--- *Better Theoretical Guarantee than Reinforcement Learning*
+
+#+begin_center
+*Completeness* (Finds solution whenever possible), */Solution Optimality/*
+#+end_center
+
+--- *Decision Making Independent from Learning*
+
+#+begin_center
+*/Unsupervised/* (No data required), *Explainable* (Search by logic)
+#+end_center
+
+# 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
 
 * Future Work (SAE)
 
@@ -672,11 +791,9 @@ SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
 
 * Future Work (input format)
 
-LatPlan is an *architecture*
+LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
 
-Any systems that use SAE is a LatPlan implementation
-
-*With a different SAE impl., you should be able to reason about different raw data*
+*Different SAE allows LatPlan to reason about different types of raw data*
 
 + AutoEncoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
 + Examples:
@@ -715,17 +832,17 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
 
 + Each issue requires a different approach. LatPlan should be combined with these work.
 
-  |                        | <c>                |
-  | Types of symbols       | addressed by       |
-  |------------------------+--------------------|
-  | Propositions           | SAE                |
-  | Object labels          | Computer Vision    |
-  | Predicates (relations) | -                  |
-  | Actions                | Domain Acquisition |
+  |                        | <c>                     |
+  | Types of symbols       | addressed by            |
+  |------------------------+-------------------------|
+  | *Propositions*         | *SAE*                   |
+  | Object labels          | R-CNN (Computer Vision) |
+  | Predicates (relations) | ???                     |
+  | Actions                | Domain Acquisition      |
 
 * Did we find symbols? Why not individual pixels? Why DL?
 
-*Individual pixels lacks generalization*
+*Systems based on individual pixels lack generalization*
 
 + Noise / variations can make the data entirely different
 
@@ -734,65 +851,6 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
 + must acquire the *generalized features*
 
 + = a nonlinear function that recognize the entanglements between multiple pixels
-
-* SAE implementation in LatPlan α
-
-Keras, Adam optimizer (learning rate:0.001)
-
-  1764(42x42)
-
-  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
-
-  →FC(49,GumbelSoftmax) (variational loss)
-
-  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
-
-  →1764(42x42) (loss: Binary crossentropy)
-
-　
-
-+ Why full-connected layers ? ::
-             Main focus is on *whether propositions made by SAE are feasible*
-             
-             *→No complication due to CNN, ResNet, etc...*
-             
-+ Training on 8-puzzle ::
-               *12000 images* out of entire states (362880) → *Generalization*
-
-* Does it have something to do with symbolic planning (BDDs) ?
-
-No.
-
-* Domain Acquisition implementation in LatPlan α (_/NOT our core contribution/_)
-
-_Entire transitions $R$_ → $Encode(R)$ → PDDL
-
-Why? → *Trivial domain acquisition, no generalization*
-
-: Ground      actions 0011 → 0101  (state variables are fully specified)
-: Generalized actions *01* → *10*  (state variables are partially specified)
-
-+ LatPlanα: No generalization wrto domain acquisition ::
-
-     Main focus is on */SAE/: whether propositions made by SAE are /feasible/*
-             
-     *→No complication due to domain acquisition*
-     
-     *Developping a generalizer is an entirely different topic*, we leave it to existing work
-
-+ We made flour and demonstrated a sugarless cookie with it. ::
-
-     Others study how to make the most beautiful piece of chocolate cake from given flour
-
-     --- which is future work.
-
-     Domain acquisition typically requires exisiting models (such as Semi-MDP)
-
-     We made *inputs* for existing work.
-
-#+begin_note
-[Konidaris et.al. 14; Cresswell et al 13]
-#+end_note
 
 * When Latplan returns a /wrong/ solution?
 
@@ -840,6 +898,61 @@ Cade Metz. "In Two Moves, that Redifined the Future." /Wired/, 2016
 RL may make *wrong decisions*.
 #+end_larger
 #+end_center
+
+* SAE implementation in LatPlan α
+
+Keras, Adam optimizer (learning rate:0.001)
+
+  1764(42x42)
+
+  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
+
+  →FC(49,GumbelSoftmax) (variational loss)
+
+  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
+
+  →1764(42x42) (loss: Binary crossentropy)
+
+　
+
++ Why full-connected layers ? ::
+             Main focus is on *whether propositions made by SAE are feasible*
+             
+             *→No complication due to CNN, ResNet, etc...*
+             
++ Training on 8-puzzle ::
+               *12000 images* out of entire states (362880) → *Generalization*
+
+* Domain Acquisition implementation in LatPlan α (_/NOT our core contribution/_)
+
+_Entire transitions $R$_ → $Encode(R)$ → PDDL
+
+Why? → *Trivial domain acquisition, no generalization*
+
+: Ground      actions 0011 → 0101  (state variables are fully specified)
+: Generalized actions *01* → *10*  (state variables are partially specified)
+
++ LatPlanα: No generalization wrto domain acquisition ::
+
+     Main focus is on */SAE/: whether propositions made by SAE are /feasible/*
+             
+     *→No complication due to domain acquisition*
+     
+     *Developping a generalizer is an entirely different topic*, we leave it to existing work
+
++ We made flour and demonstrated a sugarless cookie with it. ::
+
+     Others study how to make the most beautiful piece of chocolate cake from given flour
+
+     --- which is future work.
+
+     Domain acquisition typically requires exisiting models (such as Semi-MDP)
+
+     We made *inputs* for existing work.
+
+#+begin_note
+[Konidaris et.al. 14; Cresswell et al 13]
+#+end_note
 
 * Why symbols?
 
@@ -958,4 +1071,8 @@ Dead ends: 24 state(s).
 Search time: 2693.06 (sec)
 Total time: 2724.89 (sec)
 #+end_example
+
+* Does it have something to do with symbolic planning (BDDs) ?
+
+No.
 
