@@ -293,7 +293,11 @@ Auto = "self" --- Autoencoding = "encoding itself"
 #+end_container-fluid
 
 #+begin_alignright
-+ → However, */✘ Latent vector is real-valued, incompatible to classical planning/*
+#+begin_larger
++ → However, */✘ Latent vector is real-valued/*
+
+  */INCOMPATIBLE to classical planning/*
+#+end_larger
 #+end_alignright
 
 ** Variational AutoEncoder (VAE)
@@ -436,9 +440,11 @@ DLNN + Classical Planner
 
   + *How to interpret these /foreign/ symbols?*
 
-* Latent-Space Planner: *LatPlan*
+* Using SAE, we propose */LatPlan, an architechture/*
 
-Using SAE, we propose LatPlan *architechture*, and *LatPlanα*, an implementation
+#+begin_larger
+and _/LatPlanα/_, an implementation
+#+end_larger
 
  [[png:overview/planning1]]
 
@@ -496,17 +502,17 @@ Conversion from a bit to a proposition:
 
 #+begin_src lisp
 (define (domain latent)
- (:requirements :strips :negative-preconditions)
- (:predicates (z0) (z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z9) (z10)
-  (z11) (z12) (z13) (z14) (z15) (z16) (z17) (z18) (z19) (z20) (z21)
-  (z22) (z23) (z24))
+ (:requirements :strips)
+ (:predicates (b0-true) (b0-false) (b1-true) ... (b24-false))
+
  (:action a10000010010110111100011111000010001011111110011111
   :parameters () :precondition
-  (and (z0) (not (z1)) (not (z2)) (not (z3)) (not (z4)) (not (z5))
-       (z6) (not (z7)) (not (z8)) (z9) (not (z10)) (z11) (z12)
-       (not (z13)) (z14) (z15) (z16) (z17) (not (z18)) (not (z19))
-       (not (z20)) (z21) (z22) (z23) (z24))
-  :effect (and (z5) (not (z6)) (z13) (z20)))
+  (and (b0-true) (b1-false) (b2-false) ... (b24-true))
+  :effect (and (not (b5-false))  (b5-true)
+               (not (b6-true))   (b6-false)
+               (not (b13-false)) (b13-true)
+               (not (b20-false)) (b20-true)))
+
  (:action a10000010010110111100011110000001001011011110001110
   ...
 #+end_src
