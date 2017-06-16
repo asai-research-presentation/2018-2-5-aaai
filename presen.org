@@ -178,11 +178,11 @@ Lights-Out
 
 ** Input1: Training Inputs -- Image Pairs
 
-Image pairs showing the before/after states of valid actions
+Image pairs showing the before/after states of valid actions (randomly sampled)
 
 [[png:overview/1]]
 
-** Input1: Training Inputs -- Image Pairs
+** Input1: Training Inputs -- Image Pairs                          :noexport:
 
 [[png:overview/2]]
 
@@ -226,147 +226,15 @@ to unstructured data.
 #+end_alignright
 #+end_xlarge
 
-* -
+* *Our Core Contribution : State AutoEncoder (SAE)*
 
-#+begin_xlarge
-
-#+begin_center
-Classical Planning
-
-in */Deep Latent Space/*:
-
-From */Unlabelled Images/*
-
-to PDDL (and back)
-#+end_center
-#+begin_alignright
-
-#+end_alignright
-#+end_xlarge
-
-* Deep Neural Networks                                             :noexport:
-
-[[png:deeplearning/1]]
-
-** Human-competitive results in cognitive tasks
-
-[[png:deeplearning/dl-image-task]]
-
-* Combining Symbolic AIs and Subsymbolic AIs
-
-[[png:lecun]]
-
-* Sure it works, how?                                              :noexport:
-
-DLNN + Classical Planner
-
-+ 1. Extracting knowledge from unlabelled images
-
-  + *For what, and how?*
-
-+ 2. Neural output is subsymbolic real-valued activations
-
-  + Symbolic, discrete values, propositions? *Symbol Grounding*
-
-+ 3. Machine-generated symbols are *not human-comprehensive*
-
-  + *How to interpret these /foreign/ symbols?*
-
-* Latent-Space Planner: *LatPlan*
-
-We propose LatPlan *architechture*, and *LatPlanα*, an implementation
-
- [[png:overview/planning1]]
-
-** Step 1: State Autoencoder (*/Core Contribution/*)
-
-A neural network *bridging the Symbolic/Subsymbolic boundary*
-
- [[png:overview/planning2]]
-
-*** Step 1: State Autoencoder (*/Core Contribution/*)
-
-[[png:train-state-ae]]
-
-Trained SAE provides two functions:
+SAE is a *deep neural network* which provides two functions:
 
 + $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
 
 + $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
-** Step 2: Domain Acquisition (_/NOT our contribution/_)
 
-bitvector -> PDDL domain description
-
- [[png:overview/planning3]]
-
-*** Our PDDL generation in LatPlan α (_/NOT our contribution/_)
-
-#+begin_larger
-*/Placeholder for Existing KE methods/*
-#+end_larger
-
-Individual actions are mapped to PDDL actions (trivial domain acquisition)
-
-#+begin_src lisp
- 0011 → 0101
-
-　　　↓
-
-(:action ...
- :precondition (and (b0-false) (b1-false) (b2-true) (b3-true)) ; before-state
- :effect       (and (not (b1-false)) (b1-true)    ; state diff
-                    (not (b2-true))  (b2-false)))
-#+end_src
-
-Conversion from a bit to a proposition:
-
-#+begin_center
- $i$-th bit is 1 → Proposition ($b_i$ -true)
-
- $i$-th bit is 0 → Proposition ($b_i$ -false)
-#+end_center
-
-*** Example PDDL Domain Definition
-
-Examples in $N=25$ (in the paper we bypassed PDDL-SAS translater)
-
-#+begin_src lisp
-(define (domain latent)
- (:requirements :strips :negative-preconditions)
- (:predicates (z0) (z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z9) (z10)
-  (z11) (z12) (z13) (z14) (z15) (z16) (z17) (z18) (z19) (z20) (z21)
-  (z22) (z23) (z24))
- (:action a10000010010110111100011111000010001011111110011111
-  :parameters () :precondition
-  (and (z0) (not (z1)) (not (z2)) (not (z3)) (not (z4)) (not (z5))
-       (z6) (not (z7)) (not (z8)) (z9) (not (z10)) (z11) (z12)
-       (not (z13)) (z14) (z15) (z16) (z17) (not (z18)) (not (z19))
-       (not (z20)) (z21) (z22) (z23) (z24))
-  :effect (and (z5) (not (z6)) (z13) (z20)))
- (:action a10000010010110111100011110000001001011011110001110
-  ...
-#+end_src
-
-
-** Step 3: Solve the PDDL instance w/ off-the-shelf planner
-
-  [[png:overview/planning4]]
-
-** Step 4: Executing the symbolic plan
-
-  [[png:overview/planning5]]
-
-** Step 5: Mapping the plan to images (human-comprehensive)
-
-  [[png:overview/planning6]]
-
-* *Our Core Contribution : SAE*
-
-Obtain a bidirectional mapping between subsymbolic - symbolic representation
-
-→ Use a *Variational Autoencoder with Gumbel-Softmax reparametrization*
-
-*Core Contribution* : */Introduction of SAE/*
++ *A bidirectional mapping between subsymbolic & symbolic representation*
 
 ** Neural Network 101
 
@@ -433,7 +301,7 @@ Auto = "self" --- Autoencoding = "encoding itself"
 An AutoEncoder that *enforce a certain distribution* on $Z \subset \mathbb{R}^n$ over the dataset $X$
 
 #+begin_quote
-You have $X=$ { 10k images of apples }. If you train a VAE on $X$, then $z = Encode(X) \approx N(\mu,\sigma)$ for some $\mu,\sigma \in \mathbb{R}^n$.
+You have $X=$ { 10k images of apples }. If you train a *Gaussian VAE* on $X$, then $Z = Encode(X) \approx N(\mu,\sigma)$ for some $\mu,\sigma \in \mathbb{R}^n$.
 #+end_quote
 
 VAE needs a *reparametrization trick* because random distributions are non-differentiable.
@@ -471,11 +339,11 @@ In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 #+end_larger
 
-** Step 1: State Autoencoder (*/before training/*)
+** State Autoencoder (*/before training/*)
 
  [[png:sae/state-ae-before]]
 
-** Step 1: State Autoencoder (_/after training/_)
+** State Autoencoder (_/after training/_)
 
  [[png:sae/state-ae]]
 
@@ -523,6 +391,137 @@ Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probabi
 Maddison et. al., 2014
 #+end_note
 
+* -                                                                :noexport:
+
+#+begin_xlarge
+
+#+begin_center
+Classical Planning
+
+in */Deep Latent Space/*:
+
+From */Unlabelled Images/*
+
+to PDDL (and back)
+#+end_center
+#+begin_alignright
+
+#+end_alignright
+#+end_xlarge
+
+* Deep Neural Networks                                             :noexport:
+
+[[png:deeplearning/1]]
+
+** Human-competitive results in cognitive tasks
+
+[[png:deeplearning/dl-image-task]]
+* Combining Symbolic AIs and Subsymbolic AIs                       :noexport:
+
+[[png:lecun]]
+
+* Sure it works, how?                                              :noexport:
+
+DLNN + Classical Planner
+
++ 1. Extracting knowledge from unlabelled images
+
+  + *For what, and how?*
+
++ 2. Neural output is subsymbolic real-valued activations
+
+  + Symbolic, discrete values, propositions? *Symbol Grounding*
+
++ 3. Machine-generated symbols are *not human-comprehensive*
+
+  + *How to interpret these /foreign/ symbols?*
+
+* Latent-Space Planner: *LatPlan*
+
+Using SAE, we propose LatPlan *architechture*, and *LatPlanα*, an implementation
+
+ [[png:overview/planning1]]
+
+** Step 1: State Autoencoder (*/Core Contribution/*)
+
+A neural network *bridging the Symbolic/Subsymbolic boundary*
+
+ [[png:overview/planning2]]
+
+*** Step 1: State Autoencoder (*/Core Contribution/*)              :noexport:
+
+[[png:train-state-ae]]
+
+Trained SAE provides two functions:
+
++ $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
+
++ $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
+** Step 2: Domain Acquisition (_/NOT our contribution/_)
+
+Bitvectors → PDDL domain description
+
+ [[png:overview/planning3]]
+
+*** Our PDDL generation in LatPlan α (_/NOT our contribution/_)
+
+#+begin_larger
+*/Placeholder for Existing KE methods/*
+#+end_larger
+
+Individual actions are mapped to PDDL actions (trivial domain acquisition)
+
+#+begin_src lisp
+ 0011 → 0101
+
+　　　↓
+
+(:action ...
+ :precondition (and (b0-false) (b1-false) (b2-true) (b3-true)) ; before-state
+ :effect       (and (not (b1-false)) (b1-true)    ; state diff
+                    (not (b2-true))  (b2-false)))
+#+end_src
+
+Conversion from a bit to a proposition:
+
+#+begin_center
+ $i$-th bit is 1 → Proposition ($b_i$ -true)
+
+ $i$-th bit is 0 → Proposition ($b_i$ -false)
+#+end_center
+
+*** Example PDDL Domain Definition
+
+# Examples in $N=25$ (in the paper we bypassed PDDL-SAS translater)
+
+#+begin_src lisp
+(define (domain latent)
+ (:requirements :strips :negative-preconditions)
+ (:predicates (z0) (z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z9) (z10)
+  (z11) (z12) (z13) (z14) (z15) (z16) (z17) (z18) (z19) (z20) (z21)
+  (z22) (z23) (z24))
+ (:action a10000010010110111100011111000010001011111110011111
+  :parameters () :precondition
+  (and (z0) (not (z1)) (not (z2)) (not (z3)) (not (z4)) (not (z5))
+       (z6) (not (z7)) (not (z8)) (z9) (not (z10)) (z11) (z12)
+       (not (z13)) (z14) (z15) (z16) (z17) (not (z18)) (not (z19))
+       (not (z20)) (z21) (z22) (z23) (z24))
+  :effect (and (z5) (not (z6)) (z13) (z20)))
+ (:action a10000010010110111100011110000001001011011110001110
+  ...
+#+end_src
+
+** Step 3: Solve the PDDL instance w/ off-the-shelf planner
+
+  [[png:overview/planning4]]
+
+** Step 4: Executing the symbolic plan
+
+  [[png:overview/planning5]]
+
+** Step 5: Mapping the plan to images (human-comprehensive)
+
+  [[png:overview/planning6]]
 * Results (MNIST 8-puzzle)
 
 8-puzzle using digits from MNIST database
