@@ -52,9 +52,9 @@ The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bry
 * Backgrounds
 
 #+begin_xlarge
-Survey of Exisiting Knowledge Acquisition Techniques
+Survey of Exisiting Action Model Acquisition Techniques
 #+end_xlarge
-     
+
 ** Limitations of Existing Systems
 
 #+begin_xlarge
@@ -143,19 +143,19 @@ Optimal solutions can be obtained by admissible heuristics
 
 [[sjpg:puzzle]]
 
-** Goal: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Goal: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
 */No Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+begin_larger
 */No Prior Knowledge/* : */Domain-independent Image-based planner/*
@@ -192,7 +192,7 @@ Visual depiction of the initial state and a single goal state
 
 [[png:overview/input2]]
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
 
@@ -202,13 +202,13 @@ Visual depiction of the initial state and a single goal state
 　
 #+end_larger
 
-** Goal: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
 #+begin_larger
 #+begin_center
-+ *Previous KE method cannot be applied*
++ *Existing Action Model Acquisition cannot be applied to this problem*
 
   *Since there's /no symbolic representation !/*
 #+end_center
@@ -270,9 +270,9 @@ Target Function $y^*=f^*(x)$
 | Translation          | Sentence | Sentence                           |
 | Go eval. function    | State    | Number                             |
 
-+ Actual output of the network $y=f(x)$
-
-+ Learn to minimize $||y-y^*||$ by Backpropagation / SGD
+#+begin_larger
+ + *This is not suitable for our task; /there is no label, answers/*
+#+end_larger
 
 ** AutoEncoder : Unsupervised Learning
 
@@ -282,8 +282,8 @@ Auto = "self" --- Autoencoding = "encoding itself"
 #+begin_row-fluid
 #+begin_span6
 + Target Function: Identity $x=f^*(x)$
-+ Map the input $x\;$ to a *latent vector* $z$, then back to $x$
 + Dimension reduction (space compression): $X \rightarrow Z \rightarrow X$
++ Map the input $x\;$ to a *latent vector* $z$, then back to $x$
 + You can extract the compression/decompression part: $Encode: x \mapsto z, Decode: z \mapsto x$
 #+end_span6
 #+begin_span6
@@ -683,6 +683,47 @@ Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsym
 
 * Appendix
 
+** I expect mixed responses such as:
+
+#+begin_larger
++ Wait, what!? You /solved/ the symbol grounding!? (*No*)
++ Huh, I hate deep learning hype, NN cannot be trusted.
+  
+  (*LatPlan can be trusted*)
++ This is not a domain-acquisition / not finding symbols.
+
+  (*We don't do AML; we find different symbols*)
+#+end_larger
+** Did we find symbols? It doesn't sound like what I think symbols are
+
+#+begin_smaller
+You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a domain-acquisition.
+#+end_smaller
+
+*PDDL implies there are several kinds of symbols and we solved only /one/ issue*
+
++ Each issue requires a different approach. LatPlan should be combined with these work.
+
+  |                        | <c>                     |
+  | Types of symbols       | addressed by            |
+  |------------------------+-------------------------|
+  | *Propositions*         | *SAE*                   |
+  | Object labels          | R-CNN (Computer Vision) |
+  | Predicates (relations) | ???                     |
+  | Actions                | Domain Acquisition      |
+
+** Did we find symbols? Why not individual pixels? Why DL?
+
+*Systems based on individual pixels lack generalization*
+
++ Noise / variations can make the data entirely different
+
+  [[png:results/noise]]
+
++ must acquire the *generalized features*
+
++ = a nonlinear function that recognize the entanglements between multiple pixels
+
 ** Deep Learning vs Planning
   
  Main differences: Purposes and the abstraction layer
@@ -786,79 +827,6 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 # 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
 
-** Future Work (SAE)
-
-SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
-
-+ 1st-order logic (predicate $p(a,b)$ )
-
-+ We need *object recognition from images* (parameters $a,b$)
-
-+ SAE with networks for object recognition (e.g. R-CNN) should achieve this
-
-** Future Work (input format)
-
-LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
-
-*Different SAE allows LatPlan to reason about different types of raw data*
-
-+ AutoEncoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
-+ Examples:
-  + *This is an apple, this is a pen → oh, ApplePen!* (ugh embarassing)
-    
-    when actions resembling "word concatenation" was learned
-+ SAE will bring subsymbolic reasoning to a whole new level:
-  
-  *1k steps of optimal reasoning over natural language, powered by ICAPS*
-
-#+begin_note
- "A hierarchical neural autoencoder for paragraphs and documents." (2015)
-
- "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
-#+end_note
-
-** I expect mixed responses such as...
-
-#+begin_xlarge
-+ Wait, what!? You /solved/ the symbol grounding!?
-+ Huh, I hate deep learning hype, NN cannot be trusted.
-+ This is not finding symbols.
-+ This isn't a domain-acquisition.^* / symbol grounding.
-#+end_xlarge
-
-These are the results of confusions in an unexplored area.
-
-(^* I actually received these responses)
-** Did we find symbols? It doesn't sound like what I think symbols are
-
-#+begin_smaller
-You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a domain-acquisition.
-#+end_smaller
-
-*PDDL implies there are several kinds of symbols and we solved only /one/ issue*
-
-+ Each issue requires a different approach. LatPlan should be combined with these work.
-
-  |                        | <c>                     |
-  | Types of symbols       | addressed by            |
-  |------------------------+-------------------------|
-  | *Propositions*         | *SAE*                   |
-  | Object labels          | R-CNN (Computer Vision) |
-  | Predicates (relations) | ???                     |
-  | Actions                | Domain Acquisition      |
-
-** Did we find symbols? Why not individual pixels? Why DL?
-
-*Systems based on individual pixels lack generalization*
-
-+ Noise / variations can make the data entirely different
-
-  [[png:results/noise]]
-
-+ must acquire the *generalized features*
-
-+ = a nonlinear function that recognize the entanglements between multiple pixels
-
 ** When Latplan returns a /wrong/ solution?
 
 *Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
@@ -905,6 +873,37 @@ Cade Metz. "In Two Moves, that Redifined the Future." /Wired/, 2016
 RL may make *wrong decisions*.
 #+end_larger
 #+end_center
+
+** Future Work (SAE)
+
+SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
+
++ 1st-order logic (predicate $p(a,b)$ )
+
++ We need *object recognition from images* (parameters $a,b$)
+
++ SAE with networks for object recognition (e.g. R-CNN) should achieve this
+
+** Future Work (input format)
+
+LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
+
+*Different SAE allows LatPlan to reason about different types of raw data*
+
++ AutoEncoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
++ Examples:
+  + *This is an apple, this is a pen → oh, ApplePen!* (ugh embarassing)
+    
+    when actions resembling "word concatenation" was learned
++ SAE will bring subsymbolic reasoning to a whole new level:
+  
+  *1k steps of optimal reasoning over natural language, powered by ICAPS*
+
+#+begin_note
+ "A hierarchical neural autoencoder for paragraphs and documents." (2015)
+
+ "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
+#+end_note
 
 ** SAE implementation in LatPlan α
 
