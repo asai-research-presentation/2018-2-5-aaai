@@ -1,0 +1,61 @@
+
+
+| 09:00 |                                                                                          | Welcome/Opening                                                                                                                                   |
+|       | chair:                                                                    | Session I -                                                                                                                                       |
+| 09:30 | Edjard de Souza Mota, Jacob M. Howe, Artur S. d'Avila Garcez                             | "Inductive Learning in Shared Neural Multi-Spaces" ()                                                                                             |
+| 10:00 | Milena Rodrigues Tenorio, Edjard de Souza Mota, Jacob M. Howe, Artur S. d'Avila Garcez   | "Learning about Actions and Events in Shared NeMuS" ()                                                                                            |
+| 10:15 | Ana Carolina Melik Schramm, Edjard de Souza Mota, Jacob M. Howe, Artur S. d'Avila Garcez | "Category-based Inductive Learning in Shared NeMuS ()                                                                                             |
+| 10:30 |                                                                                          | Coffee break ===                                                                                                                                  |
+|       |                                                                                          | Session II - chair: Isaac Noble                                                                                                                   |
+| 11:00 |                                                                                          | "Classical Planning in Deep Latent Space: From Unlabeled Images to PDDL (and back)" (Masataro Asai, Alax Fukunaga)                                |
+| 11:30 | Alex Graves                                                                              | Invitd talk  (Google DeepMind, UK)                                                                                                                |
+| 12:15 |                                                                                          | Lunch break ===                                                                                                                                   |
+|       | chair: Tarek R. Besold                                                                   | Session III -                                                                                                                                     |
+| 14:00 | Lucas Bechberger, Kai-Uwe Kuehnberger                                                    | "Towards Grounding Conceptual Spaces in Neural Representations" ()                                                                                |
+| 14:30 | Zoubin Ghahramani                                                                        | Invited talk  (Cambridge University, UK & Uber AI Labs, USA)                                                                                      |
+| 15:15 |                                                                                          | Coffee Break ===                                                                                                                                  |
+|       | chair: Artur d'Avila Garcez                                                              | Session IV - chair:                                                                                                                               |
+| 15:45 | Mauro Ferreira                                                                           | Invited talk  (Trinity College Dublin, Ireland)                                                                                                   |
+| 16:30 | Priscila M. V. Lima                                                                      | "Q-SATyrus: Mapping Neuro-symbolic Reasoning into an Adiabatic Quantum Computer ()                                                                |
+| 16:45 | Pascal Hitzler                                                                           | Invited talk  (Wright State University, USA)                                                                                                      |
+|-------+------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------|
+|       |                                                                                          | Tuesday, July 18, 2017: NeSy'17 Day 2 & Industry Day (Oliver Thompson Lecture Theatre, Tait Building, Northampton Square Campus)                  |
+|       | chair: Artur d'Avila Garcez                                                              | Session V -                                                                                                                                       |
+| 09:00 | Volker Tresp, Yunpu Ma, Stephan Baier                                                    | "Learning with Knowledge Graphs" ()                                                                                                               |
+| 09:30 | Murray Shanahan                                                                          | Invited talk  (Imperial College London, UK)                                                                                                       |
+| 10:15 | Aimore R. R. Dutra, Artur S. d'Avila Garcez                                              | "A Comparison between Deep-Q-Networks and Deep Symbolic Reinforcement Learning" ()                                                                |
+| 10:30 |                                                                                          | Coffee break ===                                                                                                                                  |
+|       | chair: Tarek R. Besold                                                                   | Session VI -                                                                                                                                      |
+| 11:00 | Maryam Labaf, Pascal Hitzler, Anthony B. Evans                                           | "Propositional Rule Extraction from Neural Networks under Background Knowledge" ()                                                                |
+| 11:30 | Md Kamruzzaman Sarker, Ning Xie, Derek Doran, Michael Raymer, Pascal Hitzler             | "Explaining Trained Neural Networks with Semantic Web Technologies: First Steps" ()                                                               |
+| 12:00 | Simon Odense, Artur S. d'Avila Garcez                                                    | "Confidence Values and Compact Rule Extraction From Probabilistic Neural Networks" ()                                                             |
+| 12:15 |                                                                                          | Lunch break ===                                                                                                                                   |
+|       | chair: Simo Dragicevic                                                                   | Session VII -                                                                                                                                     |
+| 14:00 | Chris Percy                                                                              | Invited talk  (BetBuddy Ltd., UK)                                                                                                                 |
+| 14:45 |                                                                                          | Coffee Break ===                                                                                                                                  |
+| 15:15 |                                                                                          | Industry Panel Discussion: Explainable AI, Simo Dragicevic (moderator), John McNamara, James Davidson, Jamie Woodhouse, Lonnie Hamm, Amir Saffari |
+| 16:45 |                                                                                          | Wrap-Up                                                                                                                                           |
+
++ Tarek R. Besold --- some postdoc with not-good publication? dubious AGI person
++ Edjair de Souza Mota --- computer and communication (ISCC, SIGCOMM) (not NN)
++ Jacob M. Howe --- logic programming, prolog, SAT
++ Artur d'Avila Garcez --- TCS, logic, KR
++ *Alex Graves*
++ Lucas Bechberger --- some postdoc
++ Kai-Uwe Kuehnberger --- TCS, ICDM (data mining), AGI-ish, AAAI
++ *Zoubin Ghahramani* --- ML group
++ Mauro Ferreira --- physics
++ *Priscila Machado Vieira Lima*
++ Pascal Hitzler --- ontology
++ *Volker Tresp*
++ Yunpu Ma --- student?
++ Stephan Baier --- Math
++ *Murray Shanahan* --- ICL/Deepmind --- logic programming and neural, (he has ECP paper --- "Event calculus planning revisited" ECP97)
++ Aimore R. R. Dutra --- studnet?
++ Maryam Labaf --- student? logic
++ Anthony B. Evans --- ??? MAth, cripto
++ Derek Doran --- data mining
++ Md Kamruzzaman Sarker --- data mining, ontology
++ *ning xie* --- student, NN
++ Michael Raymer --- phisics
+
