@@ -246,6 +246,8 @@ h1.title {
 
 p {
   margin: 0.2em 0 0 0; }
+  p:first-child {
+    margin: 0 0 0 0; }
 
 pre, code {
   font-size: 22px;
@@ -299,8 +301,9 @@ b i {
   /* display : none; */ }
 
 blockquote {
-  line-height: 1.8em;
-  padding: 0.3em 1em; }
+  line-height: 1.3em;
+  padding: 0.4em 0.5em 0.5em 0.5em;
+  margin: 1em; }
 
 .inline ul, .inline li {
   display: inline;

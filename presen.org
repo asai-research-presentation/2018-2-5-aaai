@@ -7,6 +7,7 @@
 #+LINK: spng file:img/static/%s.png
 #+LINK: sjpg file:img/static/%s.jpg
 #+LINK: ssvg file:img/static/%s.svg
+#+LINK: sgif file:img/static/%s.gif
 
 #+begin_outline-text-1
 #+begin_center
@@ -25,45 +26,226 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Knowledge-Acquisition Bottleneck (Cullen, 1988)
+* 
+
+#+begin_xlarge
+#+begin_center
+Hello, Machine Learning people!
+#+end_center
+#+end_xlarge
+
+* 
+
+#+begin_xlarge
+#+begin_center
+Hello, Logic Programming, Data Mining, AGI, Theoretical CS people, too!
+#+end_center
+#+end_xlarge
+
+* How many people have learned AI with these books?
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span4
+[[sjpg:aima1]]
+#+end_span4
+#+begin_span4
+[[sjpg:aima2]]
+#+end_span4
+#+begin_span4
+[[sjpg:aima3]]
+#+end_span4
+#+end_row-fluid
+#+end_container-fluid
+
+#+begin_alignright
++ Nice.
+#+end_alignright
+
+* 
+
+#+begin_xlarge
+#+begin_center
+I am from */Planning/* community
+#+end_center
+#+end_xlarge
+
+#+begin_center
+[[sgif:icapslogo]]
+
+International Conference on Automated Planning and Scheduling
+
+(AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
+#+end_center
+
+* Planning people are working on */Automated Planner/*
+
++ Compute the *high-level plan* for an agent through *deliberation* (↔ reflex)
++ Subsumes motion planning
++ High-dimensional, *implicit* state space search
+  + (entire space does not fit in memory)
++ STRIPS-like *PDDL modelling language*, based on
+  + 1st-order logic, close-world assumption
++ Soundness and completeness matters, explainable symbolic AI
+
+* High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span8
++ Slide the tiles to an empty place
++ → make the tile placement identical to the goal
++ → (abstracts the low level control e.g. arm motion)
++ *Search states* represented by conjunctions of 1st-order logic (objects, predicates, propositions)
+  #+begin_src lisp
+  (empty x0 y0)     ; or, empty(x0, y0)
+  (is panel6 x1 y0) ; or, is(panel6, x1, y0)
+  (up    y0 y1)... (down  y1 y0)...
+  (right x0 x1)... (left  x0 x1)...
+  #+end_src
+#+end_span8
+#+begin_span2
+initial state
+[[png:8puzzle-standard]]
+#+end_span2
+#+begin_span2
+goal state
+[[png:8puzzle-standard-goal]]
+#+end_span2
+#+end_row-fluid
+#+begin_row-fluid
+#+begin_span12
++ To symbolic systems *names do not matter* (just matters to human)
+  #+begin_src lisp
+  (car   banana0 kiwi0)           ; numbers (0,1) don't matter either
+  (shark bogo6 banana1 kiwi0)     ; just to make sense for us
+  (apple  kiwi0 kiwi1)... (pinapple kiwi1 kiwi0)...
+  (pen    banana0 banana1)... (applepen banana0 banana1)...
+  #+end_src
+#+end_span12
+#+end_row-fluid
+#+end_container-fluid
+
+** High-level Planning Task: State Transitions
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span9
+How to represent "sliding up tile 7" ? → *actions*
 
 #+begin_quote
++ You can slide up a tile only to an empty location.
+
++ When you slide it, the orignal location becomes empty.
+
++ New location is no longer empty, is occupied by the tile.
+#+end_quote
+#+end_span9
+#+begin_span3
+initial state
+[[png:8puzzle-standard-tile7]]
+#+end_span3
+# #+begin_span2
+# goal state
+# [[png:8puzzle-standard-goal]]
+# #+end_span2
+#+end_row-fluid
+#+begin_row-fluid
+#+begin_span12
++ When /Empty(x, y_{old}) ∧ is(panel, x, y_{new}) ∧ up(y_{new}, y_{old})/ ;
+  
+  then /¬ Empty(x,y_{old}) ∧ Empty(x,y_{new}) ∧ ¬ is(panel, x, y_{new}) ∧ is(panel, x, y_{old})/
+
++ 
+  #+begin_src lisp
+  ;; Translates to a PDDL model below:
+  (:action slide-up ...
+   :precondition (and (empty ?x ?y-old)
+                      (is ?panel ?x ?y-new) ...)
+   :effects (and (not (empty ?x ?y-old))     (empty ?x ?y-new)
+                 (not (is ?panel ?x ?y-new)) (is ?panel ?x ?y-old)))
+  #+end_src
+
+# #+begin_src lisp
+# (:action move-up
+#  :parameters (?x ?y-old ?y-new ?panel)
+#  :precondition (and (empty ?x ?y-old)
+#                     (up ?y-old ?y-new)
+#                     (is ?panel ?x ?y-new))
+#  :effects (and (not (empty ?x ?y-old))
+#                (empty ?x ?y-new)
+#                (not (is ?panel ?x ?y-new))
+#                (is ?panel ?x ?y-old)))
+# #+end_src
+#+end_span12
+#+end_row-fluid
+#+end_container-fluid
+
++ 
+  #+begin_larger
+  #+begin_alignright
+  But *where does this representation come from?*
+  #+end_alignright
+  #+end_larger
+
+** PDDL representations come from human encoding.
+
+#+begin_quote
+*Knowledge-Acquisition Bottleneck (Cullen, 1988)*:
+
 The *cost of human involved* for converting real-world problems into inputs for
 domain-independent *symbolic* systems
 #+end_quote
 
-+ *Symbols: Labels for identifiable entities*
++ *Symbols: Labels for identifiable entities (/not necessarily have meaningful names/)*
 
 + There are *several kinds of symbols that can appear in PDDL*
 
-  | Types of symbols       |              |
-  |------------------------+--------------|
-  | Propositions           | (handempty)  |
-  | Object labels          | a, b, c      |
-  | Predicates (relations) | (*on* a b)   |
-  | Actions                | (*move* a b) |
-  | Problem name           | blocks-4-10  |
-  | Domain name            | blocksworld  |
+  | Types of symbols       |                              |
+  |------------------------+------------------------------|
+  | Propositions           | (handempty) -- no parameters |
+  | Object labels          | panel7, x0, y0 ...           |
+  | Predicates (relations) | (*empty* x0 y0) (*up* y0 y1) |
+  | Actions                | (*slide-up* panel7 x0 y1)    |
+
 
 #+begin_note
 The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 #+end_note
 
-* Backgrounds
+** Can we solve an 8-puzzle without human modelling?
+
+#+begin_center
+3x3 Sliding Tile Puzzle: 362880 configurations
+
+4x4、5x5 puzzles : infeasible under blind search (memory exhaust)
+
+Optimal solutions can be obtained by admissible heuristics
+#+end_center
+
+[[sjpg:puzzle]]
+
+* Backgrounds                                                      :noexport:
 
 #+begin_xlarge
 Survey of Exisiting Action Model Acquisition Techniques
 #+end_xlarge
 
+　
+
+#+begin_alignright
+Systems that find action symbols
+#+end_alignright
+
 ** Limitations of Existing Systems
 
 #+begin_xlarge
 #+begin_center
-So far, ALL existing systems require */symbolic / near-symbolic, accurate inputs and/or discrete action labels/*.
+So far, ALL existing systems require */symbolic / near-symbolic, accurate state inputs/* and/or */discrete action labels/*.
 #+end_center
 #+end_xlarge
 
-** ARMS (Action-Relation Modelling System) (Yang 07)
+** ARMS (Action-Relation Modelling System) (Yang AIJ07)
 
 Taking the *symbolic* inputs
 
@@ -114,7 +296,7 @@ Taking the *symbolic* inputs
      
      Although IJCAI15 shows "visual depiction", it is not used by the system
 
-** Learning from Observation (Argall 09, Mourao 12)
+** Learning from Observation (Argall AIJ09, Mourao UAI12)
 
 Noisy, incomplete, but symbolic states/actions
 
@@ -122,7 +304,7 @@ Noisy, incomplete, but symbolic states/actions
 
 [[spng:mourao2]]
 
-** Learning from Video for Board Game (Bardu 10; Kaiser 12; Kirk 16)
+** Learning from Video for Board Game (Bardu ICRA10; Kaiser AAAI12; Kirk 16)
 
 + Handles Images, but with strong assumptions (almost symbol) ::
      e.g. Understands *Tic-Tac-Toe* with *3x3 Ellipse Detector* (Bardu 10)
@@ -282,9 +464,9 @@ Auto = "self" --- Autoencoding = "encoding itself"
 #+begin_row-fluid
 #+begin_span6
 + Target Function: Identity $x=f^*(x)$
-+ Dimension reduction (space compression): $X \rightarrow Z \rightarrow X$
++ Compression: $X \rightarrow Z \rightarrow X$
 + Map the input $x\;$ to a *latent vector* $z$, then back to $x$
-+ You can extract the compression/decompression part: $Encode: x \mapsto z, Decode: z \mapsto x$
++ Extract the de/compressor: $Encode: x \mapsto z, Decode: z \mapsto x$
 #+end_span6
 #+begin_span6
 [[png:static/autoenc]]

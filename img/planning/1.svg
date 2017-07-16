@@ -139,15 +139,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.91088175"
-     inkscape:cx="462.80286"
-     inkscape:cy="549.20181"
+     inkscape:cx="134.84865"
+     inkscape:cy="400.09343"
      inkscape:current-layer="layer1"
      inkscape:document-units="px"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="817"
-     inkscape:window-x="768"
-     inkscape:window-y="25"
+     inkscape:window-width="1366"
+     inkscape:window-height="703"
+     inkscape:window-x="0"
+     inkscape:window-y="20"
      inkscape:window-maximized="1"
      inkscape:snap-object-midpoints="true"
      inkscape:snap-global="false" />
@@ -159,7 +159,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -349,93 +349,6 @@
        id="path3130"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
-    <text
-       xml:space="preserve"
-       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.60360307;marker:none;marker-end:url(#Arrow1Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold'"
-       x="-365.50861"
-       y="277.13199"
-       id="text5564"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan5566"
-         x="-365.50861"
-         y="277.13199">ノードの数(空間のサイズ): 2<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan5570">(命題変数の数)</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.60360307;marker:none;marker-end:url(#Arrow1Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold'"
-       x="-339.83017"
-       y="297.73495"
-       id="text5572"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan5574"
-         x="-339.83017"
-         y="297.73495">100個の命題変数→|V|= 2<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan5599">100</tspan> = 10<tspan
-   style="font-size:65.00091553%;baseline-shift:super"
-   id="tspan5597">9</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:13.15348339px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.60360307;marker:none;marker-end:url(#Arrow1Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold'"
-       x="-353.58087"
-       y="323.33371"
-       id="text5564-9"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan5566-8"
-         x="-353.58087"
-         y="323.33371">探索空間のサイズは指数: 2<tspan
-   style="font-size:8.54988575px;baseline-shift:super"
-   id="tspan5570-0">(命題変数の数)</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:15.6450882px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.60360307;marker:none;marker-end:url(#Arrow1Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold'"
-       x="-354.29703"
-       y="343.93448"
-       id="text5572-6"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan5574-4"
-         x="-354.29703"
-         y="343.93448">変数100個→ 2<tspan
-   style="font-size:10.16944981px;baseline-shift:super"
-   id="tspan4542">100</tspan></tspan></text>
-    <rect
-       style="color:#000000;fill:none;stroke:#000000;stroke-width:1.01180661;stroke-miterlimit:4;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       id="rect3222-2-1"
-       width="241.71758"
-       height="63.496048"
-       x="-358.75488"
-       y="308.19803"
-       rx="6.4182005"
-       ry="8.3016376" />
-    <text
-       xml:space="preserve"
-       style="font-size:11.12987232px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:4;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold'"
-       x="-354.23618"
-       y="363.14133"
-       id="text3327"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3329"
-         x="-354.23618"
-         y="363.14133">問題が少し大きくなるだけで百万倍難しくなる</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:15.6450882px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.60360307;marker:none;marker-end:url(#Arrow1Lend);visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:'M+ 2c';-inkscape-font-specification:'M+ 2c Bold'"
-       x="-215.7338"
-       y="343.83688"
-       id="text5572-8"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan5574-3"
-         x="-215.7338"
-         y="343.83688">120個→ 2<tspan
-   style="font-size:10.16944981px;baseline-shift:super"
-   id="tspan4542-4">120</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
