@@ -50,7 +50,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="284.63431"
+     inkscape:cx="322.8486"
      inkscape:cy="128.95014"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -59,10 +59,10 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1440"
-     inkscape:window-height="817"
-     inkscape:window-x="768"
-     inkscape:window-y="25"
+     inkscape:window-width="1366"
+     inkscape:window-height="703"
+     inkscape:window-x="0"
+     inkscape:window-y="20"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata12878">
@@ -158,7 +158,7 @@
          y="111.87463"
          id="tspan12752">✔<tspan
    style="fill:#fb0000;fill-opacity:1"
-   id="tspan9778">No need for expert traces</tspan></tspan><tspan
+   id="tspan9778">No reward from expert traces</tspan></tspan><tspan
          sodipodi:role="line"
          x="167.17537"
          y="138.26662"

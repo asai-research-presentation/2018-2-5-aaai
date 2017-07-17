@@ -34,6 +34,13 @@ Hello, Machine Learning people!
 #+end_center
 #+end_xlarge
 
+#+begin_resume
+First of all, hello machine learning people.
+Im not a machine learning person.
+Im usually studying a type of symbolic AI and I visited here expecting an interesting conversation with
+machine learning professionals.
+#+end_resume
+
 * 
 
 #+begin_xlarge
@@ -41,6 +48,13 @@ Hello, Machine Learning people!
 Hello, Logic Programming, Data Mining, AGI, Theoretical CS people, too!
 #+end_center
 #+end_xlarge
+
+#+begin_resume
+And also, hello other symbolic AI people.
+Although I am not doing exactly the same thing, we have common roots.
+
+Let me give you one question before presenting my paper...
+#+end_resume
 
 * How many people have learned AI with these books?
 
@@ -78,22 +92,24 @@ International Conference on Automated Planning and Scheduling
 (AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
 #+end_center
 
-* Planning people are working on */Automated Planner/*
+* Planning people are working on */Automated Planners/*
 
-+ Compute the *high-level plan* for an agent through *deliberation* (↔ reflex)
-+ Subsumes motion planning
++ Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
+  + Search-based planning projects many steps further into the future than RL
+  + ↔ reflex (0-step), limited deliberation (1,2-steps)
 + High-dimensional, *implicit* state space search
-  + (entire space does not fit in memory)
+  + Entire space does not fit in memory, only *transition rules* are given
 + STRIPS-like *PDDL modelling language*, based on
   + 1st-order logic, close-world assumption
-+ Soundness and completeness matters, explainable symbolic AI
++ *Soundness, completeness, optimality* matters
+  + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
 
 * High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
 
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span8
-+ Slide the tiles to an empty place
++ Slide a tile to an empty place (each step)
 + → make the tile placement identical to the goal
 + → (abstracts the low level control e.g. arm motion)
 + *Search states* represented by conjunctions of 1st-order logic (objects, predicates, propositions)
@@ -115,7 +131,7 @@ goal state
 #+end_row-fluid
 #+begin_row-fluid
 #+begin_span12
-+ To symbolic systems *names do not matter* (just matters to human)
++ To symbolic systems *names do not matter* (just matters to human) as long as there is consistency
   #+begin_src lisp
   (car   banana0 kiwi0)           ; numbers (0,1) don't matter either
   (shark bogo6 banana1 kiwi0)     ; just to make sense for us
@@ -134,6 +150,8 @@ goal state
 How to represent "sliding up tile 7" ? → *actions*
 
 #+begin_quote
+Transition Rules of "sliding up":
+
 + You can slide up a tile only to an empty location.
 
 + When you slide it, the orignal location becomes empty.
@@ -188,7 +206,7 @@ initial state
   #+end_alignright
   #+end_larger
 
-** PDDL representations come from human encoding.
+** PDDL representations come from */human encoding/*.
 
 #+begin_quote
 *Knowledge-Acquisition Bottleneck (Cullen, 1988)*:
@@ -197,35 +215,66 @@ The *cost of human involved* for converting real-world problems into inputs for
 domain-independent *symbolic* systems
 #+end_quote
 
-+ *Symbols: Labels for identifiable entities (/not necessarily have meaningful names/)*
++ *Symbols: Labels for identifiable entities* (it's not just about objects!)
 
-+ There are *several kinds of symbols that can appear in PDDL*
+  | Types of symbols  |                                            |
+  |-------------------+--------------------------------------------|
+  | Object symbols    | panel7, x_0, y_0 ...                       |
+  | Predicate symbols | (*empty* ?x ?y) (*up* ?y_0 ?y_1)           |
+  | Propositions      | *p_28* = (empty x_0 y_0) --- application |
+  | Action symbols    | (*slide-up* panel_7 x_0 y_1)               |
 
-  | Types of symbols       |                              |
-  |------------------------+------------------------------|
-  | Propositions           | (handempty) -- no parameters |
-  | Object labels          | panel7, x0, y0 ...           |
-  | Predicates (relations) | (*empty* x0 y0) (*up* y0 y1) |
-  | Actions                | (*slide-up* panel7 x0 y1)    |
++ *Action Model: Description of Actions using Symbols*
 
+  　
+  
+  #+begin_center
+  When /Empty(x, y_{old}) ∧ .../ ; Then /¬ Empty(x,y_{old}) ∧ / ...
+  #+end_center
 
 #+begin_note
 The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 #+end_note
 
-** Can we solve an 8-puzzle without human modelling?
+** Can we solve an 8-puzzle optimally, w/o human encoding?
 
 #+begin_center
-3x3 Sliding Tile Puzzle: 362880 configurations
++ 3x3 Image-based Sliding Tile Puzzle: maximum 31 steps *optimal* plan
 
-4x4、5x5 puzzles : infeasible under blind search (memory exhaust)
++ 4x4、5x5 : infeasible under blind search (memory exhaust)
 
-Optimal solutions can be obtained by admissible heuristics
++ Symbolic systems can compute *optimal* solutions w/ A* + admissible heuristics
 #+end_center
 
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span8
 [[sjpg:puzzle]]
+#+end_span8
+#+begin_span4
++ 
+   #+begin_center
+   *BUT*
 
-* Backgrounds                                                      :noexport:
+   *WE*
+
+   *DO*
+
+   *NOT*
+
+   *HAVE*
+
+   */SYMBOLS/*
+
+   *NOR*
+
+   */AN ACTION MODEL/!*
+#+end_center
+#+end_span4
+#+end_row-fluid
+#+end_container-fluid
+
+* Backgrounds
 
 #+begin_xlarge
 Survey of Exisiting Action Model Acquisition Techniques
@@ -234,16 +283,20 @@ Survey of Exisiting Action Model Acquisition Techniques
 　
 
 #+begin_alignright
-Systems that find action symbols
+i.e. Systems that find action models
 #+end_alignright
 
 ** Limitations of Existing Systems
 
 #+begin_xlarge
 #+begin_center
-So far, ALL existing systems require */symbolic / near-symbolic, accurate state inputs/* and/or */discrete action labels/*.
+So far, ALL existing AMA systems require */symbolic / near-symbolic, accurate state inputs/* and/or */discrete action labels/*.
 #+end_center
 #+end_xlarge
+
+#+begin_alignright
+i.e. They need symbols to find an action model
+#+end_alignright
 
 ** ARMS (Action-Relation Modelling System) (Yang AIJ07)
 
@@ -259,7 +312,7 @@ Taking the *symbolic* inputs
 
 ** Framer (ICAPS17)
 
-*Near-Symbols* : Requires NLP sentences with a clear grammatical structure.
+*Near-Symbols* : Parses natural language sentences with a *clear grammatical structure*.
 
 
 #+begin_container-fluid
@@ -283,20 +336,21 @@ Taking the *symbolic* inputs
 
 "Constructing Symbolic Representations for High-Level Planning" (AAAI14)
 
-+ What it does :: Converting *Semi-MDP Model* to *PDDL Model* by set-theoretic representation
++ What it does :: Converting a *Semi-MDP Model* to a *PDDL Model* by set-theoretic representation
                   
                   i.e. *Model-to-Model* conversion, not *generating a model from the scratch*
 + Semi-MDP contains Action Labels :: =move= and =interact= (Playroom)
-+ Sensor inputs are structured :: x/y-distance, light level, whether a monkey cries
++ Sensor inputs are structured (Labels for "State Variable" are known) :: 
+
+     x/y-distance, light level, whether a monkey cries
      
      → Each sensor has a distinct meaning (no overwrap)
 
-     → Labels for "State Variable" are known, they directly form a state space vector
-+ Low-dimensional, accurate input :: 33 vars (Playroom), 9 vars (Treasure), no noise
-     
-     Although IJCAI15 shows "visual depiction", it is not used by the system
+# + Low-dimensional, accurate input :: 33 vars (Playroom), 9 vars (Treasure), no noise
+#      
+#      Although IJCAI15 shows "visual depiction", it is not used by the system
 
-** Learning from Observation (Argall AIJ09, Mourao UAI12)
+** Learning from Observation (Argall AIJ09, Mourao UAI12)              :skip:
 
 Noisy, incomplete, but symbolic states/actions
 
@@ -304,7 +358,7 @@ Noisy, incomplete, but symbolic states/actions
 
 [[spng:mourao2]]
 
-** Learning from Video for Board Game (Bardu ICRA10; Kaiser AAAI12; Kirk 16)
+** Learning from Video for Board Game (Bardu ICRA10; Kaiser AAAI12; Kirk 16) :skip:
 
 + Handles Images, but with strong assumptions (almost symbol) ::
      e.g. Understands *Tic-Tac-Toe* with *3x3 Ellipse Detector* (Bardu 10)
@@ -313,14 +367,12 @@ Noisy, incomplete, but symbolic states/actions
 
      Domain-dependent ("3x3 grid" is hard-coded)
 
-* Consider an */image-based/* 8-puzzle
+* Problem Description
 
 #+begin_center
-3x3 Sliding Tile Puzzle: 362880 configurations
+We do not have */SYMBOLS/* nor */ACTION MODELS/*
 
-4x4、5x5 puzzles : infeasible under blind search (memory exhaust)
-
-Optimal solutions can be obtained by admissible heuristics
+*/So we cannot apply existing AMA methods!/*
 #+end_center
 
 [[sjpg:puzzle]]
@@ -364,7 +416,7 @@ Image pairs showing the before/after states of valid actions (randomly sampled)
 
 [[png:overview/1]]
 
-** Input1: Training Inputs -- Image Pairs                          :noexport:
+** Input1: Training Inputs -- Image Pairs
 
 [[png:overview/2]]
 
@@ -388,29 +440,9 @@ Visual depiction of the initial state and a single goal state
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
-#+begin_larger
-#+begin_center
-+ *Existing Action Model Acquisition cannot be applied to this problem*
-
-  *Since there's /no symbolic representation !/*
-#+end_center
-#+end_larger
-
-* -
-
-#+begin_xlarge
-We provide a solution
-#+begin_center
-for applying */existing KE methods/*
-#+end_center
-#+begin_alignright
-to unstructured data.
-#+end_alignright
-#+end_xlarge
-
 * *Our Core Contribution : State AutoEncoder (SAE)*
 
-SAE is a *deep neural network* which provides two functions:
+SAE is a *neural network* which provides two functions:
 
 + $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
 
@@ -418,19 +450,19 @@ SAE is a *deep neural network* which provides two functions:
 
 + *A bidirectional mapping between subsymbolic & symbolic representation*
 
-** Neural Network 101
+** Neural Network 101                                              :noexport:
 
 [[png:deeplearning/1]]
 
-** Neural Network 101
+** Neural Network 101                                              :noexport:
 
 [[png:deeplearning/2]]
 
-** Neural Network 101
+** Neural Network 101                                              :noexport:
 
 [[png:deeplearning/3]]
 
-** Stochastic Gradient Descent + GPU
+** Stochastic Gradient Descent + GPU                               :noexport:
 
 [[spng:gradient-descent]]
 
@@ -442,7 +474,7 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 *Good libraries --- Tensorflow, Keras* --- you can learn in 1-2 months
 #+end_larger
 
-** Standard Classification / Mapping Tasks
+** Standard Classification / Mapping Tasks                         :noexport:
 
 Target Function $y^*=f^*(x)$
   
@@ -482,7 +514,7 @@ Auto = "self" --- Autoencoding = "encoding itself"
 #+end_larger
 #+end_alignright
 
-** Variational AutoEncoder (VAE)
+** Variational AutoEncoder (VAE)                                   :noexport:
 
 An AutoEncoder that *enforce a certain distribution* on $Z \subset \mathbb{R}^n$ over the dataset $X$
 
@@ -500,7 +532,7 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 #+end_center
 #+end_quote
 
-** Gumbel-Softmax Reparametrization (Jang, Gu, ICLR2017)
+** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
 
 A reparametrization trick for *categorical distribution*: 1-hot vector e.g.  $\langle 0,0,0,1,0,0 \rangle$ .
 
@@ -533,7 +565,7 @@ In particular, *2 categories → propositional variables (true/false)*
 
  [[png:sae/state-ae]]
 
-** Gumbel-Softmax: Differential Approximation of Gumbel-Max
+** Gumbel-Softmax: Differential Approximation of Gumbel-Max        :noexport:
 
 #+begin_larger
 It uses *annealing* to approximate discrete vectors
@@ -645,7 +677,7 @@ Trained SAE provides two functions:
 + $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
 
 + $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
-** Step 2: Domain Acquisition (_/NOT our contribution/_)
+** Step 2: Action Model Acquisition (_/NOT our contribution/_)
 
 Bitvectors → PDDL domain description
 
@@ -654,10 +686,10 @@ Bitvectors → PDDL domain description
 *** Our PDDL generation in LatPlan α (_/NOT our contribution/_)
 
 #+begin_larger
-*/Placeholder for Existing KE methods/*
+*/Placeholder for existing/future Action Model Acquisition methods/*
 #+end_larger
 
-Individual actions are mapped to PDDL actions (trivial domain acquisition)
+Individual actions are mapped to PDDL actions (trivial Actiom Model Acquisition)
 
 #+begin_src lisp
  0011 → 0101
@@ -678,7 +710,11 @@ Conversion from a bit to a proposition:
  $i$-th bit is 0 → Proposition ($b_i$ -false)
 #+end_center
 
-*** Example PDDL Domain Definition
+#+begin_note
+Disclaimer: We have new AMA method based on NN (we do not disclose it yet)
+#+end_note
+
+*** Example PDDL
 
 # Examples in $N=25$ (in the paper we bypassed PDDL-SAS translater)
 
@@ -699,6 +735,14 @@ Conversion from a bit to a proposition:
   ...
 #+end_src
 
+*** Step 2: Action Model Acquisition (_/NOT our contribution/_)
+
+Bitvectors → PDDL domain description
+
+ [[png:overview/planning3]]
+
+
+
 ** Step 3: Solve the PDDL instance w/ off-the-shelf planner
 
   [[png:overview/planning4]]
@@ -706,6 +750,12 @@ Conversion from a bit to a proposition:
 ** Step 4: Executing the symbolic plan
 
   [[png:overview/planning5]]
+
+#+begin_alignright
+#+begin_larger
+We get an incomprehensive state sequence
+#+end_larger
+#+end_alignright
 
 ** Step 5: Mapping the plan to images (human-comprehensive)
 
@@ -859,9 +909,31 @@ Does not assume grid-like structures
 
   → Can leverege from the development of both symbolic/subsymbolic research
 
-#+begin_larger
-Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary.*
-#+end_larger
+** Future Work (input format)
+
+LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
+
+*Different SAE allows LatPlan to reason about different types of raw data*
+
++ Autoencoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
++ Examples:
+  + *This is an apple, this is a pen → oh, ApplePen!* (ugh embarassing)
+    
+    when actions resembling "word concatenation" was learned
++ */SAE + Automated Planning/* will bring AI to a whole new level
+  
+  e.g. *1000 steps of optimal reasoning over natural language*
+
++ 
+  #+begin_alignright
+  *Hire me! I'm finding a Postdoc position ☺*
+  #+end_alignright
+
+#+begin_note
+ "A hierarchical neural autoencoder for paragraphs and documents." (2015)
+
+ "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
+#+end_note
 
 * Appendix
 
@@ -872,14 +944,14 @@ Arxiv 1705.00154 : *Classical Planning in Deep Latent Space: Bridging the Subsym
 + Huh, I hate deep learning hype, NN cannot be trusted.
   
   (*LatPlan can be trusted*)
-+ This is not a domain-acquisition / not finding symbols.
++ This is not an action model acquisition / not finding symbols.
 
   (*We don't do AML; we find different symbols*)
 #+end_larger
 ** Did we find symbols? It doesn't sound like what I think symbols are
 
 #+begin_smaller
-You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a domain-acquisition.
+You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a action model acquisition.
 #+end_smaller
 
 *PDDL implies there are several kinds of symbols and we solved only /one/ issue*
@@ -906,7 +978,7 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
 
 + = a nonlinear function that recognize the entanglements between multiple pixels
 
-** Deep Learning vs Planning
+** Learning vs Planning
   
  Main differences: Purposes and the abstraction layer
 
@@ -923,7 +995,7 @@ You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't 
    
    　 */Reflex Agent/, /Immediate/ actions*
    #+begin_smaller
-   *Pavlov's dog* : food → drool
+   *Pavlov's dog* : bell → drool
 
    *Autonomous Driving* : Pedestrian → Stop.
 
@@ -1017,7 +1089,7 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 + *Optimal path on a fraud graph* or *graph disconnected*
   
-  A* completeness, soundness, optimality
+  A* completeness, soundness, optimality (admissible heuristics) 
 
 + Fraud visualized plan (noisy) / no plan found
 
@@ -1058,34 +1130,13 @@ RL may make *wrong decisions*.
 
 ** Future Work (SAE)
 
-SAE can generate propositional symbols (state $s = \{p,q,r\ldots\}$)
+SAE can generate propositional symbols (state $s = \{q,r\ldots\}$)
 
 + 1st-order logic (predicate $p(a,b)$ )
 
 + We need *object recognition from images* (parameters $a,b$)
 
 + SAE with networks for object recognition (e.g. R-CNN) should achieve this
-
-** Future Work (input format)
-
-LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
-
-*Different SAE allows LatPlan to reason about different types of raw data*
-
-+ AutoEncoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
-+ Examples:
-  + *This is an apple, this is a pen → oh, ApplePen!* (ugh embarassing)
-    
-    when actions resembling "word concatenation" was learned
-+ SAE will bring subsymbolic reasoning to a whole new level:
-  
-  *1k steps of optimal reasoning over natural language, powered by ICAPS*
-
-#+begin_note
- "A hierarchical neural autoencoder for paragraphs and documents." (2015)
-
- "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
-#+end_note
 
 ** SAE implementation in LatPlan α
 
@@ -1106,7 +1157,7 @@ Keras, Adam optimizer (learning rate:0.001)
 + Why full-connected layers ? ::
              Main focus is on *whether propositions made by SAE are feasible*
              
-             *→No complication due to CNN, ResNet, etc...*
+             *→No complication due to CNN, ResNet, etc...* (but I have a working implementation)
              
 + Training on 8-puzzle ::
                *12000 images* out of entire states (362880) → *Generalization*
@@ -1132,7 +1183,7 @@ Why? → *Trivial domain acquisition, no generalization*
 
      Others study how to make the most beautiful piece of chocolate cake from given flour
 
-     --- which is future work.
+     --- which is future work. (flour = symbol)
 
      Domain acquisition typically requires exisiting models (such as Semi-MDP)
 
