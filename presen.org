@@ -298,15 +298,14 @@ So far, ALL existing AMA systems require */symbolic / near-symbolic, accurate st
 i.e. They need symbols to find an action model
 #+end_alignright
 
-** ARMS (Action-Relation Modelling System) (Yang AIJ07)
+** 
 
-Taking the *symbolic* inputs
+ARMS (Action-Relation Modelling System) (Yang AIJ07)
+LOCM (ICAPS09)
+Argall (AIJ09)
+Mourao (UAI12)
 
-[[spng:arms]]
-
-** LOCM (ICAPS09)
-
-Taking the *symbolic* inputs
+All taking the *symbolic* inputs to find the *action models*
 
 [[spng:locm]]
 
@@ -350,22 +349,17 @@ Taking the *symbolic* inputs
 #      
 #      Although IJCAI15 shows "visual depiction", it is not used by the system
 
-** Learning from Observation (Argall AIJ09, Mourao UAI12)              :skip:
-
-Noisy, incomplete, but symbolic states/actions
-
-[[spng:mourao]]
-
-[[spng:mourao2]]
-
 ** Learning from Video for Board Game (Bardu ICRA10; Kaiser AAAI12; Kirk 16) :skip:
 
-+ Handles Images, but with strong assumptions (almost symbol) ::
-     e.g. Understands *Tic-Tac-Toe* with *3x3 Ellipse Detector* (Bardu 10)
-     
-     Almost immediately provides propositions
+*Handles Images, but with strong assumptions (almost symbol)* e.g.
 
-     Domain-dependent ("3x3 grid" is hard-coded)
+#+begin_quote
+Tic-Tac-Toe with *Ellipse Detectors* (Bardu 10)
+     
+→ Almost immediately provides propositions
+
+→ Also, Domain-dependent ("3x3 grid" "Ellipse" are hard-coded)
+#+end_quote
 
 * Problem Description
 
@@ -440,15 +434,33 @@ Visual depiction of the initial state and a single goal state
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
-* *Our Core Contribution : State AutoEncoder (SAE)*
+* High-Level Overview of Key Contributions
+
+#+begin_xlarge
+#+begin_center
+*/State AutoEncoder/ (SAE)*
+
+*Action AutoEncoder (AAE)*
+
+*Action Discriminator (AD)*
+#+end_center
+#+end_xlarge
+
+* State AutoEncoder (SAE)
 
 SAE is a *neural network* which provides two functions:
 
-+ $b = Encode(r)$ : *Function that maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
++ $b = Encode(r)$ : *maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
 
-+ $\tilde{r} = Decode(b)$ : *Function that maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
++ $\tilde{r} = Decode(b)$ : *maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
 
-+ *A bidirectional mapping between subsymbolic & symbolic representation*
+#+begin_larger
++ *A bidirectional mapping between*
+
+  + *subsymbolic representation* (image array) and
+
+  + *symbolic representation* (bit vectors, propositional variables)
+#+end_larger
 
 ** Neural Network 101                                              :noexport:
 
@@ -474,9 +486,9 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 *Good libraries --- Tensorflow, Keras* --- you can learn in 1-2 months
 #+end_larger
 
-** Standard Classification / Mapping Tasks                         :noexport:
+** Standard Classification / Mapping Tasks
 
-Target Function $y^*=f^*(x)$
+Target Function $y=f(x)$ trained by SGD minimizing $|y-f(x)|$
   
 | Task                 | Input x  | Output y                           |
 |----------------------+----------+------------------------------------|
@@ -485,32 +497,36 @@ Target Function $y^*=f^*(x)$
 | Go eval. function    | State    | Number                             |
 
 #+begin_larger
- + *This is not suitable for our task; /there is no label, answers/*
+ + *This is not suitable for our task;*
+   + */there is no label, no answer/* for symbol grounding
 #+end_larger
 
-** AutoEncoder : Unsupervised Learning
+** Unsupervised Learning by AutoEncoder
 
 Auto = "self" --- Autoencoding = "encoding itself"
 
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-+ Target Function: Identity $x=f^*(x)$
+　
+
+Target Function: Identity $x=f(x)$
 + Compression: $X \rightarrow Z \rightarrow X$
-+ Map the input $x\;$ to a *latent vector* $z$, then back to $x$
-+ Extract the de/compressor: $Encode: x \mapsto z, Decode: z \mapsto x$
++ Encode $x\;$ to a *latent vector* $z$
++ Decode $z\;$ back to the input $x$
++ Minimize $|x - f(x)|$ by SGD
 #+end_span6
 #+begin_span6
-[[png:static/autoenc]]
+[[png:deeplearning/autoenc]]
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
 #+begin_alignright
 #+begin_larger
-+ → However, */✘ Latent vector is real-valued/*
++ → However, */✘ Latent vector Z is real-valued/*
 
-  */INCOMPATIBLE to classical planning/*
+  */INCOMPATIBLE, UNUSABLE for symbolic planning/*
 #+end_larger
 #+end_alignright
 
