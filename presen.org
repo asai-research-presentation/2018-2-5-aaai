@@ -486,24 +486,29 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 *Good libraries --- Tensorflow, Keras* --- you can learn in 1-2 months
 #+end_larger
 
-** Standard Classification / Mapping Tasks
+** Standard Classification Tasks (Supervised)
 
-Target Function $y=f(x)$ trained by SGD minimizing $|y-f(x)|$
+Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
+
+#+begin_alignright
+SGD: Stochastic Gradient Descent
+#+end_alignright
   
 | Task                 | Input x  | Output y                           |
 |----------------------+----------+------------------------------------|
 | Image classification | Image    | Label (1=car, 2=cat, 3=monkey ...) |
-| Translation          | Sentence | Sentence                           |
-| Go eval. function    | State    | Number                             |
+# | Translation          | Sentence | Sentence                           |
+# | Go eval. function    | State    | Number                             |
 
 #+begin_larger
  + *This is not suitable for our task;*
-   + */there is no label, no answer/* for symbol grounding
+   + */there is no label/* provided by humans
+   + */no real answer/* for symbol grounding
 #+end_larger
 
 ** Unsupervised Learning by AutoEncoder
 
-Auto = "self" --- Autoencoding = "encoding itself"
+# Auto = "self" --- Autoencoding = "encoding itself"
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -511,9 +516,9 @@ Auto = "self" --- Autoencoding = "encoding itself"
 　
 
 Target Function: Identity $x=f(x)$
-+ Compression: $X \rightarrow Z \rightarrow X$
 + Encode $x\;$ to a *latent vector* $z$
 + Decode $z\;$ back to the input $x$
++ i.e. Compression: $X \rightarrow Z \rightarrow X$
 + Minimize $|x - f(x)|$ by SGD
 #+end_span6
 #+begin_span6
@@ -526,7 +531,7 @@ Target Function: Identity $x=f(x)$
 #+begin_larger
 + → However, */✘ Latent vector Z is real-valued/*
 
-  */INCOMPATIBLE, UNUSABLE for symbolic planning/*
+  */INCOMPATIBLE, UNUSABLE for propositional reasoning/*
 #+end_larger
 #+end_alignright
 
@@ -550,9 +555,11 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 
 ** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
 
-A reparametrization trick for *categorical distribution*: 1-hot vector e.g.  $\langle 0,0,0,1,0,0 \rangle$ .
+*Additional optimization penalty* which enforces $Z \sim \textbf{Categorical}$:
 
-Below: Represent an MNIST image with 30 variables of 8 categories.
+　　　→ $z\;$ converges to a 1-hot vector e.g.  $\langle 0,0,1,0 \rangle$ .
+
+Example: Represent an MNIST image with 30 variables of 8 categories.
 
 #+begin_center
  #+begin_html
