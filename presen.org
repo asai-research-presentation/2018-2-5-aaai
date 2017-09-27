@@ -298,9 +298,9 @@ So far, ALL existing AMA systems require */symbolic / near-symbolic, accurate st
 i.e. They need symbols to find an action model
 #+end_alignright
 
-** 
+** Action Modelling Literature
 
-ARMS (Action-Relation Modelling System) (Yang AIJ07)
+ARMS (Yang AIJ07)
 LOCM (ICAPS09)
 Argall (AIJ09)
 Mourao (UAI12)
