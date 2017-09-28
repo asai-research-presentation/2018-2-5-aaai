@@ -553,12 +553,12 @@ SGD: Stochastic Gradient Descent
 #+begin_larger
  + *This is not suitable for our task;*
    + */there are no labels/* provided by humans, i.e.
-   + */there are no real answers/* for how to ground symbols
+   + */there are no real answers/* for how to ground propositional symbols
      
      #+begin_alignright
      (*even people do it differently on a different language*.
 
-     cf. Eskimo words for snow)
+     cf. Snow in Eskimo language)
      #+end_alignright
 
 #+end_larger
@@ -633,7 +633,7 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 #+begin_center
 + Key idea: *These categorical variables are /directly/ usable*
 
-  *as a source of propositional reasoning*
+  *as the source of propositional models*
 
   In particular, *2 categories → propositional variables (true/false)*
 #+end_center
