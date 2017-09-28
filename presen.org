@@ -378,20 +378,20 @@ Tic-Tac-Toe with *Ellipse Detectors* (Bardu 10)
 * Problem Description
 
 #+begin_center
-We do not have */SYMBOLS/* nor */ACTION MODELS/*
+We do not have */SYMBOLS/*
 
 */So we cannot apply existing AMA methods!/*
 #+end_center
 
 [[sjpg:puzzle]]
 
-** Task: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving an */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Task: Solving */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving an */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
 */No Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
 
@@ -556,8 +556,9 @@ SGD: Stochastic Gradient Descent
    + */there are no real answers/* for how to ground symbols
      
      #+begin_alignright
-     (in fact, *people do this differently
-     on different languages*)
+     (*even people do it differently on a different language*.
+
+     cf. Eskimo words for snow)
      #+end_alignright
 
 #+end_larger
@@ -630,11 +631,11 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
 #+begin_larger
 #+begin_center
-Key idea: *These categorical variables are /directly/ usable*
++ Key idea: *These categorical variables are /directly/ usable*
 
-*as a source of PDDL/SAS*
+  *as a source of propositional reasoning*
 
-In particular, *2 categories → propositional variables (true/false)*
+  In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 #+end_larger
 
@@ -760,6 +761,10 @@ Conversion from a bit to a proposition:
  (:action a10000010010110111100011110000001001011011110001110
   ...
 #+end_src
+
+** Step 3: Solve the Symbolic Planning Problem
+
+  [[png:overview/planning4]]
 
 * AMA_1 Experiments
 
@@ -1115,33 +1120,43 @@ A simple binary classifier that tells whether (s,t) is a valid transition
 
 (actually returns a probability; "valid" when > 0.5)
 
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
 [[png:aae/ad]]
+#+end_span6
+#+begin_span6
++ We need a positive and a negative dataset in order to train a binary classifier
++ but hey, wait, *where are the negative examples?*
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
-** Ok, AD sounds simple, no more unfamilier term that causes headache...
+** Negative examples are NEVER observed in the real world
 
-+ but hey, wait, *where do you get that training data?*
-+ In particular,
-
-  #+begin_larger
-  *where are the negative examples?*
-  #+end_larger
-
-** Negative Examples are NEVER observed in real world
-
-In a real-world scenario, can a robot actually observe *teleportation* ?
+Does a robot have chance to observe *teleportation* ?
 
 [[png:aae/teleportation]]
 
-The system should *imagine/generate* the false/invalid action example
-in order to train the binary classifier
+*No*, since teleportation *violate the laws of physics*.
 
-*but we do not know what is valid NOR WHAT IS INVALID!*
+For a robot operating in a real world, invalid transitions are *never* observed.
+
+#+begin_center
+The system should *imagine/generate* the false/invalid transitions
+(e.g. teleportation) in order to train the binary classifier (like in a thought
+experiment), *but we do not know what is valid NOR what is /INVALID/.*
+
+#+begin_larger
+*/We have no way to generate them!/*
+#+end_larger
+#+end_center
 
 ** PU-Learning framework (Elkan & Noto, KDD 08')
 
-A method to learn a *positive/negative classifier* from *positive/mixed dataset*
+A method to learn a *positive/negative classifier* from the *positive/mixed datasets*
 
-Mixed dataset: some are positive, some are negative
+Mixed dataset: some are positive, some are negative, unknown ratio
 
 We have:
 
