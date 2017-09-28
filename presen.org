@@ -229,7 +229,9 @@ The *cost of human involved* for converting real-world problems into inputs for
 domain-independent *symbolic* systems
 #+end_quote
 
-+ *Symbols: Labels for identifiable entities* (it's not just about objects!)
+To automate this process, you need *two* elements:
+
++ *Symbols Grounding: Finding identifiable entities called /symbols/*
 
   | Types of symbols  |                                            |
   |-------------------+--------------------------------------------|
@@ -238,17 +240,15 @@ domain-independent *symbolic* systems
   | Propositions      | *p_28* = (empty x_0 y_0) --- application |
   | Action symbols    | (*slide-up* panel_7 x_0 y_1)               |
 
-+ *Action Model: Description of Actions using Symbols*
-
-  　
++ *Action Model Acquisition (AMA): Understands how the world evolve*
   
   #+begin_center
   When /Empty(x, y_{old}) ∧ .../ ; Then /¬ Empty(x,y_{old}) ∧ / ...
   #+end_center
 
-#+begin_note
-The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
-#+end_note
+# #+begin_note
+# The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
+# #+end_note
 
 ** Can we solve an 8-puzzle optimally, w/o human encoding?
 
