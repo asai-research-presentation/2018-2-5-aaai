@@ -780,13 +780,13 @@ Conversion from a bit to a proposition:
 
   + */SAE is generalizing/*
 
-+ AMA_1: feed the entire transistions, produce PDDL (note: > 1M transitions in 8-puzzle)
++ AMA_1: requires the entire transistions (note: > 1M transitions in 8-puzzle)
 
   + _/AMA_1 is NOT generalizing/_
 
 + Planner: a State-of-the-Art planner Fast Downward (Helmert, 08), $A^*$ *(optimal search)*
 
-+ Solve the given PDDL instance and decode the results
+  + *It must find an optimal solution*
 
 + Runtime: ~3sec (instances are too small for symbolic systems)
 
