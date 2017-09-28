@@ -784,7 +784,7 @@ Conversion from a bit to a proposition:
 
   + _/AMA_1 is NOT generalizing/_
 
-+ Planner: a State-of-the-Art planner Fast Downward (Helmert, 08), $A^*$ *(optimal search)*
++ Planner: a State-of-the-Art, Fast Downward (Helmert, 08), $A^*$ *(optimal search)*
 
   + *It must find an optimal solution*
 
@@ -947,7 +947,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 #+begin_span6
 *Providing the entire transitions is impractical*, cannot afford such data in the real world (e.g. autonomous vehicle)
 
-*Learning / generalization from small examples is necessary*
+*Learning / generalizing AMA with small examples is necessary*
 
 #+end_span6
 #+begin_span6
@@ -960,7 +960,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 #+begin_alignright
 → AMA_2, a *novel neural architecture* which learns
 
- *action symbols, preconditions, effects*
+ *Action Models (action symbols, preconditions, effects)*
 #+end_alignright
 #+end_larger
 
@@ -1032,7 +1032,7 @@ initial state
 
 ** Latplan Training Input lacks Action Labels
 
-+ Note: Existing AMA methods all requires action symbols
++ Note: Existing AMA methods all require action symbols
 
 + *Latplan training input (transitions) consists of just pairs of images*
 
@@ -1044,50 +1044,38 @@ initial state
 
   [[png:ama/action-symbol]]
 
+** Is that a problem?
+
++ Without action symbols ::
+
+     SAE with $|z|=36 \text{bit}$
+
+  + → you should enumerate the *entire $2^{36}$ states as successors*,
+  + → then remove the invalid transitions with AD.
+
++ With a limited number of action symbols ::
+
+     We can */enumerate the successors in constant time/*.
+
 #+begin_alignright
 #+begin_larger
-+ *We find these action labels without human supervision*
++ *AAE finds these action labels without human supervision*
 #+end_larger
 #+end_alignright
 
-** Are Action Symbols Necessary in a Practical Sense?
-
-#+begin_xlarge
-Yes it is. Without AAE...
-#+end_xlarge
-
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span4
-
-#+end_span4
-#+begin_span8
-When you have a SAE with $|z|=36 \text{bit}$, you should consider the entire
-$2^{36}$ states as its neighbors, then remove the invalid transitions with AD.
-#+end_span8
-#+end_row-fluid
-#+end_container-fluid
-
-#+begin_center
-+ *AAE provides a limited number of action labels.* Thus,
-
-  *We can enumerate the candidate successor states in constant time*.
-#+end_center
-
-** Is AMA trivial?
+** Is AAE trivial?
 
 #+begin_xlarge
 Case 1: Linear Search Spaces
 #+end_xlarge
 
 + *We do not need an action label*; it is linear anyways
-+ Action Learning reduces to a *prediction task*
++ AMA reduces to a *prediction task*
   + We can train a neural network $a(s) = t\;$ by minimizing $|t-a(s)|$
 
 [[png:ama/linear]]
 
-** Is AMA trivial?
+** Is AAE trivial?
 
 #+begin_xlarge
 Case 2: Graphs
@@ -1096,15 +1084,19 @@ Case 2: Graphs
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span7
-+ There are *multiple action labels*
-+ States have *varying number of successors*
++ *Multiple action labels*
++ *Varying number of successors*
+
+  *for each state*
 
 　
 
 + *Can you train $a(s) = t\;$ for each action ?*
 + 
   #+begin_center
-  *NO*, you don't know *which transition belongs to which action. /Everything is mixed up./*
+  *NO*, you don't know *which transition belongs to which action.*
+
+  */Everything is mixed up./*
   #+end_center
 
 #+end_span7
@@ -1134,31 +1126,65 @@ A simple binary classifier that tells whether (s,t) is a valid transition
 [[png:aae/ad]]
 #+end_span6
 #+begin_span6
-+ We need a positive and a negative dataset in order to train a binary classifier
-+ but hey, wait, *where are the negative examples?*
++ *Binary classifier*: trained by a positive and a negative dataset
++ *But hey, wait!*
+
+#+begin_center
++ *Where are the negative dataset?*
+
++ *What are the invalid moves?*
+#+end_center
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
-** Negative examples are NEVER observed in the real world
-
-Does a robot have chance to observe *teleportation* ?
-
-[[png:aae/teleportation]]
-
-*No*, since teleportation *violate the laws of physics*.
-
-For a robot operating in a real world, invalid transitions are *never* observed.
-
 #+begin_center
-The system should *imagine/generate* the false/invalid transitions
-(e.g. teleportation) in order to train the binary classifier (like in a thought
-experiment), *but we do not know what is valid NOR what is /INVALID/.*
-
-#+begin_larger
-*/We have no way to generate them!/*
-#+end_larger
++ *Invalid moves are /just moves that are not valid! We have no idea!/*
 #+end_center
+
+#+begin_alignright
++ Surprisingly, this is rather a *fundamental* question... 
+#+end_alignright
+
+** Negative examples are NEVER observed
+
+Do robots have a chance to observe *teleportation* in the real world?
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span2
+
+#+end_span2
+#+begin_span8
+[[png:aae/teleportation]]
+#+end_span8
+#+begin_span2
+
+#+end_span2
+#+end_row-fluid
+#+end_container-fluid
+
+
++ *No*, since teleportation *violates the laws of physics*.
+
+  #+begin_alignright
+  #+begin_smaller
+  (at least, in a macro scale, believed to be almost impossible)
+  #+end_smaller
+  #+end_alignright
+
++ For a robot operating in a real world, invalid transitions are *never* observed.
+
++ 
+  #+begin_center
+  The system should *imagine/generate* the false/invalid transitions
+  (e.g. teleportation) in order to train the binary classifier (like in a thought
+  experiment), *but we do not know what is valid NOR what is /invalid/.*
+
+  #+begin_larger
+  */We have no way to generate them!/*
+  #+end_larger
+  #+end_center
 
 ** PU-Learning framework (Elkan & Noto, KDD 08')
 
@@ -1168,27 +1194,36 @@ Mixed dataset: some are positive, some are negative, unknown ratio
 
 We have:
 
-+ Positive examples: Training input: *all data are guaranteed to be valid*
-+ Mixed examples: All successor candidates generated by AAE
++ Positive examples: Training input: *all observed data are guaranteed to be valid*
++ Mixed examples: *All successor candidates generated by the AAE*
 
-Now we can run the PU-learning and train AD!
+#+begin_alignright
++ Now we can run the PU-learning and train AD!
+#+end_alignright
 
 ** Successor Function
 
+AAE enumerates the potential successors; AD/SD removes the invalid successors.
+
 \begin{align*}
-  Succ(s) &= \{t = apply(a,s) \; | \; a \in \braces{0\ldots 127} \setminus \textit{unused},\\
+  Succ(s) &= \{t = apply(a,s) \; | \; a \in \{0\ldots 127\} \setminus \textit{unused},\\
           & \qquad \land AD(s,t) \geq 0.5 \\
-          & \qquad \land SD(t) \geq 0.5 \\
-          & \qquad \land Encode(Decode(s)) \equiv s \\
-          & \qquad \land Apply(Action(t,s),s) \equiv t \}
+          & \qquad \land SD(t) \geq 0.5 \}
 \end{align*}
+
+# & \qquad \land SD(t) \geq 0.5 \\
+# & \qquad \land Encode(Decode(s)) \equiv s \\
+# & \qquad \land Apply(Action(t,s),s) \equiv t \}
 
 * AMA_2 Experiments 1
 
 Is it feasibile to do planning with AAE and AD?
 
-+ 100 instances for each domain , for each noise type (std, gaussian noise, salt/pepper noise)
-+ (benchmark A) 7-step or  (benchmark B) 14-step self-avoiding random walks from the goal state
++ 100 instances for each domain
+  + for each noise type (std, gaussian noise, salt/pepper noise)
++ self-avoiding random walks from the goal state
+  + (benchmark A) 7-step
+  + (benchmark B) 14-step
 + 180 sec. time limit
 + Domain-specific plan validators.
 
@@ -1202,63 +1237,112 @@ Is it feasibile to do planning with AAE and AD?
 
 ** Results
 
-G: Gaussian noise, s/p: salt/pepper noise to the planning inputs (init/goal images)
+G: Gaussian noise, s/p: salt/pepper noise
 
-| step     |   7 |   7 |   7 |  14 | 14 |  14 |
-|          | std |   G | s/p | std |  G | s/p |
-|----------+-----+-----+-----+-----+----+-----|
-| MNIST    |  72 |  64 |  64 |   6 |  4 |   3 |
-| Mandrill | 100 | 100 | 100 |   9 | 14 |  14 |
-| Spider   |  94 |  99 |  98 |  29 | 36 |  38 |
-| L. Out   | 100 |  99 | 100 |  59 | 60 |  51 |
-| Twisted  |  96 |  65 |  98 |  75 | 68 |  72 |
-| Hanoi    |  37 |  44 |  39 |  15 | 18 |  17 |
+Noise are applied to the planning inputs (init/goal images)
+
+| /          |   < |     |   > |   < |    |   > |
+| step       |   7 |   7 |   7 |  14 | 14 |  14 |
+| noise      | std |   G | s/p | std |  G | s/p |
+|------------+-----+-----+-----+-----+----+-----|
+| MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
+| Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
+| Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
+| LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
+| Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
+| Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+
+* AMA_2 Experiments 2                                              :noexport:
+
+How accurate are Action Discriminators and State Discriminators?
+
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span7
+Measure the type-1 / type-2 error in %
+
+#+begin_smaller
+|          |    SD |    SD |   |    AD |    AD |   AD |   AD |
+|          | type1 | type2 |   | type1 | type2 | 2/SD |  2/V |
+|----------+-------+-------+---+-------+-------+------+------|
+| MNIST    |  0.09 | <0.01 |   |  1.55 |  14.9 | 6.15 | 6.20 |
+| Mandrill | <0.01 | <0.01 |   |  1.10 |  16.6 | 2.93 | 2.94 |
+| Spider   | <0.01 | <0.01 |   |  1.22 |  17.7 | 4.97 | 4.91 |
+| L. Out   | <0.01 |   N/A |   |  0.03 |  1.64 | 1.64 | 1.64 |
+| Twisted  | <0.01 |   N/A |   |  0.02 |  1.82 | 1.82 | 1.82 |
+| Hanoi    |  0.03 | <0.01 |   |  0.25 |  3.50 | 3.79 | 4.07 |
+#+end_smaller
+
+#+end_span7
+#+begin_span5
+#+begin_smaller
++ (SD type-1) :: Generate all valid states and count the states misclassified as invalid.
++ (SD type-2) :: Generate reconstructable states, remove the valid states (w/ validator),
+                 sample 30k states, and count the states misclassified as valid.
+                 N/A means all reconstructable states were valid.
++ (AD type-1) :: Generate all valid transitions and count the number of misclassification.
++ (AD type-2) :: For 1000 randomly selected valid states, generate all successors,
+                 remove the valid transitions (w/ validator), then count the transitions misclassified as valid.
++ (2/SD, 2/V) :: Same as Type-2, but ignore the transitions whose successors are
+                 invalid according to SD or the validator.
+#+end_smaller
+#+end_span5
+#+end_row-fluid
+#+end_container-fluid
 
 * AMA_2 Experiments 2
 
-How accurate Action Discriminators and State Discriminators are?
+How accurate are Action Discriminators?
 
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span7
 Measure the type-1 / type-2 error in %
 
-|          | SD      | SD      |   |    AD |    AD |   AD |   AD |
-|          | type1   | type2   |   | type1 | type2 | 2/SD |  2/V |
-|----------+---------+---------+---+-------+-------+------+------|
-| MNIST    | 0.09    | $<$0.01 |   |  1.55 |  14.9 | 6.15 | 6.20 |
-| Mandrill | $<$0.01 | $<$0.01 |   |  1.10 |  16.6 | 2.93 | 2.94 |
-| Spider   | $<$0.01 | $<$0.01 |   |  1.22 |  17.7 | 4.97 | 4.91 |
-| L. Out   | $<$0.01 | N/A     |   |  0.03 |  1.64 | 1.64 | 1.64 |
-| Twisted  | $<$0.01 | N/A     |   |  0.02 |  1.82 | 1.82 | 1.82 |
-| Hanoi    | 0.03    | $<$0.01 |   |  0.25 |  3.50 | 3.79 | 4.07 |
+|          | type1 | type2 | 2/SD |  2/V |
+|----------+-------+-------+------+------|
+| MNIST    |  1.55 |  14.9 | 6.15 | 6.20 |
+| Mandrill |  1.10 |  16.6 | 2.93 | 2.94 |
+| Spider   |  1.22 |  17.7 | 4.97 | 4.91 |
+| L. Out   |  0.03 |  1.64 | 1.64 | 1.64 |
+| Twisted  |  0.02 |  1.82 | 1.82 | 1.82 |
+| Hanoi    |  0.25 |  3.50 | 3.79 | 4.07 |
 
-Synopsis:
-
-#+begin_verbatim
-(SD type-1) Generate all valid states and count the states misclassified as invalid.
-
-(SD type-2) Generate reconstructable states, remove the valid states (w/ validator),
-            sample 30k states, and count the states misclassified as valid.
-            N/A means all reconstructable states were valid.
-(AD type-1) Generate all valid transitions and count the number of misclassification.
-(AD type-2) For 1000 randomly selected valid states, generate all successors,
-            remove the valid transitions (w/ validator), then count the transitions misclassified as valid.
-(2/SD, 2/V) Same as Type-2, but ignore the transitions whose successors are invalid according to SD or the validator.
-#+end_verbatim
+#+end_span7
+#+begin_span5
+#+begin_smaller
++ (AD type-1) :: Generate all valid transitions and count the number of misclassification.
++ (AD type-2) :: For 1000 randomly selected valid states, generate all successors,
+                 remove the valid transitions (w/ validator), then count the transitions misclassified as valid.
++ (2/SD, 2/V) :: Same as Type-2, but ignore the transitions whose successors are
+                 invalid according to SD or the validator.
+#+end_smaller
+#+end_span5
+#+end_row-fluid
+#+end_container-fluid
 
 * Conclusion
 
-+ Input: Unlabelled pairs of images, initial image, goal image
-+ Output: Visualized plans to achieve the goal
-+ State AutoEncoder(SAE): *bidirectional mapping: /real-world/ ↔ /propositional state/*
-+ Action AutoEncoder(AAE): *bidirectional mapping: /transition/ ↔ /action labels/*
-+ Action Discriminator(AD): *binary classifier: transition → bool* with *PU-Learning*
++ *Latplan Architecture* 
 
-+ Announcing: Two of the major grounding problems were solved!
+  　　Automatically models / solves the real-world problem as a symbolic search
+  # + Input : Unlabelled pairs of images, initial image, goal image
+  # + Output : Visualized plans to achieve the goal
++ *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
++ *Action AutoEncoder(AAE)* : */transitions/ ↔ /action labels/*
++ *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
+
+#+begin_center
++ *Two* of the major grounding problems were solved!
   | Types of symbols      |                              |
   |-----------------------+------------------------------|
   | Propositional symbols | *Solved!*                    |
   | Action symbols        | *Solved!*                    |
   | Object symbols        | R-CNN (Computer Vision) etc? |
   | Predicate symbols     | ???                          |
+#+end_center
 
 ** Future Work (input format)
 
