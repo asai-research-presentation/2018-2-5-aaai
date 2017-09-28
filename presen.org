@@ -1355,9 +1355,11 @@ LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
   + Transition rule *This is an apple, this is a pen → oh, ApplePen!*
     
     when actions resembling "word concatenation" was learned
-+ */SAE + Automated Planning/* will bring AI to a whole new level
++ */Latplan/* brings AI to a new level
   
-  e.g. *1000 steps of optimal reasoning over natural language*
+  e.g. *1000 steps of optimal, logical reasoning over natural language*
+  
+  + Fundamentally impossible for short-sighted and greedy RL agents
 
 #+begin_note
  "A hierarchical neural autoencoder for paragraphs and documents." (2015)
@@ -1369,10 +1371,50 @@ LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
 
 + Latplan assumes nothing about the environment machinery (grids, movable tiles...)
 + Latplan assumes *fully-observable*, *deterministic* domains
-+ Extending Latplan to MDP, POMDP
++ Next step: *Extending Latplan to MDP, POMDP*
   + Gumbel-Softmax layer → just a Softmax layer? (probability)
 
+
+
 * Appendix
+
+** Related Work
+
+Compared to the work by Konidaris et al. (2014), the inputs to LatPlan are
+unstructured (42x42=1764-dimensional arrays for 8-puzzle); each pixel does not
+carry a meaning and the boundary between “identifiable entities” is unknown.
+Also, AMA2 automatically grounds action symbols, while they rely on
+human-assigned symbols (move, interact). Furthermore, they do not explicitly
+deal with robustness to noisy input, while we implemented SAE as a denoising
+AE. However, effects/preconditions in AMA2 is implicit in the network, and their
+approach could be utilized to extract PDDL from AAE/AD (future work).
+
+** Related Work
+
+There is a large body of work using NNs to directly
+solve combinatorial tasks, starting with the well-known TSP
+solver (Hopfield and Tank 1985). Neurosolver represents a
+search state as a node in NN and solved ToH (Bieszczad and
+Kuchar 2015). However, they assume a symbolic input.
+
+** Related Work
+
+Previous work combining symbolic search and NNs embedded NNs inside a search to
+provide the search control knowledge, e.g., domain-specific heuristic functions
+for the sliding-tile puzzle and Rubik’s Cube (Arfaee et al. 2011), classical
+planning (Satzger and Kramer 2013), or the game
+of Go (Silver et al. 2016).
+
+** Deep Reinforcement Learning (DRL)
+
+DRL has solved complex problems, including video games where it communicates to
+a simulator through images (Mnih et al. 2015, DQN). In contrast, LatPlan only
+requires a set of unlabeled image pairs (transitions), and does not require a
+reward function for unit-action-cost planning, nor expert solution traces
+(AlphaGo), nor a simulator (DQN), nor predetermined action symbols (“hands”,
+control levers/buttons).  Extending LatPlan to symbolic POMDP planning is an
+interesting avenue for future work.
+
 
 ** I expect mixed responses such as:
 
