@@ -1,4 +1,4 @@
-#+title: Classical Planning in Deep Latent Space: From Unlabelled Images to PDDL (and back) 
+#+title: Classical Planning in Deep Latent Space: Bridging the Sybsymbolic-Symbolic Boundary
 #+include: "head.org"
 #+LINK: img file:img/%s
 #+LINK: png file:img/%s.png
