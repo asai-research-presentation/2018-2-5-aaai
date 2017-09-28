@@ -766,6 +766,14 @@ Conversion from a bit to a proposition:
 
   [[png:overview/planning4]]
 
+** Step 4: Executing the Symbolic Plan
+
+  [[png:overview/planning5]]
+
+** Step 5: Obtaining the Visualization
+
+  [[png:overview/planning6]]
+
 * AMA_1 Experiments
 
 + SAE: *trained with 20k images* (note: > 360k entire states in 8-puzzle)
