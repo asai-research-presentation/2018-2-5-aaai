@@ -1130,14 +1130,14 @@ A simple binary classifier that tells whether (s,t) is a valid transition
 
 In a real-world scenario, can a robot actually observe *teleportation* ?
 
-[[png:static/quantum_teleportation]]
+[[png:aae/teleportation]]
 
 The system should *imagine/generate* the false/invalid action example
 in order to train the binary classifier
 
 *but we do not know what is valid NOR WHAT IS INVALID!*
 
-** PU-Learning framework
+** PU-Learning framework (Elkan & Noto, KDD 08')
 
 A method to learn a *positive/negative classifier* from *positive/mixed dataset*
 
@@ -1150,19 +1150,92 @@ We have:
 
 Now we can run the PU-learning and train AD!
 
+** Successor Function
 
+\begin{align*}
+  Succ(s) &= \{t = apply(a,s) \; | \; a \in \braces{0\ldots 127} \setminus \textit{unused},\\
+          & \qquad \land AD(s,t) \geq 0.5 \\
+          & \qquad \land SD(t) \geq 0.5 \\
+          & \qquad \land Encode(Decode(s)) \equiv s \\
+          & \qquad \land Apply(Action(t,s),s) \equiv t \}
+\end{align*}
+
+* AMA_2 Experiments 1
+
+Is it feasibile to do planning with AAE and AD?
+
++ 100 instances for each domain , for each noise type (std, gaussian noise, salt/pepper noise)
++ (benchmark A) 7-step or  (benchmark B) 14-step self-avoiding random walks from the goal state
++ 180 sec. time limit
++ Domain-specific plan validators.
+
+# The failures are due to timeouts
+# (the successor function requires many calls to the feedforward neural nets,
+#  resulting in a very slow node generation).
+
+# We next examine the accuracy of the AD and SD (\reftbl{tab:aae-results}).
+# We measured the type-1/2 errors for the valid and invalid transitions (for AD) and states (SD).
+# Low errors show that our networks successfully learned the action models.
+
+** Results
+
+G: Gaussian noise, s/p: salt/pepper noise to the planning inputs (init/goal images)
+
+| step     |   7 |   7 |   7 |  14 | 14 |  14 |
+|          | std |   G | s/p | std |  G | s/p |
+|----------+-----+-----+-----+-----+----+-----|
+| MNIST    |  72 |  64 |  64 |   6 |  4 |   3 |
+| Mandrill | 100 | 100 | 100 |   9 | 14 |  14 |
+| Spider   |  94 |  99 |  98 |  29 | 36 |  38 |
+| L. Out   | 100 |  99 | 100 |  59 | 60 |  51 |
+| Twisted  |  96 |  65 |  98 |  75 | 68 |  72 |
+| Hanoi    |  37 |  44 |  39 |  15 | 18 |  17 |
+
+* AMA_2 Experiments 2
+
+How accurate Action Discriminators and State Discriminators are?
+
+Measure the type-1 / type-2 error in %
+
+|          | SD      | SD      |   |    AD |    AD |   AD |   AD |
+|          | type1   | type2   |   | type1 | type2 | 2/SD |  2/V |
+|----------+---------+---------+---+-------+-------+------+------|
+| MNIST    | 0.09    | $<$0.01 |   |  1.55 |  14.9 | 6.15 | 6.20 |
+| Mandrill | $<$0.01 | $<$0.01 |   |  1.10 |  16.6 | 2.93 | 2.94 |
+| Spider   | $<$0.01 | $<$0.01 |   |  1.22 |  17.7 | 4.97 | 4.91 |
+| L. Out   | $<$0.01 | N/A     |   |  0.03 |  1.64 | 1.64 | 1.64 |
+| Twisted  | $<$0.01 | N/A     |   |  0.02 |  1.82 | 1.82 | 1.82 |
+| Hanoi    | 0.03    | $<$0.01 |   |  0.25 |  3.50 | 3.79 | 4.07 |
+
+Synopsis:
+
+#+begin_verbatim
+(SD type-1) Generate all valid states and count the states misclassified as invalid.
+
+(SD type-2) Generate reconstructable states, remove the valid states (w/ validator),
+            sample 30k states, and count the states misclassified as valid.
+            N/A means all reconstructable states were valid.
+(AD type-1) Generate all valid transitions and count the number of misclassification.
+(AD type-2) For 1000 randomly selected valid states, generate all successors,
+            remove the valid transitions (w/ validator), then count the transitions misclassified as valid.
+(2/SD, 2/V) Same as Type-2, but ignore the transitions whose successors are invalid according to SD or the validator.
+#+end_verbatim
 
 * Conclusion
 
 + Input: Unlabelled pairs of images, initial image, goal image
 + Output: Visualized plans to achieve the goal
-+ State AutoEncoder(SAE): VAE with Gumbel-Softmax
-+ */Contribution/* : *SAE generates /propositions/ from raw data*
++ State AutoEncoder(SAE): *bidirectional mapping: /real-world/ ↔ /propositional state/*
++ Action AutoEncoder(AAE): *bidirectional mapping: /transition/ ↔ /action labels/*
++ Action Discriminator(AD): *binary classifier: transition → bool* with *PU-Learning*
 
-  → *compatible to the symbolic KE systems, classical planners*
-+ Latplan α : *A simplified prototype*
-
-  → Can leverege from the development of both symbolic/subsymbolic research
++ Announcing: Two of the major grounding problems were solved!
+  | Types of symbols      |                              |
+  |-----------------------+------------------------------|
+  | Propositional symbols | *Solved!*                    |
+  | Action symbols        | *Solved!*                    |
+  | Object symbols        | R-CNN (Computer Vision) etc? |
+  | Predicate symbols     | ???                          |
 
 ** Future Work (input format)
 
@@ -1172,23 +1245,25 @@ LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
 
 + Autoencoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
 + Examples:
-  + *This is an apple, this is a pen → oh, ApplePen!* (ugh embarassing)
+  + Transition rule *This is an apple, this is a pen → oh, ApplePen!*
     
     when actions resembling "word concatenation" was learned
 + */SAE + Automated Planning/* will bring AI to a whole new level
   
   e.g. *1000 steps of optimal reasoning over natural language*
 
-+ 
-  #+begin_alignright
-  *Hire me! I'm finding a Postdoc position ☺*
-  #+end_alignright
-
 #+begin_note
  "A hierarchical neural autoencoder for paragraphs and documents." (2015)
 
  "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
 #+end_note
+
+** Future Work (Extended planning formalism)
+
++ Latplan assumes nothing about the environment machinery (grids, movable tiles...)
++ Latplan assumes *fully-observable*, *deterministic* domains
++ Extending Latplan to MDP, POMDP
+  + Gumbel-Softmax layer → just a Softmax layer? (probability)
 
 * Appendix
 
@@ -1416,37 +1491,6 @@ Keras, Adam optimizer (learning rate:0.001)
              
 + Training on 8-puzzle ::
                *12000 images* out of entire states (362880) → *Generalization*
-
-** Domain Acquisition implementation in LatPlan α (_/NOT our core contribution/_)
-
-_Entire transitions $R$_ → $Encode(R)$ → PDDL
-
-Why? → *Trivial domain acquisition, no generalization*
-
-: Ground      actions 0011 → 0101  (state variables are fully specified)
-: Generalized actions *01* → *10*  (state variables are partially specified)
-
-+ LatPlanα: No generalization wrto domain acquisition ::
-
-     Main focus is on */SAE/: whether propositions made by SAE are /feasible/*
-             
-     *→No complication due to domain acquisition*
-     
-     *Developping a generalizer is an entirely different topic*, we leave it to existing work
-
-+ We made flour and demonstrated a sugarless cookie with it. ::
-
-     Others study how to make the most beautiful piece of chocolate cake from given flour
-
-     --- which is future work. (flour = symbol)
-
-     Domain acquisition typically requires exisiting models (such as Semi-MDP)
-
-     We made *inputs* for existing work.
-
-#+begin_note
-[Konidaris et.al. 14; Cresswell et al 13]
-#+end_note
 
 ** Why symbols?
 
