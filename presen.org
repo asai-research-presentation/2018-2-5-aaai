@@ -691,12 +691,12 @@ Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probabi
 Maddison et. al., 2014
 #+end_note
 
-* Verifying the feasibility of Latplan system
+* Verifying the feasibility of Latplan system and SAE
 
 #+begin_quote
-Q: Do the *propositions* found by the neural network *make any logical sense?*
+Q: Do the *propositions* found by the SAE (neural network) *make any logical sense?*
 
-Is it possible to *reason over the generated propositions?*
+Q: Is it possible to *reason over such generated propositions?*
 #+end_quote
 
 We need to build a *minimum-working Latplan system*
@@ -719,7 +719,7 @@ It does not actually *learn/generalize* anything
 
  [[png:overview/ama1]]
 
-** AMA_1 : Trivial Action Model Acquisition
+** Embed Directly: One Action Per Transition
 
 #+begin_src lisp
  0011 → 0101  
@@ -797,7 +797,7 @@ Conversion from a bit to a proposition:
  [[png:results/mnist-plan]]
 
  #+begin_larger
- An instance whose the optimal solution length is known
+ An instance whose optimal solution length is known
  #+begin_xlarge
  #+begin_alignright
   → *31 step optimal plan*
