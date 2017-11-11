@@ -26,27 +26,17 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Overview of Our Key Contributions
-
-#+begin_xlarge
-#+begin_center
-*/Latplan Architecture/*
-
-*State AutoEncoder (SAE)*
-
-*Action AutoEncoder (AAE)*
-
-*Action Discriminator (AD)*
-#+end_center
-#+end_xlarge
-
-* .                                                                :noexport:
+* . 
 
 #+begin_xlarge
 #+begin_center
 Hello, Machine Learning people!
 #+end_center
 #+end_xlarge
+
+#+begin_center
+Deep Learning, RL, data mining, etc...
+#+end_center
 
 #+begin_resume
 First of all, hello machine learning people.
@@ -55,13 +45,17 @@ Im usually studying a type of symbolic AI and I visited here expecting an intere
 machine learning professionals.
 #+end_resume
 
-* .                                                                :noexport:
+* . 
 
 #+begin_xlarge
 #+begin_center
-Hello, Logic Programming, Data Mining, AGI, Theoretical CS people, too!
+Hello, Symbolic AI people!
 #+end_center
 #+end_xlarge
+
+#+begin_center
+SAT, CP, Logic, TCS, ...
+#+end_center
 
 #+begin_resume
 And also, hello other symbolic AI people.
@@ -117,6 +111,40 @@ International Conference on Automated Planning and Scheduling
   + 1st-order logic, close-world assumption
 + *Soundness, completeness, optimality* matters
   + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
+
+* Overview of Our Key Contributions
+
+#+begin_center
+#+begin_xlarge
+*Backgrounds*
+
+*Latplan Architecture*
+
+*State AutoEncoder (SAE)*
+#+end_xlarge
+
+break
+
+#+begin_xlarge
+*Action AutoEncoder (AAE)*
+
+*Action Discriminator (AD)*
+#+end_xlarge
+#+end_center
+
+* Overview of Our Key Contributions
+
+#+begin_xlarge
+#+begin_center
+*/Latplan Architecture/*
+
+*State AutoEncoder (SAE)*
+
+*Action AutoEncoder (AAE)*
+
+*Action Discriminator (AD)*
+#+end_center
+#+end_xlarge
 
 * High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
 
