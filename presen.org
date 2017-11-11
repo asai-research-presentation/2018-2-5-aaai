@@ -64,31 +64,19 @@ Although I am not doing exactly the same thing, we have common roots.
 Let me give you one question before presenting my paper...
 #+end_resume
 
-* How many people have learned AI with these books?                :noexport:
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span4
-[[sjpg:aima1]]
-#+end_span4
-#+begin_span4
-[[sjpg:aima2]]
-#+end_span4
-#+begin_span4
-[[sjpg:aima3]]
-#+end_span4
-#+end_row-fluid
-#+end_container-fluid
-
-#+begin_alignright
-+ Nice.
-#+end_alignright
-
-* .                                                                :noexport:
+* . 
 
 #+begin_xlarge
 #+begin_center
-I am from */Planning/* community
+Today, I talk about how to integrate DL and logic-based systems.
+#+end_center
+#+end_xlarge
+
+* . 
+
+#+begin_xlarge
+#+begin_center
+I am from */AI Planning/* community (symbolic)
 #+end_center
 #+end_xlarge
 
@@ -100,7 +88,7 @@ International Conference on Automated Planning and Scheduling
 (AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
 #+end_center
 
-* Planning people are working on */Automated Planners/*            :noexport:
+* Planning people are working on */Automated Planners/*            :needsPic:
 
 + Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
   + Search-based planning projects many steps further into the future than RL
@@ -112,7 +100,7 @@ International Conference on Automated Planning and Scheduling
 + *Soundness, completeness, optimality* matters
   + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
 
-* Overview of Our Key Contributions
+* Overview
 
 #+begin_center
 #+begin_xlarge
