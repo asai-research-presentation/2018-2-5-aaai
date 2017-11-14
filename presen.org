@@ -96,7 +96,7 @@ International Conference on Automated Planning and Scheduling
 
 #+begin_xlarge
 #+begin_center
-Today, I talk about how to integrate DL and logic-based systems.
+Today, I talk about how to integrate DL and logic-based planning systems.
 #+end_center
 #+end_xlarge
 
@@ -165,17 +165,17 @@ goal state
 [[png:8puzzle-standard-goal]]
 #+end_span2
 #+end_row-fluid
-#+begin_row-fluid
-#+begin_span12
-+ To symbolic systems *names do not matter* (just matters to human) as long as there is consistency
-  #+begin_src lisp
-  (car   banana0 kiwi0)           ; numbers (0,1) don't matter either
-  (shark bogo6 banana1 kiwi0)     ; just to make sense for us
-  (apple  kiwi0 kiwi1)... (pinapple kiwi1 kiwi0)...
-  (pen    banana0 banana1)... (applepen banana0 banana1)...
-  #+end_src
-#+end_span12
-#+end_row-fluid
+# #+begin_row-fluid
+# #+begin_span12
+# + To symbolic systems *names do not matter* (just matters to human) as long as there is consistency
+#   #+begin_src lisp
+#   (car   banana0 kiwi0)           ; numbers (0,1) don't matter either
+#   (shark bogo6 banana1 kiwi0)     ; just to make sense for us
+#   (apple  kiwi0 kiwi1)... (pinapple kiwi1 kiwi0)...
+#   (pen    banana0 banana1)... (applepen banana0 banana1)...
+#   #+end_src
+# #+end_span12
+# #+end_row-fluid
 #+end_container-fluid
 
 ** High-level Planning Task: State Transitions
@@ -262,10 +262,10 @@ To automate this process, you need *two* elements:
   | Propositions      | *p_28* = (empty x_0 y_0) --- application |
   | Action symbols    | (*slide-up* panel_7 x_0 y_1)               |
 
-+ *Action Model Acquisition (AMA): Understands how the world evolve*
++ */Action Model Acquisition/ (AMA): Describe the actions with symbols*
   
   #+begin_center
-  When /Empty(x, y_{old}) ∧ .../ ; Then /¬ Empty(x,y_{old}) ∧ / ...
+  *When* /Empty(x, y_{old}) ∧ .../ ; *Then* /¬Empty(x,y_{old}) ∧/ ...
   #+end_center
 
 # #+begin_note
@@ -304,13 +304,23 @@ To automate this process, you need *two* elements:
 
    *NOR*
 
-   */AN ACTION MODEL/!*
+   */ACTION MODELS/!*
 #+end_center
 #+end_span4
 #+end_row-fluid
 #+end_container-fluid
 
-* Backgrounds
+#+begin_alignright
+#+begin_xlarge
++ → */Latplan/* architechture
+#+end_xlarge
+#+end_alignright
+
+#+begin_resume
+before our paper, there was no such system that can do this automatically
+#+end_resume
+
+* Survey of Exisiting Action Model Acquisition Techniques          :noexport:
 
 #+begin_xlarge
 Survey of Exisiting Action Model Acquisition Techniques
@@ -397,15 +407,26 @@ Tic-Tac-Toe with *Ellipse Detectors* (Bardu 10)
 → Also, Domain-dependent ("3x3 grid" "Ellipse" are hard-coded)
 #+end_quote
 
-* Problem Description
+* . 
+
 
 #+begin_center
-We do not have */SYMBOLS/*
+#+begin_xlarge
+Problem Setting
 
-*/So we cannot apply existing AMA methods!/*
+of
+
+Latent-Space Planner
+#+end_xlarge
 #+end_center
 
-[[sjpg:puzzle]]
+# #+begin_center
+# We do not have */SYMBOLS/*
+# 
+# */So we cannot apply existing AMA methods!/*
+# #+end_center
+# 
+# [[sjpg:puzzle]]
 
 ** Task: Solving an */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
 
@@ -413,7 +434,7 @@ We do not have */SYMBOLS/*
 
 [[sjpg:puzzle]]
 
-** Task: Solving an */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving an */Imaged-Based/* 8-puzzle */w/o Prior Explicit Knowledge/*
 
 */No Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
 
@@ -440,17 +461,28 @@ Lights-Out
 #+end_row-fluid
 #+end_container-fluid
 
-** Input1: Training Inputs -- Image Pairs
+** Inputs
+
+#+begin_xlarge
+The system is given *2 types of input*:
+
++ Training Input
++ Planning Input
+#+end_xlarge
+
+** Input1: Training Input -- Image Pairs
 
 Image pairs showing the before/after states of valid actions (randomly sampled)
 
 [[png:overview/1]]
 
-** Input1: Training Inputs -- Image Pairs
+** Input1: Training Input -- Image Pairs
+
+***TODO*** there is no labeled information describig what is happening in each transition.
 
 [[png:overview/2]]
 
-** Input2: Planning Inputs -- Initial Image & Goal Image
+** Input2: Planning Input -- Initial Image & Goal Image
 
 Visual depiction of the initial state and a single goal state
 
@@ -459,12 +491,6 @@ Visual depiction of the initial state and a single goal state
 ** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
-
-#+begin_larger
-　
-
-　
-#+end_larger
 
 ** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
@@ -523,6 +549,28 @@ Trained SAE provides two functions:
 ** Step 5: Obtaining the Visualization
 
   [[png:overview/planning6]]
+
+#+begin_center
+#+begin_larger
+#+end_larger
+#+end_center
+
+** Summary
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
+[[png:overview/planning4]]
+#+end_span6
+#+begin_span6
+*Latplan performs a /symbolic, propositional reasoning/ in the symbolic latent space*.
+
+An instance of *Physical Symbol Systems*:
+
+A physical symbol system has the *necessary* and *suffcient* means for general intelligent action.
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
 * Overview
 
