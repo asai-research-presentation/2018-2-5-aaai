@@ -36,6 +36,8 @@ Hello, Machine Learning people!
 
 #+begin_center
 Deep Learning, RL, data mining, etc...
+
++ Do you identify yourself as a connectionist? ✋
 #+end_center
 
 #+begin_resume
@@ -55,6 +57,8 @@ Hello, Symbolic AI people!
 
 #+begin_center
 SAT, CP, Logic, TCS, ...
+
++ Have you tried any DL libraries? ✋
 #+end_center
 
 #+begin_resume
@@ -548,11 +552,16 @@ Trained SAE provides two functions:
 
 ** Summary
 
-#+begin_larger
-*Latplan performs a /propositional, logical reasoning/ in the latent space*.
-#+end_larger
+#+begin_xlarge
+Latplan: Latent-space Planner.
+#+end_xlarge
 
-[[png:overview/planning4]]
+#+begin_larger
++ *bridges /real-world/ and /propositional/ representations.*
++ *performs a /propositional, logical, sound reasoning/.*
++ *returns a /real-world/ output* (e.g. images).
++ *runs in a /completely automated, unsupervised/ manner.*
+#+end_larger
 
 * Overview
 
@@ -630,13 +639,15 @@ SGD: Stochastic Gradient Descent
 
 #+begin_larger
  + *This is not suitable for our task;*
-   + */there are no labels/* provided by humans, i.e.
-   + */there are no real answers/* for how to ground propositional symbols
+   + */There are no labels/* provided by humans, i.e.
+   + */There are no real answers/* for how to ground propositional symbols
      
-     #+begin_alignright
-     (*even people do it differently on a different language*.
+     　
 
-     cf. Snow in Eskimo language)
+     #+begin_alignright
+     (*Even people do it differently on a different language*.
+
+     cf. How many colors in a rainbow?)
      #+end_alignright
 
 #+end_larger
