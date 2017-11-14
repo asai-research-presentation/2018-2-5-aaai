@@ -1121,7 +1121,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 *State AutoEncoder (SAE)*
 #+end_xlarge
 
-*/break/*
+*/☕ Break ☕/*
 
 #+begin_xlarge
 *Action AutoEncoder (AAE)*
@@ -1138,7 +1138,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 
 *Latplan Architecture*
 
-*/State AutoEncoder (SAE)/*
+*State AutoEncoder (SAE)*
 #+end_xlarge
 
 break
