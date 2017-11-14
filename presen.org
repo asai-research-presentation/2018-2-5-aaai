@@ -241,10 +241,10 @@ Goal State
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span9
-How to represent *"sliding up tile 7"* ? → *actions*
+How to represent *sliding up tile 7* ? → *actions*
 
 #+begin_quote
-Transition Rules of *"sliding up"*:
+Transition Rules of *sliding up*:
 
 + You can slide up a tile only to an empty location.
 
@@ -307,7 +307,7 @@ initial state
 
 + 4x4、5x5 : infeasible under blind search (memory exhaust)
 
-+ Symbolic systems can compute *optimal* solutions w/ A* + admissible heuristics
++ 3x3 PDDL model can be solved *optimally* under 1sec, w/ A* + admissible heuristics
 #+end_center
 
 #+begin_container-fluid
@@ -326,45 +326,86 @@ initial state
 
    *NOT*
 
-   *HAVE A*
+   *HAVE*
 
+   *A*
+
+   #+begin_larger
    */PDDL/*
 
    */MODEL/!*
+   #+end_larger
 #+end_center
 #+end_span4
 #+end_row-fluid
 #+end_container-fluid
 
-** PDDL representations come from */human encoding/*.
+** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
-*Knowledge-Acquisition Bottleneck (Cullen, 1988)*:
-
 The *cost of human involved* for converting real-world problems into inputs for
 domain-independent *symbolic* systems
 #+end_quote
 
-To automate this process, you need *two* elements:
+#+begin_larger
++ *For /image-based/ tasks*, we must *automate 2 processes*:
+#+end_larger
 
-+ *Symbols Grounding: Finding identifiable entities called /symbols/*
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
++ *1. Symbols Grounding:*
 
-  | Types of symbols  |                                            |
-  |-------------------+--------------------------------------------|
-  | Object symbols    | panel7, x_0, y_0 ...                       |
-  | Predicate symbols | (*empty* ?x ?y) (*up* ?y_0 ?y_1)           |
-  | Propositions      | *p_28* = (empty x_0 y_0) --- application |
-  | Action symbols    | (*slide-up* panel_7 x_0 y_1)               |
+  #+begin_center
+  #+begin_larger
+  */Symbols/ = identifiable entities*
+  #+end_larger
+  #+end_center
 
-+ */Action Model Acquisition/ (AMA): Describe the actions with symbols*
+  | Types        | Examples                     |
+  |--------------+------------------------------|
+  | Objects      | *panel7*, *x_0*, *y_0* ...   |
+  | Predicates   | (*empty* ?x ?y)              |
+  | Propositions | *p_28* = (empty x_0 y_0)     |
+  | Actions      | (*slide-up* panel_7 x_0 y_1) |
+#+end_span6
+#+begin_span6
++ *2. Action Model Acquisition (AMA):*
   
   #+begin_center
-  *When* /Empty(x, y_{old}) ∧ .../ ; *Then* /¬Empty(x,y_{old}) ∧/ ...
+  #+begin_larger
+  */Describe/ actions.*
+  #+end_larger
   #+end_center
+  
+  　
+
+  #+begin_center
+  *When* /Empty(x, y_{old}) ∧ .../ ;
+
+  *Then* /¬Empty(x,y_{old}) ∧/ ...
+  #+end_center
+
+　
+
++ 
+  #+begin_center
+  #+begin_larger
+  *Now we propose a system which automate these processes...*
+  #+end_larger
+  #+end_center
+
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
 # #+begin_note
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
+
+* Latent-Space Planner (*/Latplan/*) (*/Accepted/* in AAAI-2018)
+
+[[png:latplanlogo]]
 
 * Survey of Exisiting Action Model Acquisition Techniques          :noexport:
 
@@ -509,19 +550,13 @@ The system is given *2 types of input*:
 
 ** Input1: Training Input -- Image Pairs
 
-Image pairs showing the before/after states of valid actions (randomly sampled)
-
 [[png:overview/1]]
 
 ** Input1: Training Input -- Image Pairs
 
-***TODO*** there is no labeled information describig what is happening in each transition.
-
 [[png:overview/2]]
 
 ** Input2: Planning Input -- Initial Image & Goal Image
-
-Visual depiction of the initial state and a single goal state
 
 [[png:overview/input2]]
 
