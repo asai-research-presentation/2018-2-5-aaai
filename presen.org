@@ -208,41 +208,33 @@ break
 
 * High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
 
+*Search states* represented as *1st-order logic formula*
+#+begin_src lisp
+(empty x0 y0)     ; or, empty(x0, y0)
+(is panel6 x1 y0) ; or, is(panel6, x1, y0)
+(up    y0 y1)... (down  y1 y0)...
+(right x0 x1)... (left  x0 x1)...
+#+end_src
+
+#+begin_center
 #+begin_container-fluid
 #+begin_row-fluid
-#+begin_span8
-+ Slide a tile to an empty place (each step)
-+ → make the tile placement identical to the goal
-+ → (abstracts the low level control e.g. arm motion)
-+ *Search states* represented by conjunctions of 1st-order logic (objects, predicates, propositions)
-  #+begin_src lisp
-  (empty x0 y0)     ; or, empty(x0, y0)
-  (is panel6 x1 y0) ; or, is(panel6, x1, y0)
-  (up    y0 y1)... (down  y1 y0)...
-  (right x0 x1)... (left  x0 x1)...
-  #+end_src
-#+end_span8
-#+begin_span2
-initial state
+#+begin_span4
 [[png:8puzzle-standard]]
-#+end_span2
-#+begin_span2
-goal state
+Initial State
+#+end_span4
+#+begin_span4
 [[png:8puzzle-standard-goal]]
-#+end_span2
+Goal State
+#+end_span4
+#+begin_span4
+[[sgif:8puzzle]]
+#+end_span4
 #+end_row-fluid
-# #+begin_row-fluid
-# #+begin_span12
-# + To symbolic systems *names do not matter* (just matters to human) as long as there is consistency
-#   #+begin_src lisp
-#   (car   banana0 kiwi0)           ; numbers (0,1) don't matter either
-#   (shark bogo6 banana1 kiwi0)     ; just to make sense for us
-#   (apple  kiwi0 kiwi1)... (pinapple kiwi1 kiwi0)...
-#   (pen    banana0 banana1)... (applepen banana0 banana1)...
-#   #+end_src
-# #+end_span12
-# #+end_row-fluid
 #+end_container-fluid
+#+end_center
+
+
 
 ** High-level Planning Task: State Transitions
 
@@ -301,12 +293,48 @@ initial state
 #+end_row-fluid
 #+end_container-fluid
 
+# + 
+#   #+begin_larger
+#   #+begin_alignright
+#   But *where does this representation come from?*
+#   #+end_alignright
+#   #+end_larger
+
+** Can a symbolic planner solve an */Image-based/* 8-puzzle w/o human encoding?
+
+#+begin_center
++ 3x3 */Image-based/* Sliding Tile Puzzle: maximum 31 steps *optimal* plan
+
++ 4x4、5x5 : infeasible under blind search (memory exhaust)
+
++ Symbolic systems can compute *optimal* solutions w/ A* + admissible heuristics
+#+end_center
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span8
+[[sjpg:puzzle]]
+#+end_span8
+#+begin_span4
 + 
-  #+begin_larger
-  #+begin_alignright
-  But *where does this representation come from?*
-  #+end_alignright
-  #+end_larger
+   #+begin_center
+   *BUT*
+
+   *WE*
+
+   *DO*
+
+   *NOT*
+
+   *HAVE A*
+
+   */PDDL/*
+
+   */MODEL/!*
+#+end_center
+#+end_span4
+#+end_row-fluid
+#+end_container-fluid
 
 ** PDDL representations come from */human encoding/*.
 
@@ -337,54 +365,6 @@ To automate this process, you need *two* elements:
 # #+begin_note
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
-
-** Can we solve an 8-puzzle optimally, w/o human encoding?
-
-#+begin_center
-+ 3x3 Image-based Sliding Tile Puzzle: maximum 31 steps *optimal* plan
-
-+ 4x4、5x5 : infeasible under blind search (memory exhaust)
-
-+ Symbolic systems can compute *optimal* solutions w/ A* + admissible heuristics
-#+end_center
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span8
-[[sjpg:puzzle]]
-#+end_span8
-#+begin_span4
-+ 
-   #+begin_center
-   *BUT*
-
-   *WE*
-
-   *DO*
-
-   *NOT*
-
-   *HAVE*
-
-   */SYMBOLS/*
-
-   *NOR*
-
-   */ACTION MODELS/!*
-#+end_center
-#+end_span4
-#+end_row-fluid
-#+end_container-fluid
-
-#+begin_alignright
-#+begin_xlarge
-+ → */Latplan/* architechture
-#+end_xlarge
-#+end_alignright
-
-#+begin_resume
-before our paper, there was no such system that can do this automatically
-#+end_resume
 
 * Survey of Exisiting Action Model Acquisition Techniques          :noexport:
 
