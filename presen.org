@@ -241,10 +241,10 @@ Goal State
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span9
-How to represent "sliding up tile 7" ? → *actions*
+How to represent *"sliding up tile 7"* ? → *actions*
 
 #+begin_quote
-Transition Rules of "sliding up":
+Transition Rules of *"sliding up"*:
 
 + You can slide up a tile only to an empty location.
 
