@@ -208,7 +208,7 @@ break
 
 * High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
 
-*Search states* represented as *1st-order logic formula*
+*Search states* represented as *1st-order logic formula*, described in *PDDL language*.
 #+begin_src lisp
 (empty x0 y0)     ; or, empty(x0, y0)
 (is panel6 x1 y0) ; or, is(panel6, x1, y0)
