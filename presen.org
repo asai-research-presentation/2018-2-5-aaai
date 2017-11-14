@@ -88,7 +88,7 @@ International Conference on Automated Planning and Scheduling
 (AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
 #+end_center
 
-** Planning people are working on */Automated Planners/*           :needsPic:
+** Planning people are working on */Automated Planners/*
 
 　
 
