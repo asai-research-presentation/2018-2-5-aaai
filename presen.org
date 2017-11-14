@@ -120,19 +120,25 @@ break
 #+end_xlarge
 #+end_center
 
-* Overview of Our Key Contributions
+* Overview
 
-#+begin_xlarge
 #+begin_center
-*/Latplan Architecture/*
+#+begin_xlarge
+*/Backgrounds/*
+
+*Latplan Architecture*
 
 *State AutoEncoder (SAE)*
+#+end_xlarge
 
+break
+
+#+begin_xlarge
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
-#+end_center
 #+end_xlarge
+#+end_center
 
 * High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
 
@@ -464,6 +470,26 @@ Visual depiction of the initial state and a single goal state
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
+* Overview
+
+#+begin_center
+#+begin_xlarge
+*Backgrounds*
+
+*/Latplan Architecture/*
+
+*State AutoEncoder (SAE)*
+#+end_xlarge
+
+break
+
+#+begin_xlarge
+*Action AutoEncoder (AAE)*
+
+*Action Discriminator (AD)*
+#+end_xlarge
+#+end_center
+
 * Latent-Space Planner (*/LatPlan/*) architechture
 
  [[png:overview/planning1]]
@@ -498,19 +524,25 @@ Trained SAE provides two functions:
 
   [[png:overview/planning6]]
 
-* Overview of Our Key Contributions
+* Overview
 
-#+begin_xlarge
 #+begin_center
+#+begin_xlarge
+*Backgrounds*
+
 *Latplan Architecture*
 
-*/State AutoEncoder/ (SAE)*
+*/State AutoEncoder (SAE)/*
+#+end_xlarge
 
+break
+
+#+begin_xlarge
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
-#+end_center
 #+end_xlarge
+#+end_center
 
 * State AutoEncoder (SAE)
 
@@ -956,6 +988,46 @@ SAE implementation uses a denoising layer (Denoising AE)
 
   + Completeness is guaranteed
 
+* *** ☕ Break ☕ ***
+
+#+begin_center
+#+begin_xlarge
+*Backgrounds*
+
+*Latplan Architecture*
+
+*State AutoEncoder (SAE)*
+#+end_xlarge
+
+*/break/*
+
+#+begin_xlarge
+*Action AutoEncoder (AAE)*
+
+*Action Discriminator (AD)*
+#+end_xlarge
+#+end_center
+
+* Overview
+
+#+begin_center
+#+begin_xlarge
+*Backgrounds*
+
+*Latplan Architecture*
+
+*/State AutoEncoder (SAE)/*
+#+end_xlarge
+
+break
+
+#+begin_xlarge
+*/Action AutoEncoder (AAE)/*
+
+*Action Discriminator (AD)*
+#+end_xlarge
+#+end_center
+
 * Latplan Feasible! Now what?
 
 #+begin_container-fluid
@@ -980,48 +1052,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 #+end_alignright
 #+end_larger
 
-* Overview of Our Key Contributions
-
-#+begin_xlarge
-#+begin_center
-*Latplan Architecture*
-
-*State AutoEncoder (SAE)*
-
-*/Action AutoEncoder/ (AAE)*
-
-*/Action Discriminator/ (AD)*
-#+end_center
-#+end_xlarge
-
-* AMA_2 Overview                                                   :noexport:
-
-2 neural networks, *Action Autoencoder* (AAE) and *Action Descriminator* (AD)
-
-+ AAE finds *action symbols* and *action effects*
-  + Able to *enumerate the successor candidates* of the current state
-  + Some candidates represent the wrong transitions
-+ AD finds *action preconditions*, i.e. which transitions are allowed (valid)
-  + Able to *filter the wrong successors*
-+ Combined, AAE and AD *jointly learns a successor function* from a small dataset
-  + *Directly usable by a forward state space search*
-
-* AMA_2 Overview
-
-[[png:ama/overview0]]
-
-** AMA_2 Overview
-
- [[png:ama/overview1]]
-
-** AMA_2 Overview
-
- [[png:ama/overview2]]
-
-** AMA_2 Overview
-
- [[png:ama/overview3]]
-
+* Typical domains contain a set of */Action Symbols/*
 * Action symbols
 
 + Represent a *type* of transition (→ generalization)
@@ -1122,6 +1153,33 @@ Case 2: Graphs
 #+end_row-fluid
 #+end_container-fluid
 
+* AMA_2 Overview                                                   :noexport:
+
+2 neural networks, *Action Autoencoder* (AAE) and *Action Descriminator* (AD)
+
++ AAE finds *action symbols* and *action effects*
+  + Able to *enumerate the successor candidates* of the current state
+  + Some candidates represent the wrong transitions
++ AD finds *action preconditions*, i.e. which transitions are allowed (valid)
+  + Able to *filter the wrong successors*
++ Combined, AAE and AD *jointly learns a successor function* from a small dataset
+  + *Directly usable by a forward state space search*
+
+* AMA_2 Overview
+
+[[png:ama/overview0]]
+
+** AMA_2 Overview
+
+ [[png:ama/overview1]]
+
+** AMA_2 Overview
+
+ [[png:ama/overview2]]
+
+** AMA_2 Overview
+
+ [[png:ama/overview3]]
 * Action AutoEncoder
 
 [[png:aae/aae]]
