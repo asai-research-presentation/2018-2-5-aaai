@@ -37,7 +37,9 @@ Hello, Machine Learning people!
 #+begin_center
 Deep Learning, RL, data mining, etc...
 
+#+begin_xlarge
 + Do you identify yourself as a connectionist? ✋
+#+end_xlarge
 #+end_center
 
 #+begin_resume
@@ -58,7 +60,9 @@ Hello, Symbolic AI people!
 #+begin_center
 SAT, CP, Logic, TCS, ...
 
+#+begin_xlarge
 + Have you tried any DL libraries? ✋
+#+end_xlarge
 #+end_center
 
 #+begin_resume
@@ -86,15 +90,69 @@ International Conference on Automated Planning and Scheduling
 
 ** Planning people are working on */Automated Planners/*           :needsPic:
 
-+ Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
-  + Search-based planning projects many steps further into the future than RL
-  + ↔ reflex (0-step), limited deliberation (1,2-steps)
-+ High-dimensional, *implicit* state space search
-  + Entire space does not fit in memory, only *transition rules* are given
-+ STRIPS-like *PDDL modelling language*, based on
-  + 1st-order logic, close-world assumption
-+ *Soundness, completeness, optimality* matters
-  + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
+#+begin_center
+#+begin_larger
+*High-level plan for agents*
+
+/plan = (action_1, action_2, ... action_n)/
+
+Initial state → 🚶 → Goal state
+#+end_larger
+#+end_center
+
+　
+
+#+begin_center
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span4
+*Combinatorial Explosion*
+
+High-dimensional
+
+implicit state space
+
+PSPACE-Hard
+#+end_span4
+#+begin_span4
+*1st-Order Logic*
+
+STRIPS/PDDL
+
+modelling language
+
+closed world assumption
+#+end_span4
+#+begin_span4
+*Expensive, Critical App*
+
+Satellite Operation
+
+Deep Space 1
+
+Mars Exploration Rover
+#+end_span4
+#+end_row-fluid
+#+end_container-fluid
+#+end_center
+
+　
+
+#+begin_center
+#+begin_larger
+*Soundness, completeness, optimality matters!*
+#+end_larger
+#+end_center
+
+# + Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
+#   + Search-based planning projects many steps further into the future than RL
+#   + ↔ reflex (0-step), limited deliberation (1,2-steps)
+# + High-dimensional, *implicit* state space search
+#   + Entire space does not fit in memory, only *transition rules* are given
+# + STRIPS-like *PDDL modelling language*, based on
+#   + 1st-order logic, close-world assumption
+# + *Soundness, completeness, optimality* matters
+#   + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
 
 ** Introduction 
 
