@@ -1180,6 +1180,26 @@ Case 2: Graphs
 ** AMA_2 Overview
 
  [[png:ama/overview3]]
+* Overview
+
+#+begin_center
+#+begin_xlarge
+*Backgrounds*
+
+*Latplan Architecture*
+
+*State AutoEncoder (SAE)*
+#+end_xlarge
+
+break
+
+#+begin_xlarge
+*/Action AutoEncoder (AAE)/*
+
+*Action Discriminator (AD)*
+#+end_xlarge
+#+end_center
+
 * Action AutoEncoder
 
 [[png:aae/aae]]
@@ -1187,6 +1207,26 @@ Case 2: Graphs
 ** Typical AE vs AAE
 
 [[png:aae/aae2]]
+
+* Overview
+
+#+begin_center
+#+begin_xlarge
+*Backgrounds*
+
+*Latplan Architecture*
+
+*State AutoEncoder (SAE)*
+#+end_xlarge
+
+break
+
+#+begin_xlarge
+*Action AutoEncoder (AAE)*
+
+*/Action Discriminator (AD)/*
+#+end_xlarge
+#+end_center
 
 * Action Discriminator
 
@@ -1489,35 +1529,6 @@ reward function for unit-action-cost planning, nor expert solution traces
 control levers/buttons).  Extending LatPlan to symbolic POMDP planning is an
 interesting avenue for future work.
 
-
-** I expect mixed responses such as:
-
-#+begin_larger
-+ Wait, what!? You /solved/ the symbol grounding!? (*No*)
-+ Huh, I hate deep learning hype, NN cannot be trusted.
-  
-  (*LatPlan can be trusted*)
-+ This is not an action model acquisition / not finding symbols.
-
-  (*We don't do AML; we find different symbols*)
-#+end_larger
-** Did we find symbols? It doesn't sound like what I think symbols are
-
-#+begin_smaller
-You /solved/ the symbol grounding!? / This is not finding symbols. / This isn't a action model acquisition.
-#+end_smaller
-
-*PDDL implies there are several kinds of symbols and we solved only /one/ issue*
-
-+ Each issue requires a different approach. LatPlan should be combined with these work.
-
-  |                        | <c>                     |
-  | Types of symbols       | addressed by            |
-  |------------------------+-------------------------|
-  | *Propositions*         | *SAE*                   |
-  | Object labels          | R-CNN (Computer Vision) |
-  | Predicates (relations) | ???                     |
-  | Actions                | Domain Acquisition      |
 
 ** Did we find symbols? Why not individual pixels? Why DL?
 
