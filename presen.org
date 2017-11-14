@@ -865,15 +865,19 @@ Q: Do the *propositions* found by the SAE (neural network) *make any logical sen
 Q: Is it possible to *reason over such generated propositions?*
 #+end_quote
 
-We need to build a *minimum-working Latplan system*
+We need to build a *MVP system*
+
+　
 
 #+begin_center
-Planner needs an *action model* (transition rules), not just propositions
+*SAE is not sufficient for propositional reasoning:* We need *AMA*
 #+end_center
+
+　
 
 #+begin_alignright
 #+begin_larger
-So we built *AMA ver.1*, a trivial, placeholder AMA system
+So we built *AMA ver.1*, a */trivial, oracular/* AMA system
 #+end_larger
 #+end_alignright
 
