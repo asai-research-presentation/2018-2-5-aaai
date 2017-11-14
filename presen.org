@@ -407,8 +407,7 @@ Tic-Tac-Toe with *Ellipse Detectors* (Bardu 10)
 → Also, Domain-dependent ("3x3 grid" "Ellipse" are hard-coded)
 #+end_quote
 
-* . 
-
+* Problem Setting
 
 #+begin_center
 #+begin_xlarge
@@ -420,21 +419,13 @@ Latent-Space Planner
 #+end_xlarge
 #+end_center
 
-# #+begin_center
-# We do not have */SYMBOLS/*
-# 
-# */So we cannot apply existing AMA methods!/*
-# #+end_center
-# 
-# [[sjpg:puzzle]]
-
-** Task: Solving an */Imaged-Based/* 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving an Imaged-Based 8-puzzle w/o Prior Explicit Knowledge
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Task: Solving an */Imaged-Based/* 8-puzzle */w/o Prior Explicit Knowledge/*
+** Task: Solving an Imaged-Based 8-puzzle */w/o Prior Explicit Knowledge/*
 
 */No Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
 
