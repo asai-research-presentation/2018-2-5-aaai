@@ -548,20 +548,11 @@ Trained SAE provides two functions:
 
 ** Summary
 
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
+#+begin_larger
+*Latplan performs a /propositional, logical reasoning/ in the latent space*.
+#+end_larger
+
 [[png:overview/planning4]]
-#+end_span6
-#+begin_span6
-*Latplan performs a /symbolic, propositional reasoning/ in the symbolic latent space*.
-
-An instance of *Physical Symbol Systems*:
-
-A physical symbol system has the *necessary* and *suffcient* means for general intelligent action.
-#+end_span6
-#+end_row-fluid
-#+end_container-fluid
 
 * Overview
 
