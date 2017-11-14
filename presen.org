@@ -26,7 +26,7 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* . 
+* Introduction 
 
 #+begin_xlarge
 #+begin_center
@@ -45,7 +45,7 @@ Im usually studying a type of symbolic AI and I visited here expecting an intere
 machine learning professionals.
 #+end_resume
 
-* . 
+** Introduction 
 
 #+begin_xlarge
 #+begin_center
@@ -64,19 +64,11 @@ Although I am not doing exactly the same thing, we have common roots.
 Let me give you one question before presenting my paper...
 #+end_resume
 
-* . 
+** Introduction 
 
 #+begin_xlarge
 #+begin_center
-Today, I talk about how to integrate DL and logic-based systems.
-#+end_center
-#+end_xlarge
-
-* . 
-
-#+begin_xlarge
-#+begin_center
-I am from */AI Planning/* community (symbolic)
+I am from */AI Planning/* community (symbolic, logic-based)
 #+end_center
 #+end_xlarge
 
@@ -88,7 +80,7 @@ International Conference on Automated Planning and Scheduling
 (AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
 #+end_center
 
-* Planning people are working on */Automated Planners/*            :needsPic:
+** Planning people are working on */Automated Planners/*           :needsPic:
 
 + Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
   + Search-based planning projects many steps further into the future than RL
@@ -99,6 +91,14 @@ International Conference on Automated Planning and Scheduling
   + 1st-order logic, close-world assumption
 + *Soundness, completeness, optimality* matters
   + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
+
+** Introduction 
+
+#+begin_xlarge
+#+begin_center
+Today, I talk about how to integrate DL and logic-based systems.
+#+end_center
+#+end_xlarge
 
 * Overview
 
