@@ -283,16 +283,14 @@ Goal State
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span9
-How to represent *sliding up tile 7* ? → *actions*
+Representing  *sliding up* → *Transition Rules (Actions)*
 
 #+begin_quote
-*Transition Rules* of sliding up:
++ *When* the new location is empty:
 
-+ You can slide a tile *only to an empty location*.
++ The current location *becomes empty*.
 
-+ The location *becomes empty*.
-
-+ *New location* is *occupied* and is *not empty*.
++ New location is *occupied* and is *not empty*.
 #+end_quote
 #+end_span9
 #+begin_span3
@@ -304,9 +302,9 @@ initial state
 #+begin_span12
 + *First-order Logic Formula*
   
-  When /Empty(x, y_{old}) ∧ is(panel, x, y_{new}) ∧ up(y_{new}, y_{old})/ ;
+  *When* /Empty(x, y_{old}) ∧ is(panel, x, y_{new}) ∧ up(y_{new}, y_{old})/ ;
   
-  then /¬ Empty(x,y_{old}) ∧ Empty(x,y_{new}) ∧ ¬ is(panel, x, y_{new}) ∧ is(panel, x, y_{old})/
+  *then* /¬ Empty(x,y_{old}) ∧ Empty(x,y_{new}) ∧ ¬ is(panel, x, y_{new}) .../
 
 + *PDDL Model* : Actual Input to the Planner
   #+begin_src lisp
@@ -553,9 +551,7 @@ Latent-Space Planner
 
 ** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
-#+begin_larger
 */No Prior Knowledge/* : */Domain-independent Image-based planner/*
-#+end_larger
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -593,11 +589,16 @@ The system is given *2 types of input*:
 
 They are *random sampled* transitions
 
-+ No */reward/* / No */expert traces/*
-+ No */access to the simulator/*
-+ No */action labels/* (e.g. up, down)
++ No *reward* / No *expert traces*
++ No *access to the simulator*
++ 
+  #+begin_larger
+  No */action labels, symbols/*
+
+  　　(e.g. up, down)
   
   → doesn't know what's happening in each transition
+  #+end_larger
 
 ** Input2: Planning Input -- Initial Image & Goal Image
 
@@ -760,14 +761,14 @@ SGD: Stochastic Gradient Descent
 #+begin_larger
  + *This is not suitable for our task;*
    + */There are no labels/* provided by humans, i.e.
-   + */There are no real answers/* for how to ground propositional symbols
+   + */There are no real answers/* for symbol grounding
      
      　
 
      #+begin_alignright
      (*Even people do it differently on a different language*.
 
-     cf. How many colors in a rainbow?)
+     cf. How many colors in 🌈?)
      #+end_alignright
 
 #+end_larger
