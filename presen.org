@@ -1676,19 +1676,23 @@ Measure the type-1 / type-2 error in %
 #+begin_smaller
 + (AD type-1) :: Generate all valid transitions and count the number of misclassification.
 + (AD type-2) :: For 1000 randomly selected valid states, generate all successors,
+                 prune by SD,
                  remove the valid transitions (w/ validator), then count the transitions misclassified as valid.
-+ (2/SD, 2/V) :: Same as Type-2, but ignore the transitions whose successors are
-                 invalid according to SD or the validator.
+# + (2/SD, 2/V) :: Same as Type-2, but ignore the transitions whose successors are
+#                  invalid according to SD or the validator.
 #+end_smaller
+#+begin_larger
++ *Reasonably accurate.*
+#+end_larger
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
-#+begin_larger
-#+begin_alignright
-+ *Reasonably accurate.*
-#+end_alignright
-#+end_larger
+# #+begin_larger
+# #+begin_alignright
+# + *Reasonably accurate.*
+# #+end_alignright
+# #+end_larger
 
 * Conclusion
 
