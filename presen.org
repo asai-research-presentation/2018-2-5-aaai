@@ -796,7 +796,7 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 
 #+begin_container-fluid
 #+begin_row-fluid
-#+begin_span6
+#+begin_span7
 　
 
 Target Function: Identity $x=f(x)$
@@ -806,10 +806,10 @@ Target Function: Identity $x=f(x)$
 + i.e. Compression: $X \leftrightarrow Z$
 + Training: Minimize $|x - f(x)|\;$
   (*reconstruction loss*)
-#+end_span6
-#+begin_span6
+#+end_span7
+#+begin_span5
 [[png:deeplearning/autoenc]]
-#+end_span6
+#+end_span5
 #+end_row-fluid
 #+end_container-fluid
 
@@ -817,7 +817,7 @@ Target Function: Identity $x=f(x)$
 #+begin_larger
 + → However, */✘ Latent vector Z is real-valued/*
 
-  */INCOMPATIBLE, UNUSABLE for propositional reasoning/*
+  */INCOMPATIBLE to propositional reasoning/*
 #+end_larger
 #+end_alignright
 
@@ -856,7 +856,6 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
  #+end_html
 #+end_center
 
-#+begin_larger
 #+begin_center
 + Key idea: *These categorical variables are /directly/ usable*
 
@@ -864,7 +863,6 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
   In particular, *2 categories → propositional variables (true/false)*
 #+end_center
-#+end_larger
 
 ** State Autoencoder (*/before training/*)
 
@@ -942,7 +940,7 @@ So we built *AMA ver.1*, a */trivial, oracular/* AMA system
 #+end_larger
 #+end_alignright
 
-** AMA_1 : a */trivial, placeholder/* AMA method
+** AMA_1 : a */trivial, oracular/* AMA method
 
 It does not actually *learn/generalize* anything
 
@@ -1007,17 +1005,19 @@ Conversion from a bit to a proposition:
 
 * AMA_1 Experiments
 
-+ SAE: *trained with 20k images* (note: > 360k entire states in 8-puzzle)
+SAE: *trained with 20k images* (note: > 360k entire states in 8-puzzle)
 
-  + */SAE is generalizing/*
++ */SAE is generalizing/*
 
-+ AMA_1: requires the entire transistions (note: > 1M transitions in 8-puzzle)
+AMA_1: requires the entire transistions (note: > 1M transitions in 8-puzzle)
 
-  + _/AMA_1 is NOT generalizing/_
++ _/AMA_1 is NOT generalizing, being an oracle/_
 
-+ Planner: a State-of-the-Art, Fast Downward (Helmert, 08), $A^*$ *(optimal search)*
+Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
-  + *It must find an optimal solution*
++ $A^*$ *(optimal search)*
+
++ *It must find an optimal solution*
 
 + Runtime: ~3sec (instances are too small for symbolic systems)
 
