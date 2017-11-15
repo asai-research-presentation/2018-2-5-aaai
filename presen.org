@@ -209,10 +209,33 @@ break
 #+end_xlarge
 #+end_center
 
-* High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
+* Sliding tile puzzle (a.k.a 8-puzzle)
 
-*Search states* represented as *1st-order logic formula*, described in *PDDL language*.
+#+begin_container-fluid
+#+begin_center
+#+begin_row-fluid
+#+begin_span4
+[[png:8puzzle-standard]]
+Initial State
+#+end_span4
+#+begin_span4
+[[png:8puzzle-standard-goal]]
+Goal State
+#+end_span4
+#+begin_span4
+[[sgif:8puzzle]]
+#+end_span4
+#+end_row-fluid
+#+end_center
+#+end_container-fluid
 
+#+begin_alignright
++ *You need to find a plan to reach the goal.*
+#+end_alignright
+
+** States
+
+*States* as *1st-order logic formula*, described in *PDDL language*.
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -238,7 +261,6 @@ break
 #+end_src
 #+end_span6
 #+end_row-fluid
-
 #+begin_center
 #+begin_row-fluid
 #+begin_span4
@@ -256,11 +278,7 @@ Goal State
 #+end_center
 #+end_container-fluid
 
-#+begin_alignright
-+ *You need to find a plan to reach the goal.*
-#+end_alignright
-
-** High-level Planning Task: State Transitions
+** Transitions / Actions
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -268,38 +286,33 @@ Goal State
 How to represent *sliding up tile 7* ? → *actions*
 
 #+begin_quote
-Transition Rules of *sliding up*:
+*Transition Rules* of sliding up:
 
-+ You can slide up a tile only to an empty location.
++ You can slide a tile *only to an empty location*.
 
-+ When you slide it, the orignal location becomes empty.
++ The location *becomes empty*.
 
-+ New location is no longer empty, is occupied by the tile.
++ *New location* is *occupied* and is *not empty*.
 #+end_quote
 #+end_span9
 #+begin_span3
 initial state
 [[png:8puzzle-standard-tile7]]
 #+end_span3
-# #+begin_span2
-# goal state
-# [[png:8puzzle-standard-goal]]
-# #+end_span2
 #+end_row-fluid
 #+begin_row-fluid
 #+begin_span12
-+ When /Empty(x, y_{old}) ∧ is(panel, x, y_{new}) ∧ up(y_{new}, y_{old})/ ;
++ *First-order Logic Formula*
+  
+  When /Empty(x, y_{old}) ∧ is(panel, x, y_{new}) ∧ up(y_{new}, y_{old})/ ;
   
   then /¬ Empty(x,y_{old}) ∧ Empty(x,y_{new}) ∧ ¬ is(panel, x, y_{new}) ∧ is(panel, x, y_{old})/
 
-+ 
++ *PDDL Model* : Actual Input to the Planner
   #+begin_src lisp
-  ;; Translates to a PDDL model below:
   (:action slide-up ...
-   :precondition (and (empty ?x ?y-old)
-                      (is ?panel ?x ?y-new) ...)
-   :effects (and (not (empty ?x ?y-old))     (empty ?x ?y-new)
-                 (not (is ?panel ?x ?y-new)) (is ?panel ?x ?y-old)))
+   :precondition (and (empty ?x ?y-old) ...)
+   :effects (and (not (empty ?x ?y-old)) (empty ?x ?y-new) ...))
   #+end_src
 
 # #+begin_src lisp
@@ -324,16 +337,10 @@ initial state
 #   #+end_alignright
 #   #+end_larger
 
-** Can a symbolic planner solve an */Image-based/* 8-puzzle w/o human encoding?
+** Symbolic planners cannot solve an */Image-based/* 8-puzzle
 
 #+begin_center
-+ 3x3 Sliding Tile Puzzle: maximum 31 steps *optimal* plan
-
-# + 4x4、5x5 : infeasible under blind search (memory exhaust)
-
-+ *PDDL model* can be solved *optimally* *under 1sec*
-
-+ However, *Can the same be said about /Image-based/ 8-puzzle?*
++ *PDDL for 3x3 Sliding Tile Puzzle* can be solved *optimally* *<< 1sec*
 #+end_center
 
 #+begin_container-fluid
@@ -369,7 +376,7 @@ initial state
 ** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
-The *cost of human involved* for converting real-world problems into inputs for
+The *cost of human* involved for converting *real-world problems* into inputs for
 domain-independent *symbolic* systems
 #+end_quote
 
@@ -412,14 +419,14 @@ domain-independent *symbolic* systems
   *Then* /¬Empty(x,y_{old}) ∧/ ...
   #+end_center
 
-　
+#+begin_center
++ A *Long-Standing Problem*...
 
 + 
-  #+begin_center
   #+begin_larger
   *Now we propose a system which automate these processes...*
   #+end_larger
-  #+end_center
+#+end_center
 
 #+end_span6
 #+end_row-fluid
@@ -580,7 +587,17 @@ The system is given *2 types of input*:
 
 ** Input1: Training Input -- Image Pairs
 
+#+begin_right
 [[png:overview/2]]
+#+end_right
+
+They are *random sampled* transitions
+
++ No */reward/* / No */expert traces/*
++ No */access to the simulator/*
++ No */action labels/* (e.g. up, down)
+  
+  → doesn't know what's happening in each transition
 
 ** Input2: Planning Input -- Initial Image & Goal Image
 
