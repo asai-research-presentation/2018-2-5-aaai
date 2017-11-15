@@ -1750,42 +1750,41 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 
 * Appendix
 
-** Related Work
+** Konidaris et. al (2014, 2015): 
 
-Compared to the work by Konidaris et al. (2014), the inputs to LatPlan are
-unstructured (42x42=1764-dimensional arrays for 8-puzzle); each pixel does not
-carry a meaning and the boundary between “identifiable entities” is unknown.
-Also, AMA2 automatically grounds action symbols, while they rely on
-human-assigned symbols (move, interact). Furthermore, they do not explicitly
-deal with robustness to noisy input, while we implemented SAE as a denoising
-AE. However, effects/preconditions in AMA2 is implicit in the network, and their
-approach could be utilized to extract PDDL from AAE/AD (future work).
+Structured input (e.g. *light switch*, *x/y-distance*) ↔ unstructured image
 
-** Related Work
+Action Symbols (*move, interact*)
 
-There is a large body of work using NNs to directly
-solve combinatorial tasks, starting with the well-known TSP
-solver (Hopfield and Tank 1985). Neurosolver represents a
-search state as a node in NN and solved ToH (Bieszczad and
-Kuchar 2015). However, they assume a symbolic input.
+Just converting Semi-MDP /model/ to a PDDL /model/.
 
-** Related Work
+** NNs for solving combinatorial tasks:
 
-Previous work combining symbolic search and NNs embedded NNs inside a search to
-provide the search control knowledge, e.g., domain-specific heuristic functions
-for the sliding-tile puzzle and Rubik’s Cube (Arfaee et al. 2011), classical
-planning (Satzger and Kramer 2013), or the game
-of Go (Silver et al. 2016).
+TSP (Hopfield and Tank 1985)
 
-** Deep Reinforcement Learning (DRL)
+Neurosolver for ToH (Bieszczad and Kuchar 2015)
 
-DRL has solved complex problems, including video games where it communicates to
-a simulator through images (Mnih et al. 2015, DQN). In contrast, LatPlan only
-requires a set of unlabeled image pairs (transitions), and does not require a
-reward function for unit-action-cost planning, nor expert solution traces
-(AlphaGo), nor a simulator (DQN), nor predetermined action symbols (“hands”,
-control levers/buttons).  Extending LatPlan to symbolic POMDP planning is an
-interesting avenue for future work.
+*The input/output are symbolic.*
+
+** Other Work Combining Symbolic Search and NNs
+
+Embedded NNs *inside* a search to provide the *search control knowledge*
+
+(i.e. node evaluation function)
+
+Sliding-tile puzzle and Rubik’s Cube (Arfaee et al. 2011)
+
+Classical planning (Satzger and Kramer 2013)
+
+The game of Go (AlphaGo, Silver et al. 2016)
+
+** Deep Reinforcement Learning (DRL) (Mnih et al. 2015, DQN)
+
+DQN assumes *predetermined action symbols* (↑↓←→+ buttons).
+
+DQN *relies on simulators*. ↔ Latplan *reverse-engineers a simulator*.
+
+*DQN does not work* when it does not know *what action is even possible!*
 
 ** Why not individual pixels? Why DL?
 
