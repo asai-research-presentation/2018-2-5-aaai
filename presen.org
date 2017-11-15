@@ -1198,7 +1198,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 break
 
 #+begin_xlarge
-*AMA_2 Overview*
+*/AMA_2 Overview/*
 
 *Action AutoEncoder (AAE)*
 
@@ -1206,15 +1206,20 @@ break
 #+end_xlarge
 #+end_center
 
-* Latplan Feasible! Now what?
+* SAE Feasible! Now what?
 
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-*Providing the entire transitions is impractical*, cannot afford such data in the real world (e.g. autonomous vehicle)
+*AMA_1 is impractical*, cannot obtain *entire data* in the real world
 
-*Learning / generalizing AMA with small examples is necessary*
+#+begin_center
++ *AMA should* 
 
+  *learn / generalize*
+
+  *from small examples*
+#+end_center
 #+end_span6
 #+begin_span6
  [[png:overview/ama1]]
@@ -1224,15 +1229,17 @@ break
 
 #+begin_larger
 #+begin_alignright
-→ *AMA_2*, a novel neural architecture which finds
-
-*Actions Symbols* & *Action Models*
++ → *AMA_2*, a novel neural architecture
 #+end_alignright
 #+end_larger
 
 * The Task of AMA_2 : The */Real/* AMA method
 
-Perform the following with limited examples (all unsupervised):
+*Input:* Propositional transitions $\{ (s,t) \ldots \}$
+
+#+begin_alignright
+($Encod$'ed from Training Input)
+#+end_alignright
 
 + *Action Symbol Grounding*
   
@@ -1318,7 +1325,7 @@ initial state
 + AMA_2 perform all three processes.
 #+end_alignright
 
-** Why action symbols are necessary?
+** Why */action symbols/* are necessary?
 
  Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
 
@@ -1332,22 +1339,22 @@ initial state
 
  + → We can *enumerate the candidates in /constant time/*.
 
-** The challenge : Latplan Training Input lacks Action Symbols
+** The challenge
 
-*Just pairs of images*
+*Training Input lacks Action Symbols, just pairs of images*
 
 [[png:ama/action-symbol]]
 
-+ Lacks the information regarding *which transitions are of the same type*
++ → Doesn't know *which transitions are of the same type*
 
 ** Precondition/Effect learning: Is it trivial?
 
 #+begin_xlarge
-Case 1: Linear Search Spaces
+Case 1: Linear Space
 #+end_xlarge
 
 + *We do not need an action label*; it is linear anyways
-+ AMA reduces to a *prediction task* (common in scene prediction in video)
++ Then, AMA ≡ *prediction task* ($\approx$ scene prediction in video)
   + We can train a neural network $a(s) = t\;$ by minimizing $|t-a(s)|$
 
 [[png:ama/linear]]
@@ -1361,20 +1368,15 @@ Case 2: Graphs
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span7
+#+begin_center
 + *Multiple action labels*
-+ *Varying number of successors*
++ */Varying/ number of successors*
 
-  *for each state*
+  */for each state/*
 
-　
-
-+ *Can you train $a(s) = t\;$ for each action ?*
-+ 
-  #+begin_center
-  *NO*, you don't know *which transition belongs to which action.*
-
-  */Everything is mixed up./*
-  #+end_center
++ *Cannot train $a(s) = t\;$ for each $a$*
+  because *we don't know which (s,t) belongs to which $a$.*
+#+end_center
 
 #+end_span7
 #+begin_span5
@@ -1382,6 +1384,12 @@ Case 2: Graphs
 #+end_span5
 #+end_row-fluid
 #+end_container-fluid
+
+#+begin_alignright
+#+begin_larger
++ *What* is the right function to learn?
+#+end_larger
+#+end_alignright
 
 * AMA_2 Overview
 
@@ -1426,11 +1434,43 @@ break
 
 * Action AutoEncoder
 
-[[png:aae/aae]]
+*What* is the right function to learn?
 
-** Typical AE vs AAE
+#+begin_center
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
++ $a(s) = t$ ?
++ $a$ is actually a variable!
+#+end_span6
+#+begin_span6
++ $apply(a,s) = t$
++ Transition is a mapping $a \rightarrow t$
 
-[[png:aae/aae2]]
+  *conditioned by $s$*
+  
+  (previous state)
+
++ *The right function to learn!*
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
+#+end_center
+* Action AutoEncoder
+
+[[png:aae/aae-0]]
+
+** Action AutoEncoder
+
+[[png:aae/aae-1]]
+
+** Action AutoEncoder
+
+[[png:aae/aae-2]]
+
+** Action AutoEncoder
+
+[[png:aae/aae-3]]
 
 * Overview
 
@@ -1454,11 +1494,13 @@ break
 #+end_xlarge
 #+end_center
 
-* Action Discriminator
+* AAE does not address preconditions
 
-A simple binary classifier that tells whether (s,t) is a valid transition
+ [[png:ama/overview1-1]]
 
-(actually returns a probability; "valid" when > 0.5)
+* Action Discriminator is a Binary Classifer
+
+*Binary classifier* telling which transitions are valid
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1466,87 +1508,62 @@ A simple binary classifier that tells whether (s,t) is a valid transition
 [[png:aae/ad]]
 #+end_span6
 #+begin_span6
-+ *Binary classifier*: trained by a positive and a negative dataset
-+ *But hey, wait!*
++ Trained by a *positive* and *negative* dataset
 
 #+begin_center
-+ *Where are the negative dataset?*
-
-+ *What are the invalid moves?*
++ We have *data for valid transitions (observed data).*
++ *Where are the negative (/invalid/) datasets?*
 #+end_center
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
-#+begin_center
-+ *Invalid moves are /just moves that are not valid! We have no idea!/*
-#+end_center
+** Invalid transitions
 
-#+begin_alignright
-+ Surprisingly, this is rather a *fundamental* question... 
-#+end_alignright
-
-** Negative examples are NEVER observed
-
-Do robots have a chance to observe *teleportation* in the real world?
++ */Invalid transitions/*: *All transitions that are not valid.*
+  + We lack the definition; *Cannot be generated.*
 
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span2
 
 #+end_span2
-#+begin_span8
+#+begin_span6
 [[png:aae/teleportation]]
-#+end_span8
+#+end_span6
 #+begin_span2
 
 #+end_span2
 #+end_row-fluid
 #+end_container-fluid
 
++ *Teleportation violates the laws of physics*. (at least in a macro scale)
+  + *Invalid transitions /never occur/, thus /never be observed/.*
 
-+ *No*, since teleportation *violates the laws of physics*.
-
-  #+begin_alignright
-  #+begin_smaller
-  (at least, in a macro scale, believed to be almost impossible)
-  #+end_smaller
-  #+end_alignright
-
-+ For a robot operating in a real world, invalid transitions are *never* observed.
-
-+ 
-  #+begin_center
-  The system should *imagine/generate* the false/invalid transitions
-  (e.g. teleportation) in order to train the binary classifier (like in a thought
-  experiment), *but we do not know what is valid NOR what is /invalid/.*
-
-  #+begin_larger
-  */We have no way to generate them!/*
-  #+end_larger
-  #+end_center
+#+begin_alignright
+#+begin_larger
++ We lack *invalid transitions!*
+#+end_larger
+#+end_alignright
 
 ** PU-Learning framework (Elkan & Noto, KDD 08')
 
-A method to learn a *positive/negative classifier* from the *positive/mixed datasets*
+Learning *Positive & negative classifier* from *positive & /mixed/ datasets*.
 
-Mixed dataset: some are positive, some are negative, unknown ratio
-
-We have:
-
-+ Positive examples: Training input: *all observed data are guaranteed to be valid*
-+ Mixed examples: *All successor candidates generated by the AAE*
++ Positive: Training Input. *Observed data are valid, guaranteed*
++ Mixed: *Successor candidates generated by the AAE*
+  + Some are valid, some are invalid
 
 #+begin_alignright
-+ Now we can run the PU-learning and train AD!
++ Now we can train the AD!
 #+end_alignright
 
 ** Successor Function
 
-AAE enumerates the potential successors; AD/SD removes the invalid successors.
+AAE *enumerates* the canditates; AD/SD *filters* the invalid.
 
 \begin{align*}
-  Succ(s) &= \{t = apply(a,s) \; | \; a \in \{0\ldots 127\} \setminus \textit{unused},\\
+  Succ(s) &= \{t = apply(a,s) \; | \; a \in \{0\ldots 127\},\\
           & \qquad \land AD(s,t) \geq 0.5 \\
           & \qquad \land SD(t) \geq 0.5 \}
 \end{align*}
@@ -1559,9 +1576,8 @@ AAE enumerates the potential successors; AD/SD removes the invalid successors.
 
 Is it feasibile to do planning with AAE and AD?
 
-+ 100 instances for each domain
-  + for each noise type (std, gaussian noise, salt/pepper noise)
-+ self-avoiding random walks from the goal state
++ *100 instances* for each domain
+  + self-avoiding random walks from the goal state
   + (benchmark A) 7-step
   + (benchmark B) 14-step
 + 180 sec. time limit
@@ -1577,20 +1593,24 @@ Is it feasibile to do planning with AAE and AD?
 
 ** Results
 
-G: Gaussian noise, s/p: salt/pepper noise
-
 Noise are applied to the planning inputs (init/goal images)
 
-| /          |   < |     |   > |   < |    |   > |
-| step       |   7 |   7 |   7 |  14 | 14 |  14 |
-| noise      | std |   G | s/p | std |  G | s/p |
-|------------+-----+-----+-----+-----+----+-----|
-| MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
-| Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
-| Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
-| LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
-| Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
-| Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+G: Gaussian noise, s/p: salt/pepper noise
+
++ *Easy instances: Majority of instances are solved*
++ *Harder instances: Still many instances are solved*
+
+
+|   | /          |   < |     |   > |   < |    |   > |
+|   | step       |   7 |   7 |   7 |  14 | 14 |  14 |
+|   | noise      | std |   G | s/p | std |  G | s/p |
+|---+------------+-----+-----+-----+-----+----+-----|
+|   | MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
+|   | Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
+|   | Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
+|   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
+|   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
+| / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
 
 * AMA_2 Experiments 2                                              :noexport:
 
@@ -1633,12 +1653,11 @@ Measure the type-1 / type-2 error in %
 
 * AMA_2 Experiments 2
 
-How accurate are Action Discriminators?
-
-
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span7
+How accurate are Action Discriminators?
+
 Measure the type-1 / type-2 error in %
 
 |          | type1 | type2 | 2/SD |  2/V |
@@ -1663,11 +1682,17 @@ Measure the type-1 / type-2 error in %
 #+end_row-fluid
 #+end_container-fluid
 
+#+begin_larger
+#+begin_alignright
++ *Reasonably accurate.*
+#+end_alignright
+#+end_larger
+
 * Conclusion
 
 + *Latplan Architecture* 
 
-  　　Automatically models / solves the real-world problem as a symbolic search
+  　　Models / solves the real-world problem as a *symbolic search*
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 + *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
@@ -1675,7 +1700,7 @@ Measure the type-1 / type-2 error in %
 + *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
 
 #+begin_center
-+ *Two* of the major grounding problems were solved!
++ *Two of the major grounding problems were solved!*
   | Types of symbols      |                              |
   |-----------------------+------------------------------|
   | Propositional symbols | *Solved!*                    |
@@ -1686,20 +1711,19 @@ Measure the type-1 / type-2 error in %
 
 ** Future Work (input format)
 
-LatPlan is an *architecture* : Any system with SAE is a LatPlan implementation
+LatPlan is an *architecture* : Any system with SAE is an implementation
 
-*Different SAE allows LatPlan to reason about different types of raw data*
+*Different SAE → reason about different types of raw data*
 
-+ Autoencoders for *unstructured text* [Li et.al. 2015], *audio* [Deng, Li, et al. 2010]
-+ Examples:
-  + Transition rule *This is an apple, this is a pen → oh, ApplePen!*
++ Autoencoders for *text*, *audio* [Li 2015, Deng 2010]
++ Example:
+  + Transition rule "*This is an apple, this is a pen → oh, ApplePen!*"
     
-    when actions resembling "word concatenation" was learned
-+ */Latplan/* brings AI to a new level
++ */Latplan/* brings AI to a new level e.g.
   
-  e.g. *1000 steps of optimal, logical reasoning over natural language*
+  *1000 steps of natural language reasoning with /logic/, not by reflex*
   
-  + Fundamentally impossible for short-sighted and greedy RL agents
+  + Fundamentally impossible for short-sighted / greedy agents
 
 #+begin_note
  "A hierarchical neural autoencoder for paragraphs and documents." (2015)
