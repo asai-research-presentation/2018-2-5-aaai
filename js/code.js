@@ -517,7 +517,7 @@ window.onload = function(){
 // expand one element in the list in the current slide, or go to the next slide
 keyManager.n
     = keyManager[" "]
-    = keyManager[40]
+    = keyManager[39]
     = function(){
     $(".title").hide();
     console.log(slide.level);
@@ -533,7 +533,7 @@ keyManager.n
 
 // expand all elements in the current slide
 keyManager.N
-    = keyManager[39]
+    = keyManager[40]
     = function(){
     $(".title").hide();
     console.log(slide.level);
