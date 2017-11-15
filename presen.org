@@ -746,11 +746,11 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 
 ** NN for Standard Classification Tasks (Supervised)
 
-Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
-
-#+begin_alignright
-SGD: Stochastic Gradient Descent
-#+end_alignright
+# Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
+# 
+# #+begin_alignright
+# SGD: Stochastic Gradient Descent
+# #+end_alignright
   
 | Task                 | Input x  | Output y                           |
 |----------------------+----------+------------------------------------|
