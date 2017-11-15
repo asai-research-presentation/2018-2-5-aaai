@@ -1347,7 +1347,7 @@ initial state
 
 + → Doesn't know *which transitions are of the same type*
 
-** Precondition/Effect learning: Is it trivial?
+** Precondition/Effect learning is not trivial
 
 #+begin_xlarge
 Case 1: Linear Space
@@ -1359,7 +1359,7 @@ Case 1: Linear Space
 
 [[png:ama/linear]]
 
-** Precondition/Effect learning: Is it trivial?
+** Precondition/Effect learning is not trivial
 
 #+begin_xlarge
 Case 2: Graphs
@@ -1387,7 +1387,7 @@ Case 2: Graphs
 
 #+begin_alignright
 #+begin_larger
-+ *What* is the right function to learn?
++ *Correct Question*: *What* is the right function to learn?
 #+end_larger
 #+end_alignright
 
@@ -1655,22 +1655,22 @@ Measure the type-1 / type-2 error in %
 
 #+begin_container-fluid
 #+begin_row-fluid
-#+begin_span7
+#+begin_span6
 How accurate are Action Discriminators?
 
 Measure the type-1 / type-2 error in %
 
-|          | type1 | type2 | 2/SD |  2/V |
-|----------+-------+-------+------+------|
-| MNIST    |  1.55 |  14.9 | 6.15 | 6.20 |
-| Mandrill |  1.10 |  16.6 | 2.93 | 2.94 |
-| Spider   |  1.22 |  17.7 | 4.97 | 4.91 |
-| L. Out   |  0.03 |  1.64 | 1.64 | 1.64 |
-| Twisted  |  0.02 |  1.82 | 1.82 | 1.82 |
-| Hanoi    |  0.25 |  3.50 | 3.79 | 4.07 |
+|          | type1 | type2 |
+|----------+-------+-------|
+| MNIST    |  1.55 |  6.15 |
+| Mandrill |  1.10 |  2.93 |
+| Spider   |  1.22 |  4.97 |
+| L. Out   |  0.03 |  1.64 |
+| Twisted  |  0.02 |  1.82 |
+| Hanoi    |  0.25 |  3.79 |
 
-#+end_span7
-#+begin_span5
+#+end_span6
+#+begin_span6
 #+begin_smaller
 + (AD type-1) :: Generate all valid transitions and count the number of misclassification.
 + (AD type-2) :: For 1000 randomly selected valid states, generate all successors,
@@ -1678,7 +1678,7 @@ Measure the type-1 / type-2 error in %
 + (2/SD, 2/V) :: Same as Type-2, but ignore the transitions whose successors are
                  invalid according to SD or the validator.
 #+end_smaller
-#+end_span5
+#+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
@@ -1696,7 +1696,7 @@ Measure the type-1 / type-2 error in %
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 + *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
-+ *Action AutoEncoder(AAE)* : */transitions/ ↔ /action labels/*
++ *Action AutoEncoder(AAE)* : */transitions/ ↔ /action labels/, /effects/*
 + *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
 
 #+begin_center
@@ -1709,7 +1709,7 @@ Measure the type-1 / type-2 error in %
   | Predicate symbols     | ???                          |
 #+end_center
 
-** Future Work (input format)
+** Future Work (Input format)
 
 LatPlan is an *architecture* : Any system with SAE is an implementation
 
@@ -1738,7 +1738,9 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 + Next step: *Extending Latplan to MDP, POMDP*
   + Gumbel-Softmax layer → just a Softmax layer? (probability)
 
+* This is the start of *neural-symbolic* AI.
 
+[[png:latplanlogo]]
 
 * Appendix
 
@@ -1779,8 +1781,7 @@ reward function for unit-action-cost planning, nor expert solution traces
 control levers/buttons).  Extending LatPlan to symbolic POMDP planning is an
 interesting avenue for future work.
 
-
-** Did we find symbols? Why not individual pixels? Why DL?
+** Why not individual pixels? Why DL?
 
 *Systems based on individual pixels lack generalization*
 
@@ -1895,29 +1896,29 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 # 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
 
-** When Latplan returns a /wrong/ solution?
+*** When Latplan returns a /wrong/ solution?
 
-*Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
+ *Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
 
-+ Images → Fraud symbols/model/graph
+ + Images → Fraud symbols/model/graph
 
-+ *Optimal path on a fraud graph* or *graph disconnected*
+ + *Optimal path on a fraud graph* or *graph disconnected*
   
-  A* completeness, soundness, optimality (admissible heuristics) 
+   A* completeness, soundness, optimality (admissible heuristics) 
 
-+ Fraud visualized plan (noisy) / no plan found
+ + Fraud visualized plan (noisy) / no plan found
 
-#+begin_center
-#+begin_larger
-LatPlan may make */wrong observations/* but no */wrong decisions/*
-#+end_larger
+ #+begin_center
+ #+begin_larger
+ LatPlan may make */wrong observations/* but no */wrong decisions/*
+ #+end_larger
 
-BTW, "correctness" is defined by error prone observations by humans anyways ...
-#+end_center
+ BTW, "correctness" is defined by error prone observations by humans anyways ...
+ #+end_center
 
-#+begin_alignright
- (completeness, optimality) → better reliablility than Reinforcement Learning
-#+end_alignright
+ #+begin_alignright
+  (completeness, optimality) → better reliablility than Reinforcement Learning
+ #+end_alignright
 
 *** Reinforcement Learning
 
@@ -1952,29 +1953,6 @@ SAE can generate propositional symbols (state $s = \{q,r\ldots\}$)
 
 + SAE with networks for object recognition (e.g. R-CNN) should achieve this
 
-** SAE implementation in LatPlan α
-
-Keras, Adam optimizer (learning rate:0.001)
-
-  1764(42x42)
-
-  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
-
-  →FC(49,GumbelSoftmax) (variational loss)
-
-  [→FC(4000,ReLu)→Batchnorm→Dropout(0.4)] × 2
-
-  →1764(42x42) (loss: Binary crossentropy)
-
-　
-
-+ Why full-connected layers ? ::
-             Main focus is on *whether propositions made by SAE are feasible*
-             
-             *→No complication due to CNN, ResNet, etc...* (but I have a working implementation)
-             
-+ Training on 8-puzzle ::
-               *12000 images* out of entire states (362880) → *Generalization*
 
 ** Why symbols?
 
@@ -1994,107 +1972,4 @@ Symbols are strong abstraction mechanisms becasue
      
      Heuristic functions use modus ponens to derive guidance
 
-** More details
-
-GTX1070, PhenomII X6 (3.4GHz OC), 16GB Mem
-
-+ Training: ~30 min
-+ Solving: ~3 sec
-
-*** State AutoEncoder (Train data)
-
-1: $x$ 2: $z$ 3: $y$ 4: $round(z)$ 5: $Decode(round(z))$
-
-[[spng:experiment/autoencoding_train]]
-
-*** State AutoEncoder (Validation)
-
-1: $x$ 2: $z$ 3: $y$ 4: $round(z)$ 5: $Decode(round(z))$
-
-[[spng:experiment/autoencoding_test]]
-
-*** State AutoEncoder
-
-Input 2: intial/goal images
-
-[[spng:experiment/init_goal]]
-
-*** PDDL Domain Definition
-
-Examples in $N=25$ (in the paper we bypassed PDDL-SAS converter though)
-
-#+begin_src lisp
-(define (domain latent)
- (:requirements :strips :negative-preconditions)
- (:predicates (z0) (z1) (z2) (z3) (z4) (z5) (z6) (z7) (z8) (z9) (z10)
-  (z11) (z12) (z13) (z14) (z15) (z16) (z17) (z18) (z19) (z20) (z21)
-  (z22) (z23) (z24))
- (:action a10000010010110111100011111000010001011111110011111
-  :parameters () :precondition
-  (and (z0) (not (z1)) (not (z2)) (not (z3)) (not (z4)) (not (z5))
-       (z6) (not (z7)) (not (z8)) (z9) (not (z10)) (z11) (z12)
-       (not (z13)) (z14) (z15) (z16) (z17) (not (z18)) (not (z19))
-       (not (z20)) (z21) (z22) (z23) (z24))
-  :effect (and (z5) (not (z6)) (z13) (z20)))
- (:action a10000010010110111100011110000001001011011110001110
-  ...
-#+end_src
-
-*** Results in one place
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-
-[[png:results/mnist-plan]]
-
-[[png:results/mandrill-plan]]
-
-#+end_span6
-#+begin_span6
-
-[[png:results/hanoi3]]
-
-[[png:results/hanoi4]]
-
-[[png:results/lights-out]]
-
-[[png:results/lights-out-skewed]]
-#+end_span6
-#+end_row-fluid
-#+end_container-fluid
-
-*** Fast Downward Log Trace (Search Statistics)                    :noexport:
-
-
-#+begin_example
-reading input... [t=5.479e-05 (sec)]
-...
-Building successor generator...done! [t=31.7737 (sec)]
-done initalizing global data [t=31.7738 (sec)]
-Conducting best first search with reopening closed nodes, (real) bound = 2147483647
-Initializing landmark cut heuristic...
-f = 4 [1 evaluated, 0 expanded, t=36.1569 (sec), 1054016 KB]
-...
-f = 12 [339 evaluated, 183 expanded, t=843.001 (sec), 1054016 KB]
-f = 13 [553 evaluated, 314 expanded, t=1357.62 (sec), 1054016 KB]
-f = 14 [942 evaluated, 529 expanded, t=2288.7 (sec), 1054016 KB]
-Solution found!
-Actual search time: 2688.73 (sec) [t=2724.89 (sec)]
-a11010000010010000101001111101100010001000010100111 (1)
-...
-a10011100111110010010011011001111010111011001001111 (1)
-a10011110101110110010011111001011001111011001001111 (1)
-Plan length: 14 step(s).
-Expanded 631 state(s).
-Evaluated 1140 state(s).
-Generated 1924 state(s).
-Dead ends: 24 state(s).
-Search time: 2693.06 (sec)
-Total time: 2724.89 (sec)
-#+end_example
-
-** Does it have something to do with symbolic planning (BDDs) ?
-
-No.
 
