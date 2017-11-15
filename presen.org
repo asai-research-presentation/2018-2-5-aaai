@@ -384,11 +384,12 @@ The *cost of human* involved for converting *real-world problems* into inputs fo
 domain-independent *symbolic* systems
 #+end_quote
 
-#+begin_larger
-+ *For /image-based/ tasks*, we must *automate 2 processes*:
-#+end_larger
-
 #+begin_container-fluid
+#+begin_row-fluid
+#+begin_span12
++ *For /image-based/ tasks*, we must *automate 2 processes*:
+#+end_span12
+#+end_row-fluid
 #+begin_row-fluid
 #+begin_span6
 + *1. Symbols Grounding:*
@@ -398,13 +399,15 @@ domain-independent *symbolic* systems
   */Symbols/ = identifiable entities*
   #+end_larger
   #+end_center
-
+  
+  #+begin_smaller
   | Types        | Examples                     |
   |--------------+------------------------------|
   | Objects      | *panel7*, *x_0*, *y_0* ...   |
   | Predicates   | (*empty* ?x ?y)              |
   | Propositions | *p_28* = (empty x_0 y_0)     |
   | Actions      | (*slide-up* panel_7 x_0 y_1) |
+  #+end_smaller
 #+end_span6
 #+begin_span6
 + *2. Action Model Acquisition (AMA):*
@@ -654,7 +657,7 @@ break
 
 Trained SAE provides two functions:
 
-+ $b = Encode(r)$ *maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
++ $b = Encode(r)$ *maps a raw datum $r\;$ to a bit vector $b\;$*
 
 + $\tilde{r} = Decode(b)$ *maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
 
@@ -718,7 +721,7 @@ break
 
 SAE is a *neural network* which provides two functions:
 
-+ $b = Encode(r)$ : *maps a raw datum $r\;$ to a bit vector $b\;$ (propositions)*
++ $b = Encode(r)$ : *maps a raw datum $r\;$ to a bit vector $b\;$*
 
 + $\tilde{r} = Decode(b)$ : *maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
 
@@ -727,7 +730,11 @@ SAE is a *neural network* which provides two functions:
 
   + *subsymbolic representation* (image array) and
 
-  + *symbolic representation* (bit vectors, propositional variables)
+  + *symbolic representation*
+ 
+    #+begin_alignright
+     (bit vectors = propositional variables)
+    #+end_alignright
 #+end_larger
 
 ** Neural Network 101                                              :noexport:
@@ -776,9 +783,9 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
      　
 
      #+begin_alignright
-     (*Even people do it differently on a different language*.
-
-     cf. How many colors in 🌈?)
+     (*People do it differently, too.*
+     
+     cf. How many colors in a 🌈?)
      #+end_alignright
 
 #+end_larger
