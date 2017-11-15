@@ -88,7 +88,7 @@ International Conference on Automated Planning and Scheduling
 (AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
 #+end_center
 
-** Planning people are working on */Automated Planners/*
+** */Planning people/* are working on */Automated Planners/*
 
 　
 
@@ -98,7 +98,7 @@ International Conference on Automated Planning and Scheduling
 
 /plan = (action_1, action_2, ... action_n)/
 
-Initial state → 🚶 → Goal state
+Initial state → 🚶  → 🚗  → 🔨 → Goal state
 #+end_larger
 #+end_center
 
@@ -108,6 +108,15 @@ Initial state → 🚶 → Goal state
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span4
+*1st-Order Logic*
+
+STRIPS/PDDL
+
+modelling language
+
+Close-world assumption
+#+end_span4
+#+begin_span4
 *Combinatorial Explosion*
 
 High-dimensional
@@ -115,15 +124,6 @@ High-dimensional
 implicit state space
 
 PSPACE-Hard
-#+end_span4
-#+begin_span4
-*1st-Order Logic*
-
-STRIPS/PDDL
-
-modelling language
-
-closed world assumption
 #+end_span4
 #+begin_span4
 *Expensive, Critical App*
@@ -140,13 +140,16 @@ Mars Exploration Rover
 
 　
 
-#+begin_center
-#+begin_larger
++ 
+  #+begin_center
+  #+begin_larger
+  *Soundness, Completeness, Optimality*
 
-*Soundness, completeness, optimality matters!*
+  of the algorithms are important
+  #+end_larger
+  (compared to "planning" in other AI fields)
+  #+end_center
 
-#+end_larger
-#+end_center
 
 # + Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
 #   + Search-based planning projects many steps further into the future than RL
@@ -209,15 +212,34 @@ break
 * High-level Planning: Sliding tile puzzle (a.k.a 8-puzzle)
 
 *Search states* represented as *1st-order logic formula*, described in *PDDL language*.
+
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
+#+begin_quote
+#+begin_smaller
+/Empty(x_0, y_0)/
+
+/Is(panel_6, x_1, y_0)/
+
+/Up(y_0, y_1), Down(y_1, y_0).../
+
+/Right(x_0, x_1), Left(x_0, x_1).../
+#+end_smaller
+#+end_quote
+#+end_span6
+#+begin_span6
 #+begin_src lisp
-(empty x0 y0)     ; or, empty(x0, y0)
-(is panel6 x1 y0) ; or, is(panel6, x1, y0)
-(up    y0 y1)... (down  y1 y0)...
-(right x0 x1)... (left  x0 x1)...
+(empty x0 y0)
+(is panel6 x1 y0)
+(up    y0 y1), (down y1 y0)...
+(right x0 x1), (left x0 x1)...
 #+end_src
+#+end_span6
+#+end_row-fluid
 
 #+begin_center
-#+begin_container-fluid
 #+begin_row-fluid
 #+begin_span4
 [[png:8puzzle-standard]]
@@ -231,10 +253,12 @@ Goal State
 [[sgif:8puzzle]]
 #+end_span4
 #+end_row-fluid
-#+end_container-fluid
 #+end_center
+#+end_container-fluid
 
-
+#+begin_alignright
++ *You need to find a plan to reach the goal.*
+#+end_alignright
 
 ** High-level Planning Task: State Transitions
 
@@ -303,11 +327,13 @@ initial state
 ** Can a symbolic planner solve an */Image-based/* 8-puzzle w/o human encoding?
 
 #+begin_center
-+ 3x3 */Image-based/* Sliding Tile Puzzle: maximum 31 steps *optimal* plan
++ 3x3 Sliding Tile Puzzle: maximum 31 steps *optimal* plan
 
-+ 4x4、5x5 : infeasible under blind search (memory exhaust)
+# + 4x4、5x5 : infeasible under blind search (memory exhaust)
 
-+ 3x3 PDDL model can be solved *optimally* under 1sec, w/ A* + admissible heuristics
++ *PDDL model* can be solved *optimally* *under 1sec*
+
++ However, *Can the same be said about /Image-based/ 8-puzzle?*
 #+end_center
 
 #+begin_container-fluid
@@ -1174,14 +1200,19 @@ break
 #+end_alignright
 #+end_larger
 
-* Typical domains contain a set of */Action Symbols/*
-* Action symbols
+* AMA_2 : The */Real/* AMA method
 
-+ Represent a *type* of transition (→ generalization)
+Jointly performs:
 
-+ E.g. *slide-up-tile7-at-x0-y1* action abstracts all transitions that looks like this
+#+begin_xlarge
++ Action Symbol Grounding
++ Action Effect Learning
++ Action Preconditon Learning
+#+end_xlarge
 
-+ → not merely an individual transition
+** Action Symbol Grounding
+
+Identifing a *type* of transition (clustering)
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1189,6 +1220,30 @@ break
 #+begin_src lisp
 (:action slide-up-tile7-at-x0-y1 ...
  :precondition ...
+ :effects      ...)
+ #+end_src
+ #+end_span9
+#+begin_span3
+initial state
+[[png:8puzzle-standard-tile7]]
+#+end_span3
+#+end_row-fluid
+#+end_container-fluid
+
+# + E.g. *slide-up-tile7-at-x0-y1* action abstracts all transitions that looks like this
+# 
+# + → not merely an individual transition
+
+** Action Precondition Learning
+
+Learns *when* that transition is allowed
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span9
+#+begin_src lisp
+(:action slide-up-tile7-at-x0-y1 ...
+ :precondition (and (empty x0 y0) ...)
  :effects      ...)
 #+end_src
 #+end_span9
@@ -1199,13 +1254,47 @@ initial state
 #+end_row-fluid
 #+end_container-fluid
 
-** Latplan Training Input lacks Action Labels
+** Action Effect Learning
 
-+ Note: Existing AMA methods all require action symbols
+Learns *what* happens after the transition
 
-+ *Latplan training input (transitions) consists of just pairs of images*
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span9
+#+begin_src lisp
+(:action slide-up-tile7-at-x0-y1 ...
+ :precondition (and (empty x0 y0) ...)
+ :effects      (and (empty x0 y1) (not ...)))
+#+end_src
+#+end_span9
+#+begin_span3
+initial state
+[[png:8puzzle-standard-tile7]]
+#+end_span3
+#+end_row-fluid
+#+end_container-fluid
 
-+ Without action symbols, it has *no idea which transitions are of the same type*
+#+begin_alignright
++ AMA_2 perform all three processes.
+#+end_alignright
+
+* Why action symbols are necessary?
+
+Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
+
+Without Action Symbols, *successor generation* becomes challenging
+
++ SAE with $|z|=36 \text{bit}$
+
+  → There are *$2^{36}$ potential successors.*
+
++ */With action symbols/, (e.g. up, down, left, right)*
+
++ → We can *enumerate the candidates in /constant time/*.
+
+* Latplan Training Input lacks Action Labels
+
++ *Just pairs of images*
 
   #+begin_center
   ↓
@@ -1213,18 +1302,9 @@ initial state
 
   [[png:ama/action-symbol]]
 
-** Is that a problem?
++ Without action symbols, it has *no idea which transitions are of the same type*
 
-+ Without action symbols ::
-
-     SAE with $|z|=36 \text{bit}$
-
-  + → you should enumerate the *entire $2^{36}$ states as successors*,
-  + → then remove the invalid transitions with AD.
-
-+ With a limited number of action symbols ::
-
-     We can */enumerate the successors in constant time/*.
++ → also makes *Precondition Learning harder*
 
 #+begin_alignright
 #+begin_larger
@@ -1274,18 +1354,6 @@ Case 2: Graphs
 #+end_span5
 #+end_row-fluid
 #+end_container-fluid
-
-* AMA_2 Overview                                                   :noexport:
-
-2 neural networks, *Action Autoencoder* (AAE) and *Action Descriminator* (AD)
-
-+ AAE finds *action symbols* and *action effects*
-  + Able to *enumerate the successor candidates* of the current state
-  + Some candidates represent the wrong transitions
-+ AD finds *action preconditions*, i.e. which transitions are allowed (valid)
-  + Able to *filter the wrong successors*
-+ Combined, AAE and AD *jointly learns a successor function* from a small dataset
-  + *Directly usable by a forward state space search*
 
 * AMA_2 Overview
 
