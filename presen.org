@@ -1015,9 +1015,7 @@ AMA_1: requires the entire transistions (note: > 1M transitions in 8-puzzle)
 
 Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
-+ $A^*$ *(optimal search)*
-
-+ *It must find an optimal solution*
++ $A^*$ *(optimal search)* : *It must find an optimal solution*
 
 + Runtime: ~3sec (instances are too small for symbolic systems)
 
