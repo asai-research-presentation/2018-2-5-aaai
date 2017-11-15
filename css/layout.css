@@ -390,9 +390,9 @@ b i {
 
 /* notes */
 /* lighten($text,4); */
-/* .resume { */
-/*     display : none; */
-/* } */
+.resume {
+  display: none; }
+
 .note, .resume {
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;

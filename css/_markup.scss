@@ -42,9 +42,9 @@ b i {
 
 @import "_colors";
 
-/* .resume { */
-/*     display : none; */
-/* } */
+.resume {
+    display : none;
+}
 
 .note, .resume {
     background-color: rgba( $background, .7 );
