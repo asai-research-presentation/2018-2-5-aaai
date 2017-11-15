@@ -183,6 +183,8 @@ Today, I talk about how to integrate DL and logic-based planning systems.
 break
 
 #+begin_xlarge
+*AMA_2 Overview*
+
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
@@ -203,6 +205,8 @@ break
 break
 
 #+begin_xlarge
+*AMA_2 Overview*
+
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
@@ -626,6 +630,8 @@ They are *random sampled* transitions
 break
 
 #+begin_xlarge
+*AMA_2 Overview*
+
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
@@ -698,6 +704,8 @@ Latplan: Latent-space Planner.
 break
 
 #+begin_xlarge
+*AMA_2 Overview*
+
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
@@ -1168,6 +1176,8 @@ SAE implementation uses a denoising layer (Denoising AE)
 */☕ Break ☕/*
 
 #+begin_xlarge
+*AMA_2 Overview*
+
 *Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
@@ -1188,7 +1198,9 @@ SAE implementation uses a denoising layer (Denoising AE)
 break
 
 #+begin_xlarge
-*/Action AutoEncoder (AAE)/*
+*AMA_2 Overview*
+
+*Action AutoEncoder (AAE)*
 
 *Action Discriminator (AD)*
 #+end_xlarge
@@ -1212,23 +1224,33 @@ break
 
 #+begin_larger
 #+begin_alignright
-→ AMA_2, a *novel neural architecture* which learns
+→ *AMA_2*, a novel neural architecture which finds
 
- *Action Models (action symbols, preconditions, effects)*
+*Actions Symbols* & *Action Models*
 #+end_alignright
 #+end_larger
 
-* AMA_2 : The */Real/* AMA method
+* The Task of AMA_2 : The */Real/* AMA method
 
-Jointly performs:
+Perform the following with limited examples (all unsupervised):
 
-#+begin_xlarge
-+ Action Symbol Grounding
-+ Action Effect Learning
-+ Action Preconditon Learning
-#+end_xlarge
++ *Action Symbol Grounding*
+  
+  #+begin_src lisp
+  (:action slide-up-tile7-at-x0-y1 ...
+  #+end_src
++ *Action Preconditon Learning*
+  
+  #+begin_src lisp
+   :precondition (and (empty x0 y0) ...)
+  #+end_src
++ *Action Effect Learning*
+  
+  #+begin_src lisp
+   :effects      (and (empty x0 y1) (not ...)))
+  #+end_src
 
-** Action Symbol Grounding
+** Action Symbol Grounding                                         :noexport:
 
 Identifing a *type* of transition (clustering)
 
@@ -1252,7 +1274,7 @@ initial state
 # 
 # + → not merely an individual transition
 
-** Action Precondition Learning
+** Action Precondition Learning                                    :noexport:
 
 Learns *when* that transition is allowed
 
@@ -1272,7 +1294,7 @@ initial state
 #+end_row-fluid
 #+end_container-fluid
 
-** Action Effect Learning
+** Action Effect Learning                                          :noexport:
 
 Learns *what* happens after the transition
 
@@ -1296,53 +1318,41 @@ initial state
 + AMA_2 perform all three processes.
 #+end_alignright
 
-* Why action symbols are necessary?
+** Why action symbols are necessary?
 
-Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
+ Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
 
-Without Action Symbols, *successor generation* becomes challenging
+ Without Action Symbols, *successor generation* becomes challenging
 
-+ SAE with $|z|=36 \text{bit}$
+ + SAE with $|z|=36 \text{bit}$
 
-  → There are *$2^{36}$ potential successors.*
+   → Generate *$2^{36}$ potential successors*, then filter the invalid
 
-+ */With action symbols/, (e.g. up, down, left, right)*
+ + */With action symbols/, (e.g. up, down, left, right)*
 
-+ → We can *enumerate the candidates in /constant time/*.
+ + → We can *enumerate the candidates in /constant time/*.
 
-* Latplan Training Input lacks Action Labels
+** The challenge : Latplan Training Input lacks Action Symbols
 
-+ *Just pairs of images*
+*Just pairs of images*
 
-  #+begin_center
-  ↓
-  #+end_center
+[[png:ama/action-symbol]]
 
-  [[png:ama/action-symbol]]
++ Lacks the information regarding *which transitions are of the same type*
 
-+ Without action symbols, it has *no idea which transitions are of the same type*
-
-+ → also makes *Precondition Learning harder*
-
-#+begin_alignright
-#+begin_larger
-+ *AAE finds these action labels without human supervision*
-#+end_larger
-#+end_alignright
-
-** Is AAE trivial?
+** Precondition/Effect learning: Is it trivial?
 
 #+begin_xlarge
 Case 1: Linear Search Spaces
 #+end_xlarge
 
 + *We do not need an action label*; it is linear anyways
-+ AMA reduces to a *prediction task*
++ AMA reduces to a *prediction task* (common in scene prediction in video)
   + We can train a neural network $a(s) = t\;$ by minimizing $|t-a(s)|$
 
 [[png:ama/linear]]
 
-** Is AAE trivial?
+** Precondition/Effect learning: Is it trivial?
 
 #+begin_xlarge
 Case 2: Graphs
@@ -1383,6 +1393,10 @@ Case 2: Graphs
 
 ** AMA_2 Overview
 
+ [[png:ama/overview1-1]]
+
+** AMA_2 Overview
+
  [[png:ama/overview2]]
 
 ** AMA_2 Overview
@@ -1402,6 +1416,8 @@ Case 2: Graphs
 break
 
 #+begin_xlarge
+*AMA_2 Overview*
+ 
 */Action AutoEncoder (AAE)/*
 
 *Action Discriminator (AD)*
@@ -1430,6 +1446,8 @@ break
 break
 
 #+begin_xlarge
+*AMA_2 Overview*
+
 *Action AutoEncoder (AAE)*
 
 */Action Discriminator (AD)/*
