@@ -76,11 +76,12 @@ Let me give you one question before presenting my paper...
 
 ** Introduction 
 
-#+begin_xlarge
+
+#+begin_larger
 #+begin_center
-I am from */AI Planning/* community (symbolic, logic-based)
+*I am from /AI Planning/ community (symbolic, logic-based)*
 #+end_center
-#+end_xlarge
+#+end_larger
 
 #+begin_center
 [[sgif:icapslogo]]
@@ -90,7 +91,7 @@ International Conference on Automated Planning and Scheduling
 (AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
 #+end_center
 
-** */Planning people/* are working on */Automated Planners/*
+** We are working on */Automated Planners/*
 
 　
 
@@ -128,7 +129,7 @@ implicit state space
 PSPACE-Hard
 #+end_span4
 #+begin_span4
-*Expensive, Critical App*
+*Expensive, Critical Applications*
 
 Satellite Operation
 
@@ -1112,7 +1113,7 @@ SAE implementation uses a denoising layer (Denoising AE)
  → *Improved speed, robustness, accuracy*
 #+end_alignright
 #+end_larger
-* Why bother the off-the-shelf planner? Shouldn't the blind search do? :noexport:
+* Why bother the off-the-shelf planner? Shouldn't the blind search do?
 
 *Domain-independent lowerbounds works, /SURPRISINGLY!/*
 
@@ -1148,6 +1149,13 @@ SAE implementation uses a denoising layer (Denoising AE)
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
+
+* Why Gumbel-Softmax is necessary?
+
++ Alternative 1: Use a normal NN and *round* the encoder output?
+  + ✘ The *decoder* is not trained with 0/1 value
++ Alternative 2: Include the *round* operation in a NN?
+  + ✘ Rounding is *non-differentiable* / *Backpropagation impossible*
 
 * State Autoencoder Conclusion
 
@@ -1579,6 +1587,14 @@ AAE *enumerates* the canditates; AD/SD *filters* the invalid.
 # & \qquad \land Encode(Decode(s)) \equiv s \\
 # & \qquad \land Apply(Action(t,s),s) \equiv t \}
 
+* Planning using AMA_2
+
+Using a symbolic forward-search planner
+
++ Effects/preconditions are embedded in NNs, but there are *discrete action labels*
++ Simple $A^*$ with *goal-count* heuristics
+  + The number of different bits from the goal
+
 * AMA_2 Experiments 1
 
 Is it feasibile to do planning with AAE and AD?
@@ -1748,12 +1764,20 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 + Latplan assumes *fully-observable*, *deterministic* domains
 + Next step: *Extending Latplan to MDP, POMDP*
   + Gumbel-Softmax layer → just a Softmax layer? (probability)
+    
+** Other Future Works
+
+Extracting rules from AAE/AD (discussed later)
+
+Extracting much higher-order rule (predicates, HTN)
 
 * This is the start of *neural-symbolic* AI.
 
 [[png:latplanlogo]]
 
 * Appendix
+
+Using the Remaining Time (Discussion)
 
 ** Konidaris et. al (2014, 2015): 
 
@@ -1762,6 +1786,8 @@ Structured input (e.g. *light switch*, *x/y-distance*) ↔ unstructured image
 Action Symbols (*move, interact*)
 
 Just converting Semi-MDP /model/ to a PDDL /model/.
+
+Could be used for extracting PDDL from AAE/AD
 
 ** NNs for solving combinatorial tasks:
 
@@ -1790,6 +1816,17 @@ DQN assumes *predetermined action symbols* (↑↓←→+ buttons).
 DQN *relies on simulators*. ↔ Latplan *reverse-engineers a simulator*.
 
 *DQN does not work* when it does not know *what action is even possible!*
+
+** Other Interesting Systems
+
+SCAN system (deepmind)
+
++ Maps *continuous* latent ↔ *human-provided* symbolic vector
+
+δ-ILP (Inductive Logic Programming)
+
++ ILP robust to noise
+  + Extracting rules from AAE/AD to form a PDDL?
 
 ** Why not individual pixels? Why DL?
 
@@ -1952,7 +1989,6 @@ Cade Metz. "In Two Moves, that Redifined the Future." /Wired/, 2016
 RL may make *wrong decisions*.
 #+end_larger
 #+end_center
-
 ** Future Work (SAE)
 
 SAE can generate propositional symbols (state $s = \{q,r\ldots\}$)
@@ -1962,7 +1998,6 @@ SAE can generate propositional symbols (state $s = \{q,r\ldots\}$)
 + We need *object recognition from images* (parameters $a,b$)
 
 + SAE with networks for object recognition (e.g. R-CNN) should achieve this
-
 
 ** Why symbols?
 
@@ -1981,5 +2016,3 @@ Symbols are strong abstraction mechanisms becasue
      A latent vector is a conjunction (and)
      
      Heuristic functions use modus ponens to derive guidance
-
-
