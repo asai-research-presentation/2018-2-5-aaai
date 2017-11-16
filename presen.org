@@ -1764,6 +1764,7 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 + Latplan assumes *fully-observable*, *deterministic* domains
 + Next step: *Extending Latplan to MDP, POMDP*
   + Gumbel-Softmax layer → just a Softmax layer? (probability)
+  + $AO^*$, $LAO^*$ algorithms for *optimal planning under uncertainty*
     
 ** Other Future Works
 
