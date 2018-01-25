@@ -32,173 +32,7 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Introduction                                                     :noexport:
-
-#+begin_xlarge
-#+begin_center
-Hello, Machine Learning people!
-#+end_center
-#+end_xlarge
-
-#+begin_center
-Deep Learning, RL, data mining, etc...
-
-#+begin_xlarge
-+ Do you identify yourself as a connectionist? ✋
-#+end_xlarge
-#+end_center
-
-#+begin_resume
-First of all, hello machine learning people.
-Im not a machine learning person.
-Im usually studying a type of symbolic AI and I visited here expecting an interesting conversation with
-machine learning professionals.
-#+end_resume
-
-** Introduction 
-
-#+begin_xlarge
-#+begin_center
-Hello, Symbolic AI people!
-#+end_center
-#+end_xlarge
-
-#+begin_center
-SAT, CP, Logic, TCS, ...
-
-#+begin_xlarge
-+ Have you tried any DL libraries? ✋
-#+end_xlarge
-#+end_center
-
-#+begin_resume
-And also, hello other symbolic AI people.
-Although I am not doing exactly the same thing, we have common roots.
-
-Let me give you one question before presenting my paper...
-#+end_resume
-
-** Introduction 
-
-
-#+begin_larger
-#+begin_center
-*I am from /AI Planning/ community (symbolic, logic-based)*
-#+end_center
-#+end_larger
-
-#+begin_center
-[[sgif:icapslogo]]
-
-International Conference on Automated Planning and Scheduling
-
-(AAAI sister conference, 33% avg. accept ratio, since 1990, ECP+AIPS→ICAPS)
-#+end_center
-
-** We are working on */Automated Planners/*
-
-　
-
-#+begin_center
-#+begin_larger
-*High-level plan for agents*
-
-/plan = (action_1, action_2, ... action_n)/
-
-Initial state → 🚶  → 🚗  → 🔨 → Goal state
-#+end_larger
-#+end_center
-
-　
-
-#+begin_center
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span4
-*1st-Order Logic*
-
-STRIPS/PDDL
-
-modelling language
-
-Close-world assumption
-#+end_span4
-#+begin_span4
-*Combinatorial Explosion*
-
-High-dimensional
-
-implicit state space
-
-PSPACE-Hard
-#+end_span4
-#+begin_span4
-*Expensive, Critical Applications*
-
-Satellite Operation
-
-Deep Space 1
-
-Mars Exploration Rover
-#+end_span4
-#+end_row-fluid
-#+end_container-fluid
-#+end_center
-
-　
-
-+ 
-  #+begin_center
-  #+begin_larger
-  *Soundness, Completeness, Optimality*
-
-  of the algorithms are important
-  #+end_larger
-  (compared to "planning" in other AI fields)
-  #+end_center
-
-
-# + Compute the *high-level plan* for an agent: /plan = (action_1, action_2, ... action_n)/
-#   + Search-based planning projects many steps further into the future than RL
-#   + ↔ reflex (0-step), limited deliberation (1,2-steps)
-# + High-dimensional, *implicit* state space search
-#   + Entire space does not fit in memory, only *transition rules* are given
-# + STRIPS-like *PDDL modelling language*, based on
-#   + 1st-order logic, close-world assumption
-# + *Soundness, completeness, optimality* matters
-#   + Expensive Applications: Satellite operations (Deep Space 1), Mars Exploration Rover (MER), underwater vehicles
-
-** Introduction 
-
-#+begin_xlarge
-#+begin_center
-Today, I talk about how to integrate DL and logic-based planning systems.
-#+end_center
-#+end_xlarge
-
-* Overview                                                         :noexport:
-
-#+begin_center
-#+begin_xlarge
-*Backgrounds*
-
-*Latplan Architecture*
-
-*State AutoEncoder (SAE)*
-#+end_xlarge
-
-break
-
-#+begin_xlarge
-*AMA_2 Overview*
-
-*Action AutoEncoder (AAE)*
-
-*Action Discriminator (AD)*
-#+end_xlarge
-#+end_center
-
-* Overview
+* Overview                                                       :background:
 
 #+begin_center
 #+begin_xlarge
@@ -220,115 +54,7 @@ break
 #+end_xlarge
 #+end_center
 
-* Sliding tile puzzle (a.k.a 8-puzzle)                             :noexport:
-
-#+begin_container-fluid
-#+begin_center
-#+begin_row-fluid
-#+begin_span4
-[[png:8puzzle-standard]]
-Initial State
-#+end_span4
-#+begin_span4
-[[png:8puzzle-standard-goal]]
-Goal State
-#+end_span4
-#+begin_span4
-[[sgif:8puzzle]]
-#+end_span4
-#+end_row-fluid
-#+end_center
-#+end_container-fluid
-
-#+begin_alignright
-+ *You need to find a plan to reach the goal.*
-#+end_alignright
-
-** States
-
-*States* as *1st-order logic formula*, described in *PDDL language*.
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-#+begin_quote
-#+begin_smaller
-/Empty(x_0, y_0)/
-
-/Is(panel_6, x_1, y_0)/
-
-/Up(y_0, y_1), Down(y_1, y_0).../
-
-/Right(x_0, x_1), Left(x_0, x_1).../
-#+end_smaller
-#+end_quote
-#+end_span6
-#+begin_span6
-#+begin_src lisp
-(empty x0 y0)
-(is panel6 x1 y0)
-(up    y0 y1), (down y1 y0)...
-(right x0 x1), (left x0 x1)...
-#+end_src
-#+end_span6
-#+end_row-fluid
-#+begin_center
-#+begin_row-fluid
-#+begin_span4
-[[png:8puzzle-standard]]
-Initial State
-#+end_span4
-#+begin_span4
-[[png:8puzzle-standard-goal]]
-Goal State
-#+end_span4
-#+begin_span4
-[[sgif:8puzzle]]
-#+end_span4
-#+end_row-fluid
-#+end_center
-#+end_container-fluid
-
-** Transitions / Actions
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span9
-Representing  *sliding up* → *Transition Rules (Actions)*
-
-#+begin_quote
-+ *When* the new location is empty:
-
-+ The current location *becomes empty*.
-
-+ New location is *occupied* and is *not empty*.
-#+end_quote
-#+end_span9
-#+begin_span3
-initial state
-[[png:8puzzle-standard-tile7]]
-#+end_span3
-#+end_row-fluid
-#+begin_row-fluid
-#+begin_span12
-+ *PDDL Model* : Actual Input to the Planner
-  #+begin_src lisp
-  (:action slide-up ...
-   :precondition (and (empty ?x ?y-old) ...)
-   :effects (and (not (empty ?x ?y-old)) (empty ?x ?y-new) ...))
-  #+end_src
-#+end_span12
-#+end_row-fluid
-#+end_container-fluid
-
-# + 
-#   #+begin_larger
-#   #+begin_alignright
-#   But *where does this representation come from?*
-#   #+end_alignright
-#   #+end_larger
-
-* Symbolic planners cannot solve an */Image-based/* 8-puzzle
+** Symbolic planners cannot solve an */Image-based/* 8-puzzle
 
 #+begin_center
 + *PDDL for 3x3 Sliding Tile Puzzle* can be solved *optimally* *<< 1sec*
@@ -364,7 +90,7 @@ initial state
 #+end_row-fluid
 #+end_container-fluid
 
-** Knowledge-Acquisition Bottleneck (Cullen, 1988):
+*** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
 The *cost of human* involved for converting *real-world problems* into inputs for
@@ -430,98 +156,11 @@ domain-independent *symbolic* systems
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
 
-* Latent-Space Planner (*/Latplan/*)
+** Latent-Space Planner (*/Latplan/*)
 
 [[png:latplanlogo]]
 
-* Survey of Exisiting Action Model Acquisition Techniques          :noexport:
-
-#+begin_xlarge
-Survey of Exisiting Action Model Acquisition Techniques
-#+end_xlarge
-
-　
-
-#+begin_alignright
-i.e. Systems that find action models
-#+end_alignright
-
-** Limitations of Existing Systems                                 :noexport:
-
-#+begin_xlarge
-#+begin_center
-So far, ALL existing AMA systems require */symbolic / near-symbolic, accurate state inputs/* and/or */discrete action labels/*.
-#+end_center
-#+end_xlarge
-
-#+begin_alignright
-i.e. They need symbols to find an action model
-#+end_alignright
-
-** So far, ALL existing AMA systems require */symbolic inputs/*
-
-ARMS (Yang AIJ07)
-LOCM (ICAPS09)
-Argall (AIJ09)
-Mourao (UAI12)
-
-All taking the *symbolic* inputs to find the *action models*
-
-[[spng:locm]]
-
-** Framer (ICAPS17)                                                :noexport:
-
-*Near-Symbols* : Parses natural language sentences with a *clear grammatical structure*.
-
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-[[spng:framer]]
-#+end_span6
-#+begin_span6
-+ Alleviates the burden of domain experts, but *still requires human*
-+ Not handling "Natural Language":
-  
-  #+begin_quote
-  Pick up that parcel over there ... yeah, it has a label on it, it says Parcel1, you can see
-  it from here, the Location B. Then put it in the car, I mean the truck, the red one.
-  #+end_quote
-#+end_span6
-#+end_row-fluid
-#+end_container-fluid
-
-** Konidaris, Kaelbring (AAAI14, IJCAI15)                          :noexport:
-
-"Constructing Symbolic Representations for High-Level Planning" (AAAI14)
-
-+ What it does :: Converting a *Semi-MDP Model* to a *PDDL Model* by set-theoretic representation
-                  
-                  i.e. *Model-to-Model* conversion, not *generating a model from the scratch*
-+ Semi-MDP contains Action Labels :: =move= and =interact= (Playroom)
-+ Sensor inputs are structured (Labels for "State Variable" are known) :: 
-
-     x/y-distance, light level, whether a monkey cries
-     
-     → Each sensor has a distinct meaning (no overwrap)
-
-# + Low-dimensional, accurate input :: 33 vars (Playroom), 9 vars (Treasure), no noise
-#      
-#      Although IJCAI15 shows "visual depiction", it is not used by the system
-
-** Learning from Video for Board Game (Bardu ICRA10; Kaiser AAAI12; Kirk 16) :noexport:
-
-*Handles Images, but with strong assumptions (almost symbol)* e.g.
-
-#+begin_quote
-Tic-Tac-Toe with *Ellipse Detectors* (Bardu 10)
-     
-→ Almost immediately provides propositions
-
-→ Also, Domain-dependent ("3x3 grid" "Ellipse" are hard-coded)
-#+end_quote
-
-* Problem Setting
+** Problem Setting
 
 #+begin_center
 #+begin_xlarge
@@ -533,19 +172,19 @@ Latent-Space Planner
 #+end_xlarge
 #+end_center
 
-** Task: Solving an Imaged-Based 8-puzzle w/o Prior Explicit Knowledge
+*** Task: Solving an Imaged-Based 8-puzzle w/o Prior Explicit Knowledge
 
 *No Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Task: Solving an Imaged-Based 8-puzzle */w/o Prior Explicit Knowledge/*
+*** Task: Solving an Imaged-Based 8-puzzle */w/o Prior Explicit Knowledge/*
 
 */No Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+*** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 */No Prior Knowledge/* : */Domain-independent Image-based planner/*
 
@@ -564,7 +203,7 @@ Lights-Out
 #+end_row-fluid
 #+end_container-fluid
 
-** Inputs
+*** Inputs
 
 #+begin_xlarge
 The system is given *2 types of input*:
@@ -573,11 +212,11 @@ The system is given *2 types of input*:
 + Planning Input
 #+end_xlarge
 
-** Input1: Training Input -- Image Pairs
+*** Input1: Training Input -- Image Pairs
 
 [[png:overview/1]]
 
-** Input1: Training Input -- Image Pairs
+*** Input1: Training Input -- Image Pairs
 
 #+begin_right
 [[png:overview/2]]
@@ -604,19 +243,19 @@ They are *random sampled* transitions
   al. 09), (Argall et al. 09), (Mourao et al. 12), Framer (Lindsay et al. 17)
   
 
-** Input2: Planning Input -- Initial Image & Goal Image
+*** Input2: Planning Input -- Initial Image & Goal Image
 
 [[png:overview/input2]]
 
-** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+*** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
 
-** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
+*** Task: Solving */ANY/* Imaged-Based tasks w/o Prior Explicit Knowledge
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
-* Overview
+* Overview                                                     :architecture:
 
 #+begin_center
 #+begin_xlarge
@@ -638,23 +277,13 @@ break
 #+end_xlarge
 #+end_center
 
-* Latent-Space Planner (*/LatPlan/*) architechture
+** Latent-Space Planner (*/LatPlan/*) architechture
 
- [[png:overview/planning1]]
+  [[png:overview/planning1]]
 
 ** Step 1: Propositional Symbol Grounding
 
  [[png:overview/planning2]]
-
-*** Step 1: State Autoencoder                                      :noexport:
-
-[[png:train-state-ae]]
-
-Trained SAE provides two functions:
-
-+ $b = Encode(r)$ *maps a raw datum $r\;$ to a bit vector $b\;$*
-
-+ $\tilde{r} = Decode(b)$ *maps a bit vector $b\;$ to a raw datum $\tilde{r}$*
 
 ** Step 2: Action Model Acquisition (AMA)
 
@@ -677,7 +306,7 @@ Trained SAE provides two functions:
 #+end_larger
 #+end_center
 
-** Summary
+** Summary                                                         :noexport:
 
 #+begin_xlarge
 Latplan: Latent-space Planner.
@@ -690,7 +319,7 @@ Latplan: Latent-space Planner.
 + *runs in a /completely automated, unsupervised/ manner.*
 #+end_larger
 
-* Overview
+* Overview                                                              :SAE:
 
 #+begin_center
 #+begin_xlarge
@@ -712,7 +341,7 @@ break
 #+end_xlarge
 #+end_center
 
-* State AutoEncoder (SAE)
+** State AutoEncoder (SAE)
 
 SAE is a *neural network* which provides two functions:
 
@@ -732,31 +361,7 @@ SAE is a *neural network* which provides two functions:
   #+end_alignright
 #+end_larger
 
-** Neural Network 101                                              :noexport:
-
-[[png:deeplearning/1]]
-
-** Neural Network 101                                              :noexport:
-
-[[png:deeplearning/2]]
-
-** Neural Network 101                                              :noexport:
-
-[[png:deeplearning/3]]
-
-** Stochastic Gradient Descent + GPU                               :noexport:
-
-[[spng:gradient-descent]]
-
-Plus misc techniques e.g. *Batchnorm*, *Dropout*
-
-#+begin_larger
-*Pretty much everything is on the standard online tutorial / lecture cource / MOOP*
-
-*Good libraries --- Tensorflow, Keras* --- you can learn in 1-2 months
-#+end_larger
-
-** NN for Standard Classification Tasks (Supervised)
+*** NN for Standard Classification Tasks (Supervised)
 
 # Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
 # 
@@ -785,7 +390,7 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 
 #+end_larger
 
-** Unsupervised Learning by AutoEncoder
+*** Unsupervised Learning by AutoEncoder
 
 # Auto = "self" --- Autoencoding = "encoding itself"
 
@@ -816,7 +421,7 @@ Target Function: Identity $x=f(x)$
 #+end_larger
 #+end_alignright
 
-** Variational AutoEncoder (VAE)                                   :noexport:
+*** Variational AutoEncoder (VAE)                                  :noexport:
 
 An AutoEncoder that *enforce a certain distribution* on $Z \subset \mathbb{R}^n$ over the dataset $X$
 
@@ -834,7 +439,7 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 #+end_center
 #+end_quote
 
-** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
+*** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
 
 *Additional optimization penalty* which enforces $Z \sim \textbf{Categorical}$:
 
@@ -859,59 +464,15 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
   In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 
-** State Autoencoder (*/before training/*)
+*** State Autoencoder (*/before training/*)
 
- [[png:sae/state-ae-before]]
+  [[png:sae/state-ae-before]]
 
-** State Autoencoder (_/after training/_)
+*** State Autoencoder (_/after training/_)
 
- [[png:sae/state-ae]]
+  [[png:sae/state-ae]]
 
-** Gumbel-Softmax: Differential Approximation of Gumbel-Max        :noexport:
-
-#+begin_larger
-It uses *annealing* to approximate discrete vectors
-#+end_larger
-
-#+begin_smaller
-Gumbel-Max: Method for drawing one-hot vector sample ($z$) from category probability ($x$)
-
-+ E.g.: $x=[0.1, 0.1, 0.8] \rightarrow z = [1,0,0] \text{or} [0,1,0] \text{or} [0,0,1]$
-
-+ $z = \text{ GumbelMax}(x) = [ i == \arg \max_j (\text{ Gumbel}(0,1)+\log x_j) \; ? \; 1 : 0 ]$
-
-+ argmax is non-differentiable → softmax approximation (differentiable)
-
-+ $z = \text{ GumbelSoftmax}_\tau (x) = \text{ Softmax}( [\text{ Gumbel}(0,1)+\log x_j]/\tau )$
-
-+ Temparature $\tau \rightarrow 0$ , $z\rightarrow \text{one-hot vector}$
-
-  # \[
-  # \text{ GumbelSoftmax}_\tau (x) \rightarrow \text{ GumbelMax}(x) \quad (\tau\rightarrow 0)
-  # \]
-#+end_smaller
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span2
-
-#+end_span2
-#+begin_span8
-#+begin_center
-[[png:sae/gumbel]]
-#+end_center
-#+end_span8
-#+begin_span2
-
-#+end_span2
-#+end_row-fluid
-#+end_container-fluid
-
-#+begin_note
-Maddison et. al., 2014
-#+end_note
-
-* Verifying the feasibility of Latplan system and SAE
+** Verifying the feasibility of Latplan system and SAE
 
 #+begin_quote
 #+begin_center
@@ -921,80 +482,48 @@ Maddison et. al., 2014
 #+end_center
 #+end_quote
 
-To test this, we built a *trivial, oracular* AMA system, AMA_1
+# To test this, we built a *trivial, oracular* AMA system, AMA_1
 
-** AMA_1 : a */trivial, oracular/* AMA method                      :noexport:
+AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
 
-It does not actually *learn/generalize* anything
++ *Entire raw state transitions* in the environment are given
++ For each transition, perform the following conversion:
 
-　
+  #+begin_src lisp
+   0011 → 0101  
+  
+  　　　↓       ;; one action per transition
+  (:action       action-0011-0101
+                 ;; before-state is embedded directly
+   :precondition (and (b0-false) (b1-false) (b2-true) (b3-true))
+                 ;; effect = state diff
+   :effect       (and (not (b1-false)) (b1-true)
+                      (not (b2-true))  (b2-false)))
+  #+end_src
 
- [[png:overview/ama1]]
+*** Step 3: Solve the Symbolic Planning Problem
 
-** AMA_1 : a */trivial, oracular/* AMA method w/o generalization
+   [[png:overview/planning4]]
 
-#+begin_src lisp
- 0011 → 0101  
+*** Step 4: Executing the Symbolic Plan
 
-　　　↓       ;; one action per transition
-(:action       action-0011-0101
-               ;; before-state is embedded directly
- :precondition (and (b0-false) (b1-false) (b2-true) (b3-true))
-               ;; effect = state diff
- :effect       (and (not (b1-false)) (b1-true)
-                    (not (b2-true))  (b2-false)))
-#+end_src
+   [[png:overview/planning5]]
 
-Conversion from a bit to a proposition:
+*** Step 5: Obtaining the Visualization
 
+   [[png:overview/planning6]]
+
+** AMA_1 Experiments
+
+#+begin_quote
 #+begin_center
- $i$-th bit is 1 → Proposition ($b_i$ -true)
-
- $i$-th bit is 0 → Proposition ($b_i$ -false)
+Show that the SAE (neural network) produce */sound propositions/*
 #+end_center
+#+end_quote
 
-*** Example PDDL
+SAE: *trained with 20k images*, *generalizes to > 360k entire states* in 8-puzzle
 
-# Examples in $N=25$ (in the paper we bypassed PDDL-SAS translater)
-
-#+begin_src lisp
-(define (domain latent)
- (:requirements :strips)
- (:predicates (b0-true) (b0-false) (b1-true) ... (b24-false))
-
- (:action a10000010010110111100011111000010001011111110011111
-  :parameters () :precondition
-  (and (b0-true) (b1-false) (b2-false) ... (b24-true))
-  :effect (and (not (b5-false))  (b5-true)
-               (not (b6-true))   (b6-false)
-               (not (b13-false)) (b13-true)
-               (not (b20-false)) (b20-true)))
-
- (:action a10000010010110111100011110000001001011011110001110
-  ...
-#+end_src
-
-** Step 3: Solve the Symbolic Planning Problem
-
-  [[png:overview/planning4]]
-
-** Step 4: Executing the Symbolic Plan
-
-  [[png:overview/planning5]]
-
-** Step 5: Obtaining the Visualization
-
-  [[png:overview/planning6]]
-
-* AMA_1 Experiments
-
-SAE: *trained with 20k images* (note: > 360k entire states in 8-puzzle)
-
-+ */SAE is generalizing/*
-
-AMA_1: requires the entire transistions (note: > 1M transitions in 8-puzzle)
-
-+ _/AMA_1 is NOT generalizing, being an oracle/_
+AMA_1 : *oracular method*
 
 Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
@@ -1002,28 +531,28 @@ Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
 + Runtime: ~3sec (instances are too small for symbolic systems)
 
-** 8-puzzle Results with MNIST tiles (MNIST 8-puzzle)
+*** 8-puzzle Results with MNIST tiles (MNIST 8-puzzle)
 
- 8-puzzle using digits from MNIST database
+  8-puzzle using digits from MNIST database
 
- [[png:results/mnist-plan]]
+  [[png:results/mnist-plan]]
 
- #+begin_larger
- An instance whose optimal solution length is known
- #+begin_xlarge
- #+begin_alignright
-  → *31 step optimal plan*
- #+end_alignright
- #+end_xlarge
- #+end_larger
+  #+begin_larger
+  An instance whose optimal solution length is known
+  #+begin_xlarge
+  #+begin_alignright
+   → *31 step optimal plan*
+  #+end_alignright
+  #+end_xlarge
+  #+end_larger
 
-** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
+*** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
 
 MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 
 [[png:results/mandrill-intro]]
 
-** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
+*** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
 
 [[png:results/mandrill-plan]]
 
@@ -1033,7 +562,7 @@ MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 #+end_alignright
 #+end_xlarge
 
-** Results with photographic, unseparated tiles (Spider 8-puzzle)
+*** Results with photographic, unseparated tiles (Spider 8-puzzle)
 
 [[png:results/spider-plan-new]]
 
@@ -1043,7 +572,7 @@ Notice that *latplan has no idea that this is an 8-puzzle*; Thus MNIST, Mandrill
 #+end_larger
 #+end_center
 
-** Tower of Hanoi (3 disks, 4 disks)
+*** Tower of Hanoi (3 disks, 4 disks)
 
 Completely different puzzle problems can be solved by the same system
 
@@ -1057,7 +586,7 @@ Completely different puzzle problems can be solved by the same system
 #+end_xlarge
 #+end_alignright
 
-** Lights Out
+*** Lights Out
 
 Completely different puzzle problems can be solved by the same system
 
@@ -1069,7 +598,7 @@ Completely different puzzle problems can be solved by the same system
 #+end_xlarge
 #+end_alignright
 
-** Twisted Lights Out
+*** Twisted Lights Out
 
 Does not assume grid-like structures
 
@@ -1081,7 +610,7 @@ Does not assume grid-like structures
 #+end_xlarge
 #+end_alignright
 
-** Handling the Noisy Input
+*** Handling the Noisy Input
 
 SAE implementation uses a denoising layer (Denoising AE)
 # Denoising AE を使っているため入力ノイズに左右されずにプランを求められる
@@ -1095,57 +624,11 @@ SAE implementation uses a denoising layer (Denoising AE)
  → *Improved speed, robustness, accuracy*
 #+end_alignright
 #+end_larger
-* Why bother the off-the-shelf planner? Shouldn't the blind search do?
-
-*Domain-independent lowerbounds works, /SURPRISINGLY!/*
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-+ This is *NOT* a trivial finding!
-
-  lower-bounds are...
-
-  + taylored for *man-made* domains
-  
-  + assumes the domain has a *structure*
-
-  Blind search even sometimes outperform sophisticated methods on man-made instances (Edelkamp 12)
-
-+ lb works → *the more difficult problems can be solved (future work)*
-#+end_span6
-#+begin_span6
-#+begin_smaller
-
-| domain          | Dijkstra   | A*+PDB          | instances |
-|-----------------+------------+-----------------+-----------|
-| MNIST           | 210k(50k)  | *97k* (53k)     |        13 |
-| Mandrill        | 176k(13k)  | *112k* (57k)    |        12 |
-| Spider          | 275k(65k)  | *58k* (30k)     |        13 |
-| Hanoi (4 disk)  | 20.7(29.7) | *12.6* (22.0)   |        30 |
-| LightsOut (4x4) | 433(610.4) | *130.3* (164.4) |        16 |
-| Twisted   (4x4) | 398(683.1) | *29.3* (62.4)   |        16 |
-|-----------------+------------+-----------------+-----------|
-
-#+end_smaller
-#+end_span6
-#+end_row-fluid
-#+end_container-fluid
-
-* Why Gumbel-Softmax is necessary?                                 :noexport:
-
-+ Alternative 1: Use a normal NN and *round* the encoder output?
-  + ✘ The *decoder* is not trained with 0/1 value
-+ Alternative 2: Include the *round* operation in a NN?
-  + ✘ Rounding is *non-differentiable* / *Backpropagation impossible*
-
-* State Autoencoder Conclusion
+** State Autoencoder Conclusion
 
 + SAE can learn from small examples ::
 
      20k training images → learn to map 360k unseen images
-
-     (AMA_1 is trivial, though)
 
 + SAE-based propositions are sound ::
 
@@ -1155,33 +638,11 @@ SAE implementation uses a denoising layer (Denoising AE)
 
      Given the complete state space graph,
 
-  + Optimising algorithm (A*) returns an optimal solution
+     　Optimising algorithm (A*) returns an optimal solution
 
-  + Completeness is guaranteed
+     　Completeness is guaranteed
 
-* *** ☕ Break ☕ ***                                              :noexport:
-
-#+begin_center
-#+begin_xlarge
-*Backgrounds*
-
-*Latplan Architecture*
-
-*State AutoEncoder (SAE)*
-#+end_xlarge
-
-*/☕ Break ☕/*
-
-#+begin_xlarge
-*AMA_2 Overview*
-
-*Action AutoEncoder (AAE)*
-
-*Action Discriminator (AD)*
-#+end_xlarge
-#+end_center
-
-* Overview
+* Overview                                                             :AMA2:
 
 #+begin_center
 #+begin_xlarge
@@ -1203,7 +664,7 @@ break
 #+end_xlarge
 #+end_center
 
-* SAE Feasible! Now what?
+** SAE Feasible! Now what?
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1230,7 +691,7 @@ break
 #+end_alignright
 #+end_larger
 
-* The Task of AMA_2 : The */Real/* AMA method
+** The Task of AMA_2 : The */Real/* AMA method
 
 *Input:* Propositional transitions $\{ (s,t) \ldots \}$
 
@@ -1254,97 +715,27 @@ break
    :effects      (and (empty x0 y1) (not ...)))
   #+end_src
 
-** Action Symbol Grounding                                         :noexport:
+*** Why */action symbols/* are necessary?                          :noexport:
 
-Identifing a *type* of transition (clustering)
+  Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
 
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span9
-#+begin_src lisp
-(:action slide-up-tile7-at-x0-y1 ...
- :precondition ...
- :effects      ...)
- #+end_src
- #+end_span9
-#+begin_span3
-initial state
-[[png:8puzzle-standard-tile7]]
-#+end_span3
-#+end_row-fluid
-#+end_container-fluid
+  Without Action Symbols, *successor generation* becomes challenging
 
-# + E.g. *slide-up-tile7-at-x0-y1* action abstracts all transitions that looks like this
-# 
-# + → not merely an individual transition
+  + SAE with $|z|=36 \text{bit}$
 
-** Action Precondition Learning                                    :noexport:
+    → Generate *$2^{36}$ potential successors*, then filter the invalid
 
-Learns *when* that transition is allowed
+  + */With action symbols/, (e.g. up, down, left, right)*
 
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span9
-#+begin_src lisp
-(:action slide-up-tile7-at-x0-y1 ...
- :precondition (and (empty x0 y0) ...)
- :effects      ...)
-#+end_src
-#+end_span9
-#+begin_span3
-initial state
-[[png:8puzzle-standard-tile7]]
-#+end_span3
-#+end_row-fluid
-#+end_container-fluid
+  + → We can *enumerate the candidates in /constant time/*.
 
-** Action Effect Learning                                          :noexport:
+*** Training Input lacks *action symbols*                          :noexport:
 
-Learns *what* happens after the transition
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span9
-#+begin_src lisp
-(:action slide-up-tile7-at-x0-y1 ...
- :precondition (and (empty x0 y0) ...)
- :effects      (and (empty x0 y1) (not ...)))
-#+end_src
-#+end_span9
-#+begin_span3
-initial state
-[[png:8puzzle-standard-tile7]]
-#+end_span3
-#+end_row-fluid
-#+end_container-fluid
-
-#+begin_alignright
-+ AMA_2 perform all three processes.
-#+end_alignright
-
-** Why */action symbols/* are necessary?
-
- Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
-
- Without Action Symbols, *successor generation* becomes challenging
-
- + SAE with $|z|=36 \text{bit}$
-
-   → Generate *$2^{36}$ potential successors*, then filter the invalid
-
- + */With action symbols/, (e.g. up, down, left, right)*
-
- + → We can *enumerate the candidates in /constant time/*.
-
-** The challenge
-
-*Training Input lacks Action Symbols, just pairs of images*
+Should identify *the number of schemas* from *what is un/affected*
 
 [[png:ama/action-symbol]]
 
-+ → Doesn't know *which transitions are of the same type*
-
-** Precondition/Effect learning is not trivial
+*** Precondition/Effect learning is not trivial                    :noexport:
 
 #+begin_xlarge
 Case 1: Linear Space
@@ -1356,7 +747,7 @@ Case 1: Linear Space
 
 [[png:ama/linear]]
 
-** Precondition/Effect learning is not trivial
+*** Precondition/Effect learning is not trivial                    :noexport:
 
 #+begin_xlarge
 Case 2: Graphs
@@ -1371,7 +762,7 @@ Case 2: Graphs
 
   */for each state/*
 
-+ *Cannot train $a(s) = t\;$ for each $a$*
++ Therefore *we cannot train $a(s) = t\;$ for each $a$*
   because *we don't know which (s,t) belongs to which $a$.*
 #+end_center
 
@@ -1387,27 +778,26 @@ Case 2: Graphs
 + *Correct Question*: *What* is the right function to learn?
 #+end_larger
 #+end_alignright
-
-* AMA_2 Overview
+** AMA_2 Overview
 
 [[png:ama/overview0]]
 
-** AMA_2 Overview
+*** AMA_2 Overview
 
- [[png:ama/overview1]]
+  [[png:ama/overview1]]
 
-** AMA_2 Overview
+*** AMA_2 Overview
 
- [[png:ama/overview1-1]]
+  [[png:ama/overview1-1]]
 
-** AMA_2 Overview
+*** AMA_2 Overview
 
- [[png:ama/overview2]]
+  [[png:ama/overview2]]
 
-** AMA_2 Overview
+*** AMA_2 Overview
 
- [[png:ama/overview3]]
-* Overview
+  [[png:ama/overview3]]
+* Overview                                                              :AAE:
 
 #+begin_center
 #+begin_xlarge
@@ -1429,7 +819,7 @@ break
 #+end_xlarge
 #+end_center
 
-* Action AutoEncoder
+** Action AutoEncoder
 
 *What* is the right function to learn?
 
@@ -1437,39 +827,52 @@ break
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-+ $a(s) = t$ ?
-+ $a$ is actually a variable!
++ $a(s) = t$
+  
+  Doesn't work
 #+end_span6
 #+begin_span6
-+ $apply(a,s) = t$
-+ Transition is a mapping $a \rightarrow t$
-
-  *conditioned by $s$*
++ $a$ is a *variable!*
   
-  (previous state)
-
-+ *The right function to learn!*
+  $apply(a,s) = t$
 #+end_span6
+#+end_row-fluid
+#+begin_row-fluid
+#+begin_span12
++ Transition is a mapping
+
+  *action* $a \rightarrow $ *successor* $t$ 
+
+  *conditioned by*
+
+  *the current state $s$*
+  
++ 
+  #+begin_alignright
+  *The right function to learn!*
+  #+end_alignright
+#+end_span12
 #+end_row-fluid
 #+end_container-fluid
 #+end_center
-* Action AutoEncoder
+
+*** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-0]]
 
-** Action AutoEncoder
+*** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-1]]
 
-** Action AutoEncoder
+*** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-2]]
 
-** Action AutoEncoder
+*** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-3]]
 
-* Overview
+* Overview                                                               :AD:
 
 #+begin_center
 #+begin_xlarge
@@ -1491,11 +894,11 @@ break
 #+end_xlarge
 #+end_center
 
-* AAE does not address preconditions
+** AAE does not address preconditions
 
- [[png:ama/overview1-1]]
+  [[png:ama/overview1-1]]
 
-* Action Discriminator is a Binary Classifer
+** Action Discriminator is a Binary Classifer
 
 *Binary classifier* telling which transitions are valid
 
@@ -1505,10 +908,10 @@ break
 [[png:aae/ad]]
 #+end_span6
 #+begin_span6
-+ Trained by a *positive* and *negative* dataset
++ Trained by a *positive(valid)* and *negative(invalid)* dataset
 
 #+begin_center
-+ We have *data for valid transitions (observed data).*
++ We have *valid transition dataset (observed data).*
 + *Where are the negative (/invalid/) datasets?*
 #+end_center
 #+end_span6
@@ -1543,9 +946,9 @@ break
 #+end_larger
 #+end_alignright
 
-** PU-Learning framework (Elkan & Noto, KDD 08')
+** Soluton: PU-Learning (Elkan & Noto, KDD 08')
 
-Learning *Positive & negative classifier* from *positive & /mixed/ datasets*.
+Learning a *positive / negative classifier* from *positive / /mixed/ datasets*.
 
 + Positive: Training Input. *Observed data are valid, guaranteed*
 + Mixed: *Successor candidates generated by the AAE*
@@ -1569,13 +972,11 @@ AAE *enumerates* the canditates; AD/SD *filters* the invalid.
 # & \qquad \land Encode(Decode(s)) \equiv s \\
 # & \qquad \land Apply(Action(t,s),s) \equiv t \}
 
-* Planning using AMA_2
+We have *action symbols and propositional states!*
 
-Using a symbolic forward-search planner
+Now we can run:
 
-+ Effects/preconditions are embedded in NNs, but there are *discrete action labels*
-+ Simple $A^*$ with *goal-count* heuristics
-  + The number of different bits from the goal
++ $A^*$ with *goal-count* heuristics
 
 * AMA_2 Experiments 1
 
@@ -1583,8 +984,8 @@ Is it feasibile to do planning with AAE and AD?
 
 + *100 instances* for each domain
   + self-avoiding random walks from the goal state
-  + (benchmark A) 7-step
-  + (benchmark B) 14-step
+  + (benchmark A) 7-step, (benchmark B) 14-step
+  + no / gaussian / salt-pepper noise
 + 180 sec. time limit
 + Domain-specific plan validators.
 
@@ -1999,3 +1400,45 @@ Symbols are strong abstraction mechanisms becasue
      A latent vector is a conjunction (and)
      
      Heuristic functions use modus ponens to derive guidance
+* Why bother the off-the-shelf planner? Shouldn't the blind search do?
+
+*Domain-independent lowerbounds works, /SURPRISINGLY!/*
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
++ This is *NOT* a trivial finding!
+
+  lower-bounds are...
+
+  + taylored for *man-made* domains
+  
+  + assumes the domain has a *structure*
+
+  Blind search even sometimes outperform sophisticated methods on man-made instances (Edelkamp 12)
+
++ lb works → *the more difficult problems can be solved (future work)*
+#+end_span6
+#+begin_span6
+#+begin_smaller
+
+| domain          | Dijkstra   | A*+PDB          | instances |
+|-----------------+------------+-----------------+-----------|
+| MNIST           | 210k(50k)  | *97k* (53k)     |        13 |
+| Mandrill        | 176k(13k)  | *112k* (57k)    |        12 |
+| Spider          | 275k(65k)  | *58k* (30k)     |        13 |
+| Hanoi (4 disk)  | 20.7(29.7) | *12.6* (22.0)   |        30 |
+| LightsOut (4x4) | 433(610.4) | *130.3* (164.4) |        16 |
+| Twisted   (4x4) | 398(683.1) | *29.3* (62.4)   |        16 |
+|-----------------+------------+-----------------+-----------|
+
+#+end_smaller
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
+* Why Gumbel-Softmax is necessary?                                 :noexport:
+
++ Alternative 1: Use a normal NN and *round* the encoder output?
+  + ✘ The *decoder* is not trained with 0/1 value
++ Alternative 2: Include the *round* operation in a NN?
+  + ✘ Rounding is *non-differentiable* / *Backpropagation impossible*
