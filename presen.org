@@ -1,4 +1,4 @@
-#+title: Running a GOFAI in Deep Latent Space: Bridging the Sybsymbolic-Symbolic Boundary
+#+title: Classical Planning in Deep Latent Space: Bridging the Sybsymbolic-Symbolic Boundary
 #+include: "head.org"
 #+LINK: img file:img/%s
 #+LINK: png file:img/%s.png
@@ -18,7 +18,11 @@ Masataro Asai
 The University of Tokyo
 #+end_larger
 
-20+ min
+12min
+
+#+begin_larger
+No detailed results, read the paper!
+#+end_larger
 #+end_center
 
 #+begin_note
@@ -28,7 +32,7 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Introduction 
+* Introduction                                                     :noexport:
 
 #+begin_xlarge
 #+begin_center
@@ -307,30 +311,12 @@ initial state
 #+end_row-fluid
 #+begin_row-fluid
 #+begin_span12
-+ *First-order Logic Formula*
-  
-  *When* /Empty(x, y_{old}) ∧ is(panel, x, y_{new}) ∧ up(y_{new}, y_{old})/ ;
-  
-  *then* /¬ Empty(x,y_{old}) ∧ Empty(x,y_{new}) ∧ ¬ is(panel, x, y_{new}) .../
-
 + *PDDL Model* : Actual Input to the Planner
   #+begin_src lisp
   (:action slide-up ...
    :precondition (and (empty ?x ?y-old) ...)
    :effects (and (not (empty ?x ?y-old)) (empty ?x ?y-new) ...))
   #+end_src
-
-# #+begin_src lisp
-# (:action move-up
-#  :parameters (?x ?y-old ?y-new ?panel)
-#  :precondition (and (empty ?x ?y-old)
-#                     (up ?y-old ?y-new)
-#                     (is ?panel ?x ?y-new))
-#  :effects (and (not (empty ?x ?y-old))
-#                (empty ?x ?y-new)
-#                (not (is ?panel ?x ?y-new))
-#                (is ?panel ?x ?y-old)))
-# #+end_src
 #+end_span12
 #+end_row-fluid
 #+end_container-fluid
@@ -404,7 +390,7 @@ domain-independent *symbolic* systems
   #+begin_smaller
   | Types        | Examples                     |
   |--------------+------------------------------|
-  | Objects      | *panel7*, *x_0*, *y_0* ...   |
+  | Objects      | *panel_7*, *x_0*, *y_0* ...  |
   | Predicates   | (*empty* ?x ?y)              |
   | Propositions | *p_28* = (empty x_0 y_0)     |
   | Actions      | (*slide-up* panel_7 x_0 y_1) |
@@ -444,7 +430,7 @@ domain-independent *symbolic* systems
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
 
-* Latent-Space Planner (*/Latplan/*) (*/Accepted/* in AAAI-2018)
+* Latent-Space Planner (*/Latplan/*)
 
 [[png:latplanlogo]]
 
@@ -599,16 +585,24 @@ The system is given *2 types of input*:
 
 They are *random sampled* transitions
 
-+ No *reward* / No *expert traces*
-+ No *access to the simulator*
++ No *state descriptions* (unlike AlphaGo)
++ No *expert traces* (unlike AlphaGo)
++ No *rewards* (unlike DRL)
++ No *access to the simulator* (unlike Atari)
 + 
   #+begin_larger
-  No */action labels, symbols/*
+  No */action symbols/* (unlike any)
 
-  　　(e.g. up, down)
-  
+  　　(e.g. ↑↓←→AB in Atari, hands in Go)
+
   → doesn't know what's happening in each transition
   #+end_larger
+
++ So far, ALL existing AMA systems require */symbolic/near-symbolic state/action inputs/*.
+
+  (Konidaris et al. 2014, 2015), ARMS (Yang et al. 07), LOCM (Cresswell et
+  al. 09), (Argall et al. 09), (Mourao et al. 12), Framer (Lindsay et al. 17)
+  
 
 ** Input2: Planning Input -- Initial Image & Goal Image
 
@@ -729,13 +723,13 @@ SAE is a *neural network* which provides two functions:
 #+begin_larger
 + *A bidirectional mapping between*
 
-  + *subsymbolic representation* (image array) and
+  */subsymbolic/ representation* (image array) and
 
-  + *symbolic representation*
+  */symbolic/ representation*
  
-    #+begin_alignright
-     (bit vectors = propositional variables)
-    #+end_alignright
+  #+begin_alignright
+   (bit vectors = propositional variables)
+  #+end_alignright
 #+end_larger
 
 ** Neural Network 101                                              :noexport:
@@ -803,8 +797,8 @@ Plus misc techniques e.g. *Batchnorm*, *Dropout*
 Target Function: Identity $x=f(x)$
 + Encode $x\;$ to a *latent vector* $z$
 + Decode $z\;$ back to the input $x$
-+ $z\;$ has a smaller dimension
-+ i.e. Compression: $X \leftrightarrow Z$
+# + $z\;$ has a smaller dimension
+# + i.e. Compression: $X \leftrightarrow Z$
 + Training: Minimize $|x - f(x)|\;$
   (*reconstruction loss*)
 #+end_span7
@@ -920,28 +914,16 @@ Maddison et. al., 2014
 * Verifying the feasibility of Latplan system and SAE
 
 #+begin_quote
-Q: Do the *propositions* found by the SAE (neural network) *make any logical sense?*
+#+begin_center
+*Q*: Does the SAE (neural network) produce 
 
-Q: Is it possible to *reason over such generated propositions?*
+*/sound propositions/ for /reasoning?/*
+#+end_center
 #+end_quote
 
-We need to build a *MVP system*
+To test this, we built a *trivial, oracular* AMA system, AMA_1
 
-　
-
-#+begin_center
-*SAE is not sufficient for propositional reasoning:* We need *AMA*
-#+end_center
-
-　
-
-#+begin_alignright
-#+begin_larger
-So we built *AMA ver.1*, a */trivial, oracular/* AMA system
-#+end_larger
-#+end_alignright
-
-** AMA_1 : a */trivial, oracular/* AMA method
+** AMA_1 : a */trivial, oracular/* AMA method                      :noexport:
 
 It does not actually *learn/generalize* anything
 
@@ -949,7 +931,7 @@ It does not actually *learn/generalize* anything
 
  [[png:overview/ama1]]
 
-** Embed Directly: One Action Per Transition
+** AMA_1 : a */trivial, oracular/* AMA method w/o generalization
 
 #+begin_src lisp
  0011 → 0101  
@@ -1150,7 +1132,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 #+end_row-fluid
 #+end_container-fluid
 
-* Why Gumbel-Softmax is necessary?
+* Why Gumbel-Softmax is necessary?                                 :noexport:
 
 + Alternative 1: Use a normal NN and *round* the encoder output?
   + ✘ The *decoder* is not trained with 0/1 value
@@ -1177,7 +1159,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 
   + Completeness is guaranteed
 
-* *** ☕ Break ☕ ***
+* *** ☕ Break ☕ ***                                              :noexport:
 
 #+begin_center
 #+begin_xlarge
