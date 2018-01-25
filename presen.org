@@ -90,6 +90,11 @@ break
 #+end_row-fluid
 #+end_container-fluid
 
+#+begin_alignright
++ *Impractical* in *unknown environments* when *no human is available*
+  + E.g. *space exploration*
+#+end_alignright
+
 *** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
@@ -1100,9 +1105,7 @@ Measure the type-1 / type-2 error in %
 
 * Conclusion
 
-+ *Latplan Architecture* 
-
-  　　Models / solves the real-world problem as a *symbolic search*
++ *Latplan:* *The /first system/ in history* which completely automatically generates a symbolic model from scratch
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 + *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
@@ -1111,19 +1114,19 @@ Measure the type-1 / type-2 error in %
 
 #+begin_center
 + *Two of the major grounding problems were solved!*
-  | Types of symbols      |                              |
-  |-----------------------+------------------------------|
-  | Propositional symbols | *Solved!*                    |
-  | Action symbols        | *Solved!*                    |
-  | Object symbols        | R-CNN (Computer Vision) etc? |
-  | Predicate symbols     | ???                          |
+  | Types of symbols      |                                     |
+  |-----------------------+-------------------------------------|
+  | Propositional symbols | *Solved!*                           |
+  | Action symbols        | *Solved!*                           |
+  | Object symbols        | R-CNN (Computer Vision) techniques? |
+  | Predicate symbols     | ???                                 |
 #+end_center
 
 ** Future Work (Input format)
 
 LatPlan is an *architecture* : Any system with SAE is an implementation
 
-*Different SAE → reason about different types of raw data*
+*Different SAE → reasons about different types of raw input*
 
 + Autoencoders for *text*, *audio* [Li 2015, Deng 2010]
 + Example:
@@ -1153,7 +1156,7 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 
 Extracting rules from AAE/AD (discussed later)
 
-Extracting much higher-order rule (predicates, HTN)
+Extracting first-order rules (predicates)
 
 * This is the start of *neural-symbolic* AI.
 
@@ -1211,6 +1214,48 @@ SCAN system (deepmind)
 
 + ILP robust to noise
   + Extracting rules from AAE/AD to form a PDDL?
+** Why bother the off-the-shelf planner? Shouldn't the blind search do?
+
+*Domain-independent lowerbounds works, /SURPRISINGLY!/*
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
++ This is *NOT* a trivial finding!
+
+  lower-bounds are...
+
+  + taylored for *man-made* domains
+  
+  + assumes the domain has a *structure*
+
+  Blind search even sometimes outperform sophisticated methods on man-made instances (Edelkamp 12)
+
++ lb works → *the more difficult problems can be solved (future work)*
+#+end_span6
+#+begin_span6
+#+begin_smaller
+
+| domain          | Dijkstra   | A*+PDB          | instances |
+|-----------------+------------+-----------------+-----------|
+| MNIST           | 210k(50k)  | *97k* (53k)     |        13 |
+| Mandrill        | 176k(13k)  | *112k* (57k)    |        12 |
+| Spider          | 275k(65k)  | *58k* (30k)     |        13 |
+| Hanoi (4 disk)  | 20.7(29.7) | *12.6* (22.0)   |        30 |
+| LightsOut (4x4) | 433(610.4) | *130.3* (164.4) |        16 |
+| Twisted   (4x4) | 398(683.1) | *29.3* (62.4)   |        16 |
+|-----------------+------------+-----------------+-----------|
+
+#+end_smaller
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
+** Why Gumbel-Softmax is necessary?                                :noexport:
+
++ Alternative 1: Use a normal NN and *round* the encoder output?
+  + ✘ The *decoder* is not trained with 0/1 value
++ Alternative 2: Include the *round* operation in a NN?
+  + ✘ Rounding is *non-differentiable* / *Backpropagation impossible*
 
 ** Why not individual pixels? Why DL?
 
@@ -1400,45 +1445,3 @@ Symbols are strong abstraction mechanisms becasue
      A latent vector is a conjunction (and)
      
      Heuristic functions use modus ponens to derive guidance
-* Why bother the off-the-shelf planner? Shouldn't the blind search do?
-
-*Domain-independent lowerbounds works, /SURPRISINGLY!/*
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-+ This is *NOT* a trivial finding!
-
-  lower-bounds are...
-
-  + taylored for *man-made* domains
-  
-  + assumes the domain has a *structure*
-
-  Blind search even sometimes outperform sophisticated methods on man-made instances (Edelkamp 12)
-
-+ lb works → *the more difficult problems can be solved (future work)*
-#+end_span6
-#+begin_span6
-#+begin_smaller
-
-| domain          | Dijkstra   | A*+PDB          | instances |
-|-----------------+------------+-----------------+-----------|
-| MNIST           | 210k(50k)  | *97k* (53k)     |        13 |
-| Mandrill        | 176k(13k)  | *112k* (57k)    |        12 |
-| Spider          | 275k(65k)  | *58k* (30k)     |        13 |
-| Hanoi (4 disk)  | 20.7(29.7) | *12.6* (22.0)   |        30 |
-| LightsOut (4x4) | 433(610.4) | *130.3* (164.4) |        16 |
-| Twisted   (4x4) | 398(683.1) | *29.3* (62.4)   |        16 |
-|-----------------+------------+-----------------+-----------|
-
-#+end_smaller
-#+end_span6
-#+end_row-fluid
-#+end_container-fluid
-* Why Gumbel-Softmax is necessary?                                 :noexport:
-
-+ Alternative 1: Use a normal NN and *round* the encoder output?
-  + ✘ The *decoder* is not trained with 0/1 value
-+ Alternative 2: Include the *round* operation in a NN?
-  + ✘ Rounding is *non-differentiable* / *Backpropagation impossible*
