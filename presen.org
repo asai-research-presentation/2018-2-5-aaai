@@ -176,7 +176,7 @@ Today, I talk about how to integrate DL and logic-based planning systems.
 #+end_center
 #+end_xlarge
 
-* Overview
+* Overview                                                         :noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -220,7 +220,7 @@ break
 #+end_xlarge
 #+end_center
 
-* Sliding tile puzzle (a.k.a 8-puzzle)
+* Sliding tile puzzle (a.k.a 8-puzzle)                             :noexport:
 
 #+begin_container-fluid
 #+begin_center
@@ -328,7 +328,7 @@ initial state
 #   #+end_alignright
 #   #+end_larger
 
-** Symbolic planners cannot solve an */Image-based/* 8-puzzle
+* Symbolic planners cannot solve an */Image-based/* 8-puzzle
 
 #+begin_center
 + *PDDL for 3x3 Sliding Tile Puzzle* can be solved *optimally* *<< 1sec*
