@@ -347,7 +347,6 @@ break
 #+end_center
 
 ** State AutoEncoder (SAE)
-
 SAE is a *neural network* which provides two functions:
 
 + $b = Encode(r)$ : *maps a raw datum $r\;$ to a bit vector $b\;$*
@@ -1105,7 +1104,8 @@ Measure the type-1 / type-2 error in %
 
 * Conclusion
 
-+ *Latplan:* *The /first system/ in history* which completely automatically generates a symbolic model from scratch
++ *Latplan:* *The /first system/ in history* which completely automatically
+  generates a symbolic planning model from scratch
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 + *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
