@@ -91,11 +91,11 @@ break
 #+end_container-fluid
 
 #+begin_alignright
-+ *Impractical* in *unknown environments* when */no human/ is available*
-  + 
-    #+begin_larger
-    E.g. *deep space exploration*
-    #+end_larger
++ *Impractical* in *unknown environments* where */no human/ is available*
+    
+  #+begin_larger
+  E.g. *autonomous space exploration!*
+  #+end_larger
 #+end_alignright
 
 *** Knowledge-Acquisition Bottleneck (Cullen, 1988):
@@ -113,7 +113,7 @@ domain-independent *symbolic* systems
 #+end_row-fluid
 #+begin_row-fluid
 #+begin_span6
-+ *1. Symbols Grounding:*
++ *1. Symbol Grounding:*
 
   #+begin_center
   #+begin_larger
@@ -232,7 +232,7 @@ The system is given *2 types of input*:
 [[png:overview/2]]
 #+end_right
 
-They are *random sampled* transitions
+They are *randomly sampled* transitions
 
 + No *state descriptions* (unlike AlphaGo)
 + No *expert traces* (unlike AlphaGo)
@@ -242,7 +242,7 @@ They are *random sampled* transitions
   #+begin_larger
   No */action symbols/* (unlike any)
 
-  　　(e.g. ↑↓←→AB in Atari, hands in Go)
+  　　(e.g. ↑↓←→AB in Atari, grids in Go)
 
   → doesn't know what's happening in each transition
   #+end_larger
@@ -251,7 +251,6 @@ They are *random sampled* transitions
 
   (Konidaris et al. 2014, 2015), ARMS (Yang et al. 07), LOCM (Cresswell et
   al. 09), (Argall et al. 09), (Mourao et al. 12), Framer (Lindsay et al. 17)
-  
 
 *** Input2: Planning Input -- Initial Image & Goal Image
 
