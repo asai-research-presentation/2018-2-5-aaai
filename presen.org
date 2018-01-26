@@ -1528,4 +1528,4 @@ Symbols are strong abstraction mechanisms becasue
 
 * This is the start of *neural-symbolic* AI.
 
-[[png:latplanlogo]]
+[[png:latplanlogo-in-sicp]]
