@@ -969,24 +969,43 @@ Is it feasibile to do planning with AAE and AD?
 
 ** Results
 
-Noise are applied to the planning inputs (init/goal images)
-
-G: Gaussian noise, s/p: salt/pepper noise
-
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
 + *Easy instances: Majority of instances are solved*
-+ *Harder instances: Still many instances are solved*
+  
+  *Harder instances: Still many instances are solved*
 
+  |   | /          |   < |     |   > |   < |    |   > |
+  |   | step       |   7 |   7 |   7 |  14 | 14 |  14 |
+  |   | noise      | std |   G | s/p | std |  G | s/p |
+  |---+------------+-----+-----+-----+-----+----+-----|
+  |   | MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
+  |   | Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
+  |   | Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
+  |   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
+  |   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
+  | / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
 
-|   | /          |   < |     |   > |   < |    |   > |
-|   | step       |   7 |   7 |   7 |  14 | 14 |  14 |
-|   | noise      | std |   G | s/p | std |  G | s/p |
-|---+------------+-----+-----+-----+-----+----+-----|
-|   | MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
-|   | Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
-|   | Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
-|   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
-|   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
-| / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+#+end_span6
+#+begin_span6
++ Action Discriminators accuracy
+  
+  easure the type-1 / type-2 error in %
+  
+  |          | type1 | type2 |
+  |----------+-------+-------|
+  | MNIST    |  1.55 |  6.15 |
+  | Mandrill |  1.10 |  2.93 |
+  | Spider   |  1.22 |  4.97 |
+  | L. Out   |  0.03 |  1.64 |
+  | Twisted  |  0.02 |  1.82 |
+  | Hanoi    |  0.25 |  3.79 |
+
+  *Reasonably accurate.*
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
 
 * AMA_2 Experiments 2                                              :noexport:
 
@@ -1027,7 +1046,7 @@ Measure the type-1 / type-2 error in %
 #+end_row-fluid
 #+end_container-fluid
 
-* AMA_2 Experiments 2
+* AMA_2 Experiments 2                                              :noexport:
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1074,23 +1093,26 @@ Measure the type-1 / type-2 error in %
   generates a symbolic planning model from scratch
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
-+ *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
-+ *Action AutoEncoder(AAE)* : */transitions/ ↔ /action labels/, /effects/*
-+ *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
 
-#+begin_center
-+ *Two of the major grounding problems were solved!*
++ *State AutoEncoder(SAE)* : */real-world states/ ↔ /propositional states/*
+  
+  *Action AutoEncoder(AAE)* : */transitions/ ↔ /action labels/, /effects/*
+  
+  *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
+
+  #+begin_center
+  *Two of the major grounding problems were solved!*
   | Types of symbols      |                             |
   |-----------------------+-----------------------------|
   | Propositional symbols | *Solved!*                   |
   | Action symbols        | *Solved!*                   |
   | Object symbols        | Computer Vision techniques? |
   | Predicate symbols     | ???                         |
-#+end_center
+  #+end_center
 
 Future work: improved accuracy, runtime efficiency.
 
-** Future Work (Input format)
+* Future Work (Input format)
 
 LatPlan is an *architecture* : Any system with SAE is an implementation
 
@@ -1112,7 +1134,7 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
  "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
 #+end_note
 
-** Future Work (Extended planning formalism)
+* Future Work (Extended planning formalism)
 
 + Latplan assumes nothing about the environment machinery (grids, movable tiles...)
 + Latplan assumes *fully-observable*, *deterministic* domains
@@ -1120,7 +1142,7 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
   + Gumbel-Softmax layer → just a Softmax layer? (probability)
   + $AO^*$, $LAO^*$ algorithms for *optimal planning under uncertainty*
     
-** Other Future Works
+* Other Future Works
 
 Extracting rules from AAE/AD (discussed later)
 
