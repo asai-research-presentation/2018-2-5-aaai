@@ -374,7 +374,7 @@ SAE is a *neural network* which provides two functions:
   #+end_alignright
 #+end_larger
 
-*** NN for Standard Classification Tasks (Supervised)
+*** NN for Standard Classification Tasks (Supervised)              :noexport:
 
 # Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
 # 
@@ -563,19 +563,25 @@ Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
 MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 
-[[png:results/mandrill-intro]]
+[[png:results/mandrill-intro-new]]
 
 *** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
 
-[[png:results/mandrill-plan]]
+[[png:results/mandrill-plan-new]]
 
-#+begin_xlarge
-#+begin_alignright
- → *Optimal Solution*
-#+end_alignright
-#+end_xlarge
+#+begin_center
+#+begin_larger
+Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view (state encoding is also different)
+#+end_larger
+#+end_center
 
-*** Results with photographic, unseparated tiles (Spider 8-puzzle)
+# #+begin_xlarge
+# #+begin_alignright
+#  → *Optimal Solution*
+# #+end_alignright
+# #+end_xlarge
+
+*** Results with photographic, unseparated tiles (Spider 8-puzzle) :noexport:
 
 [[png:results/spider-plan-new]]
 
@@ -601,7 +607,7 @@ Completely different puzzle problems can be solved by the same system
 
 *** Lights Out
 
-Completely different puzzle problems can be solved by the same system
+Does not assume "objects" are static (does not disappear)
 
 [[png:results/lightsout_new4x4]]
 
