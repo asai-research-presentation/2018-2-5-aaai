@@ -1,4 +1,4 @@
-#+title: Classical Planning in Deep Latent Space: Bridging the Sybsymbolic-Symbolic Boundary
+#+title: Classical Planning in Deep Latent Space: Bridging the Subsymbolic-Symbolic Boundary
 #+include: "head.org"
 #+LINK: img file:img/%s
 #+LINK: png file:img/%s.png
@@ -32,7 +32,7 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Overview                                                       :background:
+* Overview                                              :background:
 
 #+begin_center
 #+begin_xlarge
@@ -91,8 +91,11 @@ break
 #+end_container-fluid
 
 #+begin_alignright
-+ *Impractical* in *unknown environments* when *no human is available*
-  + E.g. *space exploration*
++ *Impractical* in *unknown environments* when */no human/ is available*
+  + 
+    #+begin_larger
+    E.g. *deep space exploration*
+    #+end_larger
 #+end_alignright
 
 *** Knowledge-Acquisition Bottleneck (Cullen, 1988):
@@ -164,6 +167,8 @@ domain-independent *symbolic* systems
 ** Latent-Space Planner (*/Latplan/*)
 
 [[png:latplanlogo]]
+
+(Logo embodying the lambda calculus inside a neural architecture)
 
 ** Problem Setting
 
@@ -260,7 +265,7 @@ They are *random sampled* transitions
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
-* Overview                                                     :architecture:
+* Overview                                            :architecture:
 
 #+begin_center
 #+begin_xlarge
@@ -285,6 +290,10 @@ break
 ** Latent-Space Planner (*/LatPlan/*) architechture
 
   [[png:overview/planning1]]
+
+#+begin_alignright
+We must bridge the gap between these two worlds!
+#+end_alignright
 
 ** Step 1: Propositional Symbol Grounding
 
@@ -324,7 +333,7 @@ Latplan: Latent-space Planner.
 + *runs in a /completely automated, unsupervised/ manner.*
 #+end_larger
 
-* Overview                                                              :SAE:
+* Overview                                                     :SAE:
 
 #+begin_center
 #+begin_xlarge
@@ -387,14 +396,14 @@ SAE is a *neural network* which provides two functions:
      　
 
      #+begin_alignright
-     (*People do it differently, too.*
+     (*People also ground symbols differently.*
      
-     cf. How many colors in a 🌈?)
+     cf. How many colors in a 🌈, 5,6 or 7?)
      #+end_alignright
 
 #+end_larger
 
-*** Unsupervised Learning by AutoEncoder
+*** Unsupervised Learning for NN: AutoEncoder (AE)
 
 # Auto = "self" --- Autoencoding = "encoding itself"
 
@@ -490,11 +499,11 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
 AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
 
-+ *Entire raw state transitions* in the environment are given
++ *Encode the entire raw state transitions* in the environment
 + For each transition, perform the following conversion:
 
   #+begin_src lisp
-   0011 → 0101  
+   0011 → 0101  ;; encoded bit vectors of a transition
   
   　　　↓       ;; one action per transition
   (:action       action-0011-0101
@@ -525,9 +534,9 @@ Show that the SAE (neural network) produce */sound propositions/*
 #+end_center
 #+end_quote
 
-SAE: *trained with 20k images*, *generalizes to > 360k entire states* in 8-puzzle
+SAE: *trained with a subset of images*
 
-AMA_1 : *oracular method*
+AMA_1 : *oracular method* which uses *the entire transitions*
 
 Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
@@ -572,7 +581,7 @@ MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 
 #+begin_center
 #+begin_larger
-Notice that *latplan has no idea that this is an 8-puzzle*; Thus MNIST, Mandrill, Spider are entirely different domains (state encoding is also different)
+Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view (state encoding is also different)
 #+end_larger
 #+end_center
 
@@ -630,15 +639,15 @@ SAE implementation uses a denoising layer (Denoising AE)
 #+end_larger
 ** State Autoencoder Conclusion
 
-+ SAE can learn from small examples ::
++ */SAE can learn from small examples/* ::
 
      20k training images → learn to map 360k unseen images
 
-+ SAE-based propositions are sound ::
++ SAE-based propositions are */sound/* ::
 
      Planners can reason over the generated propositions
 
-+ Latplan maintains the theoretical guarantee in the search algorithm ::
++ Latplan maintains the */theoretical guarantee/* in the search algorithm ::
 
      Given the complete state space graph,
 
@@ -833,7 +842,23 @@ break
 #+begin_span6
 + $a(s) = t$
   
-  Doesn't work
+  We cannot train this
+# + $a(s) = t$
+# 
+#   Can we train a NN $a'$
+# 
+#   to approximate $a$,
+# 
+#   minimising $|a'(s)-t|$ ?
+# 
+#   (i.e. as a prediction task)
+#   
+# + No, because *we don't know*
+#   
+#   *which $(s,t)$ belongs to which $a$*
+# 
+# + A single state causes multiple outcomes,
+#   doesn't fit the prediction paradigm
 #+end_span6
 #+begin_span6
 + $a$ is a *variable!*
@@ -978,9 +1003,7 @@ AAE *enumerates* the canditates; AD/SD *filters* the invalid.
 
 We have *action symbols and propositional states!*
 
-Now we can run:
-
-+ $A^*$ with *goal-count* heuristics
+Now we can run $A^*$ with *goal-count* heuristics
 
 * AMA_2 Experiments 1
 
@@ -1208,7 +1231,13 @@ DQN *relies on simulators*. ↔ Latplan *reverse-engineers a simulator*.
 
 SCAN system (deepmind)
 
-+ Maps *continuous* latent ↔ *human-provided* symbolic vector
++ Maps *continuous* latent vector and *human-provided* symbolic vector
+  
+  #+begin_smaller
+  + They are missing points because they don't think about what symbols are for
+  + They are for efficient, automated reasoning!
+  + Floats are not efficient, humans can't be involved
+  #+end_smaller
 
 δ-ILP (Inductive Logic Programming)
 
@@ -1216,7 +1245,7 @@ SCAN system (deepmind)
   + Extracting rules from AAE/AD to form a PDDL?
 ** Why bother the off-the-shelf planner? Shouldn't the blind search do?
 
-*Domain-independent lowerbounds works, /SURPRISINGLY!/*
+*Domain-independent lowerbounds work, /SURPRISINGLY!/*
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1231,20 +1260,29 @@ SCAN system (deepmind)
 
   Blind search even sometimes outperform sophisticated methods on man-made instances (Edelkamp 12)
 
-+ lb works → *the more difficult problems can be solved (future work)*
++ lb works → *more difficult problems can be solved (future work)*
 #+end_span6
 #+begin_span6
 #+begin_smaller
 
-| domain          | Dijkstra   | A*+PDB          | instances |
-|-----------------+------------+-----------------+-----------|
-| MNIST           | 210k(50k)  | *97k* (53k)     |        13 |
-| Mandrill        | 176k(13k)  | *112k* (57k)    |        12 |
-| Spider          | 275k(65k)  | *58k* (30k)     |        13 |
-| Hanoi (4 disk)  | 20.7(29.7) | *12.6* (22.0)   |        30 |
-| LightsOut (4x4) | 433(610.4) | *130.3* (164.4) |        16 |
-| Twisted   (4x4) | 398(683.1) | *29.3* (62.4)   |        16 |
-|-----------------+------------+-----------------+-----------|
+　
+
+Number of states expanded, mean(stdev.)
+
+|           | <c> |            |               |
+| domain    | N   | Dijkstra   | A*+PDB        |
+|-----------+-----+------------+---------------|
+| MNIST     | 13  | 210k(50k)  | *97k* (53k)   |
+| Mandrill  | 12  | 176k(13k)  | *112k* (57k)  |
+| Spider    | 13  | 275k(65k)  | *58k* (30k)   |
+| Hanoi     | 30  | 20.7(29.7) | *12.6* (22.0) |
+| LightsOut | 16  | 433(610.4) | *130* (164)   |
+| Twisted   | 16  | 398(683.1) | *29.3* (62.4) |
+|-----------+-----+------------+---------------|
+
+N : number of instances.
+
+All results are AMA_1 (produce PDDL)
 
 #+end_smaller
 #+end_span6
@@ -1295,7 +1333,7 @@ SCAN system (deepmind)
    *Eval. Function for Go* : board → win-rate
    #+end_smaller
    #+begin_larger
-   ☺ Efficient 1-to-1 mapping
+   ☺ Quick 1-to-1 mapping
    
    ☹ Simple tasks
    #+end_larger
@@ -1398,11 +1436,13 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 *** Reinforcement Learning
 
-Not only *perception* but *decision making also depends on training*
+Both *perception* and *decision making* depend on training
 
-+ */Each training result does not have admissibility/*
++ */When the learned policy is wrong/*,
 
-+ */When the learned policy is wrong, the solution could be suboptimal/*
+  + *the solution could be suboptimal*
+
+  + */It could even fail to find solutions (incomplete agent)/*
 
 #+begin_quote
 ... AlphaGo was unprepared for Lee Sedol’s Move 78 because it
