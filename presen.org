@@ -643,7 +643,7 @@ SAE implementation uses a denoising layer (Denoising AE)
  → *Improved speed, robustness, accuracy*
 #+end_alignright
 #+end_larger
-** State Autoencoder Conclusion
+** State Autoencoder Conclusion                                    :noexport:
 
 + */SAE can learn from small examples/* ::
 
@@ -734,69 +734,6 @@ break
    :effects      (and (empty x0 y1) (not ...)))
   #+end_src
 
-*** Why */action symbols/* are necessary?                          :noexport:
-
-  Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
-
-  Without Action Symbols, *successor generation* becomes challenging
-
-  + SAE with $|z|=36 \text{bit}$
-
-    → Generate *$2^{36}$ potential successors*, then filter the invalid
-
-  + */With action symbols/, (e.g. up, down, left, right)*
-
-  + → We can *enumerate the candidates in /constant time/*.
-
-*** Training Input lacks *action symbols*                          :noexport:
-
-Should identify *the number of schemas* from *what is un/affected*
-
-[[png:ama/action-symbol]]
-
-*** Precondition/Effect learning is not trivial                    :noexport:
-
-#+begin_xlarge
-Case 1: Linear Space
-#+end_xlarge
-
-+ *We do not need an action label*; it is linear anyways
-+ Then, AMA ≡ *prediction task* ($\approx$ scene prediction in video)
-  + We can train a neural network $a(s) = t\;$ by minimizing $|t-a(s)|$
-
-[[png:ama/linear]]
-
-*** Precondition/Effect learning is not trivial                    :noexport:
-
-#+begin_xlarge
-Case 2: Graphs
-#+end_xlarge
-
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span7
-#+begin_center
-+ *Multiple action labels*
-+ */Varying/ number of successors*
-
-  */for each state/*
-
-+ Therefore *we cannot train $a(s) = t\;$ for each $a$*
-  because *we don't know which (s,t) belongs to which $a$.*
-#+end_center
-
-#+end_span7
-#+begin_span5
-[[png:ama/non-linear]]
-#+end_span5
-#+end_row-fluid
-#+end_container-fluid
-
-#+begin_alignright
-#+begin_larger
-+ *Correct Question*: *What* is the right function to learn?
-#+end_larger
-#+end_alignright
 ** AMA_2 Overview
 
 [[png:ama/overview0]]
@@ -1187,9 +1124,7 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 
 Extracting rules from AAE/AD (discussed later)
 
-Extracting first-order rules (predicates)
-
-* Appendix
+* AMA_1 Appendix
 
 Using the Remaining Time (Discussion)
 
@@ -1292,7 +1227,7 @@ All results are AMA_1 (produce PDDL)
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
-** Why Gumbel-Softmax is necessary?                                :noexport:
+** Why Gumbel-Softmax is necessary?
 
 + Alternative 1: Use a normal NN and *round* the encoder output?
   + ✘ The *decoder* is not trained with 0/1 value
@@ -1311,6 +1246,72 @@ All results are AMA_1 (produce PDDL)
 
 + = a nonlinear function that recognize the entanglements between multiple pixels
 
+* AMA_2 Appendix 
+** Why */action symbols/* are necessary?
+
+ Planners typically perform a *forward search* *(Dijkstra, $A^＊$ )*
+
+ Without Action Symbols, *successor generation* becomes challenging
+
+ + SAE with $|z|=36 \text{bit}$
+
+   → Generate *$2^{36}$ potential successors*, then filter the invalid
+
+ + */With action symbols/, (e.g. up, down, left, right)*
+
+ + → We can *enumerate the candidates in /constant time/*.
+
+** Training Input lacks *action symbols*
+
+Should identify *the number of schemas* from *what is un/affected*
+
+[[png:ama/action-symbol]]
+
+** Precondition/Effect learning is not trivial
+
+#+begin_xlarge
+Case 1: Linear Space
+#+end_xlarge
+
++ *We do not need an action label*; it is linear anyways
++ Then, AMA ≡ *prediction task* ($\approx$ scene prediction in video)
+  + We can train a neural network $a(s) = t\;$ by minimizing $|t-a(s)|$
+
+[[png:ama/linear]]
+
+** Precondition/Effect learning is not trivial
+
+#+begin_xlarge
+Case 2: Graphs
+#+end_xlarge
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span7
+#+begin_center
++ *Multiple action labels*
++ */Varying/ number of successors*
+
+  */for each state/*
+
++ Therefore *we cannot train $a(s) = t\;$ for each $a$*
+  because *we don't know which (s,t) belongs to which $a$.*
+#+end_center
+
+#+end_span7
+#+begin_span5
+[[png:ama/non-linear]]
+#+end_span5
+#+end_row-fluid
+#+end_container-fluid
+
+#+begin_alignright
+#+begin_larger
++ *Correct Question*: *What* is the right function to learn?
+#+end_larger
+#+end_alignright
+
+* Basic Appendix for ML people
 ** Learning vs Planning
   
  Main differences: Purposes and the abstraction layer
@@ -1414,31 +1415,31 @@ Domain-independent Atari Game solver (Invader, Packman…), however:
 
 # 今まではNNとの相性から強化学習が優勢だったが *もうその必要はない*
 
-*** When Latplan returns a /wrong/ solution?
+** When Latplan returns a /wrong/ solution?
 
- *Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
+*Machine learning may contain errors* (convergence /only on/ $t\rightarrow \infty$, not on real time)
 
- + Images → Fraud symbols/model/graph
++ Images → Fraud symbols/model/graph
 
- + *Optimal path on a fraud graph* or *graph disconnected*
++ *Optimal path on a fraud graph* or *graph disconnected*
   
-   A* completeness, soundness, optimality (admissible heuristics) 
+  A* completeness, soundness, optimality (admissible heuristics) 
 
- + Fraud visualized plan (noisy) / no plan found
++ Fraud visualized plan (noisy) / no plan found
 
- #+begin_center
- #+begin_larger
- LatPlan may make */wrong observations/* but no */wrong decisions/*
- #+end_larger
+#+begin_center
+#+begin_larger
+LatPlan may make */wrong observations/* but no */wrong decisions/*
+#+end_larger
 
- BTW, "correctness" is defined by error prone observations by humans anyways ...
- #+end_center
+BTW, "correctness" is defined by error prone observations by humans anyways ...
+#+end_center
 
- #+begin_alignright
-  (completeness, optimality) → better reliablility than Reinforcement Learning
- #+end_alignright
+#+begin_alignright
+ (completeness, optimality) → better reliablility than Reinforcement Learning
+#+end_alignright
 
-*** Reinforcement Learning
+** Reinforcement Learning
 
 Both *perception* and *decision making* depend on training
 
@@ -1462,15 +1463,6 @@ Cade Metz. "In Two Moves, that Redifined the Future." /Wired/, 2016
 RL may make *wrong decisions*.
 #+end_larger
 #+end_center
-** Future Work (SAE)
-
-SAE can generate propositional symbols (state $s = \{q,r\ldots\}$)
-
-+ 1st-order logic (predicate $p(a,b)$ )
-
-+ We need *object recognition from images* (parameters $a,b$)
-
-+ SAE with networks for object recognition (e.g. R-CNN) should achieve this
 
 ** Why symbols?
 
