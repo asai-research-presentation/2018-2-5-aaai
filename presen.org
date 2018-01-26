@@ -1137,13 +1137,15 @@ Measure the type-1 / type-2 error in %
 
 #+begin_center
 + *Two of the major grounding problems were solved!*
-  | Types of symbols      |                                     |
-  |-----------------------+-------------------------------------|
-  | Propositional symbols | *Solved!*                           |
-  | Action symbols        | *Solved!*                           |
-  | Object symbols        | R-CNN (Computer Vision) techniques? |
-  | Predicate symbols     | ???                                 |
+  | Types of symbols      |                             |
+  |-----------------------+-----------------------------|
+  | Propositional symbols | *Solved!*                   |
+  | Action symbols        | *Solved!*                   |
+  | Object symbols        | Computer Vision techniques? |
+  | Predicate symbols     | ???                         |
 #+end_center
+
+Future work: improved accuracy, runtime efficiency.
 
 ** Future Work (Input format)
 
@@ -1180,10 +1182,6 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 Extracting rules from AAE/AD (discussed later)
 
 Extracting first-order rules (predicates)
-
-* This is the start of *neural-symbolic* AI.
-
-[[png:latplanlogo]]
 
 * Appendix
 
@@ -1485,3 +1483,7 @@ Symbols are strong abstraction mechanisms becasue
      A latent vector is a conjunction (and)
      
      Heuristic functions use modus ponens to derive guidance
+
+* This is the start of *neural-symbolic* AI.
+
+[[png:latplanlogo]]
