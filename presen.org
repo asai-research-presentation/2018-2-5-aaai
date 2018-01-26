@@ -570,7 +570,7 @@ MNIST 8-puzzle has cleanly separated objects -> This domain does not.
 
 #+begin_center
 #+begin_larger
-Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view (state encoding is also different)
+Notice that *latplan has no idea that this is an 8-puzzle*; They are entirely different from the system's point of view (state encoding is also different)
 #+end_larger
 #+end_center
 
@@ -709,7 +709,7 @@ break
 #+end_alignright
 #+end_larger
 
-** The Task of AMA_2 : The */Real/* AMA method
+** The Task of AMA_2 : The */Real/* AMA method                     :noexport:
 
 *Input:* Propositional transitions $\{ (s,t) \ldots \}$
 
@@ -774,72 +774,19 @@ break
 #+end_xlarge
 #+end_center
 
-** Action AutoEncoder
-
-*What* is the right function to learn?
-
-#+begin_center
-#+begin_container-fluid
-#+begin_row-fluid
-#+begin_span6
-+ $a(s) = t$
-  
-  We cannot train this
-# + $a(s) = t$
-# 
-#   Can we train a NN $a'$
-# 
-#   to approximate $a$,
-# 
-#   minimising $|a'(s)-t|$ ?
-# 
-#   (i.e. as a prediction task)
-#   
-# + No, because *we don't know*
-#   
-#   *which $(s,t)$ belongs to which $a$*
-# 
-# + A single state causes multiple outcomes,
-#   doesn't fit the prediction paradigm
-#+end_span6
-#+begin_span6
-+ $a$ is a *variable!*
-  
-  $apply(a,s) = t$
-#+end_span6
-#+end_row-fluid
-#+begin_row-fluid
-#+begin_span12
-+ Transition is a mapping
-
-  *action* $a \rightarrow $ *successor* $t$ 
-
-  *conditioned by*
-
-  *the current state $s$*
-  
-+ 
-  #+begin_alignright
-  *The right function to learn!*
-  #+end_alignright
-#+end_span12
-#+end_row-fluid
-#+end_container-fluid
-#+end_center
-
-*** Implementing $(a \rightarrow t) | s$
+** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-0]]
 
-*** Implementing $(a \rightarrow t) | s$
+** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-1]]
 
-*** Implementing $(a \rightarrow t) | s$
+** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-2]]
 
-*** Implementing $(a \rightarrow t) | s$
+** Implementing $(a \rightarrow t) | s$
 
 [[png:aae/aae-3]]
 
@@ -947,7 +894,7 @@ We have *action symbols and propositional states!*
 
 Now we can run $A^*$ with *goal-count* heuristics
 
-* AMA_2 Experiments 1
+* AMA_2 Experiments
 
 Is it feasibile to do planning with AAE and AD?
 
@@ -1001,7 +948,9 @@ Is it feasibile to do planning with AAE and AD?
   | Twisted  |  0.02 |  1.82 |
   | Hanoi    |  0.25 |  3.79 |
 
+  #+begin_alignright
   *Reasonably accurate.*
+  #+end_alignright
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
@@ -1089,7 +1038,7 @@ Measure the type-1 / type-2 error in %
 * Conclusion
 
 + *Latplan:* *The /first system/ in history* which completely automatically
-  generates a symbolic planning model from scratch
+  generates a classical, symbolic planning model from scratch, w/o cheating
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 
@@ -1107,9 +1056,9 @@ Measure the type-1 / type-2 error in %
   | Action symbols        | *Solved!*                   |
   | Object symbols        | Computer Vision techniques? |
   | Predicate symbols     | ???                         |
+  
+  Future work: improved accuracy, runtime efficiency.
   #+end_center
-
-Future work: improved accuracy, runtime efficiency.
 
 * Future Work (Input format)
 
@@ -1331,6 +1280,59 @@ Case 2: Graphs
 + *Correct Question*: *What* is the right function to learn?
 #+end_larger
 #+end_alignright
+
+** Action AutoEncoder
+
+ *What* is the right function to learn?
+
+ #+begin_center
+ #+begin_container-fluid
+ #+begin_row-fluid
+ #+begin_span6
+ + $a(s) = t$
+  
+   We cannot train this
+ # + $a(s) = t$
+ # 
+ #   Can we train a NN $a'$
+ # 
+ #   to approximate $a$,
+ # 
+ #   minimising $|a'(s)-t|$ ?
+ # 
+ #   (i.e. as a prediction task)
+ #   
+ # + No, because *we don't know*
+ #   
+ #   *which $(s,t)$ belongs to which $a$*
+ # 
+ # + A single state causes multiple outcomes,
+ #   doesn't fit the prediction paradigm
+ #+end_span6
+ #+begin_span6
+ + $a$ is a *variable!*
+  
+   $apply(a,s) = t$
+ #+end_span6
+ #+end_row-fluid
+ #+begin_row-fluid
+ #+begin_span12
+ + Transition is a mapping
+
+   *action* $a \rightarrow $ *successor* $t$ 
+
+   *conditioned by*
+
+   *the current state $s$*
+  
+ + 
+   #+begin_alignright
+   *The right function to learn!*
+   #+end_alignright
+ #+end_span12
+ #+end_row-fluid
+ #+end_container-fluid
+ #+end_center
 
 * Basic Appendix for ML people
 ** Learning vs Planning
