@@ -596,47 +596,11 @@ Notice that *latplan has no idea that this is an 8-puzzle*; They are entirely di
 
 #+begin_center
 #+begin_larger
-Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view (state encoding is also different)
+Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view
+
+(*/We skip other domains/*)
 #+end_larger
 #+end_center
-
-*** Tower of Hanoi (3 disks, 4 disks)
-
-Completely different puzzle problems can be solved by the same system
-
-[[png:results/hanoi3]]
-
-[[png:results/hanoi4]]
-
-#+begin_alignright
-#+begin_xlarge
- → *Optimal Solution* (7 steps,15 steps)
-#+end_xlarge
-#+end_alignright
-
-*** Lights Out
-
-Does not assume "objects" are static (objects may disappear)
-
-[[png:results/lightsout_new4x4]]
-
-#+begin_alignright
-#+begin_xlarge
- → *Optimal Solution*
-#+end_xlarge
-#+end_alignright
-
-*** Twisted Lights Out
-
-Does not assume grid-like structures
-
-[[png:results/lightsout_twisted_new4x4]]
-
-#+begin_alignright
-#+begin_xlarge
- → *Optimal Solution*
-#+end_xlarge
-#+end_alignright
 
 *** Handling the Noisy Input
 
@@ -1122,6 +1086,44 @@ Extracting rules from AAE/AD (discussed later)
 * AMA_1 Appendix
 
 Using the Remaining Time (Discussion)
+
+** Tower of Hanoi (3 disks, 4 disks)
+
+Completely different puzzle problems can be solved by the same system
+
+[[png:results/hanoi3]]
+
+[[png:results/hanoi4]]
+
+#+begin_alignright
+#+begin_xlarge
+ → *Optimal Solution* (7 steps,15 steps)
+#+end_xlarge
+#+end_alignright
+
+** Lights Out
+
+Does not assume "objects" are static (objects may disappear)
+
+[[png:results/lightsout_new4x4]]
+
+#+begin_alignright
+#+begin_xlarge
+ → *Optimal Solution*
+#+end_xlarge
+#+end_alignright
+
+** Twisted Lights Out
+
+Does not assume grid-like structures
+
+[[png:results/lightsout_twisted_new4x4]]
+
+#+begin_alignright
+#+begin_xlarge
+ → *Optimal Solution*
+#+end_xlarge
+#+end_alignright
 
 ** Konidaris et. al (2014, 2015): 
 
