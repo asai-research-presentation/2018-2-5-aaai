@@ -555,52 +555,22 @@ AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
 
 *** 8-puzzle Results with MNIST tiles (MNIST 8-puzzle)
 
-  8-puzzle using digits from MNIST database
+8-puzzle using digits from MNIST database
 
-  [[png:results/mnist-plan]]
+[[png:results/mnist-plan]]
 
-  #+begin_larger
-  An instance whose optimal solution length is known
-  #+begin_xlarge
-  #+begin_alignright
-   → *31 step optimal plan*
-  #+end_alignright
-  #+end_xlarge
-  #+end_larger
-
-*** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
-
-MNIST 8-puzzle has cleanly separated objects -> This domain does not.
-
-[[png:results/mandrill-intro-new]]
-
-*** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
-
-[[png:results/mandrill-plan-new]]
+#+begin_larger
+# An instance whose optimal solution length is known
+#+begin_xlarge
+#+begin_alignright
+ → *31 step optimal plan*
+#+end_alignright
+#+end_xlarge
 
 #+begin_center
-#+begin_larger
-Notice that *latplan has no idea that this is an 8-puzzle*; They are entirely different from the system's point of view (state encoding is also different)
-#+end_larger
-#+end_center
-
-# #+begin_xlarge
-# #+begin_alignright
-#  → *Optimal Solution*
-# #+end_alignright
-# #+end_xlarge
-
-*** Results with photographic, unseparated tiles (Spider 8-puzzle) :noexport:
-
-[[png:results/spider-plan-new]]
-
-#+begin_center
-#+begin_larger
-Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view
-
 (*/We skip other domains/*)
-#+end_larger
 #+end_center
+#+end_larger
 
 *** Handling the Noisy Input
 
@@ -887,22 +857,22 @@ Now we can run $A^*$ with *goal-count* heuristics
 
 Is it feasibile to do planning with AAE and AD?
 
-+ *100 instances* for each domain
-  + self-avoiding random walks from the goal state
-  + (benchmark A) 7-step, (benchmark B) 14-step
-  + no / gaussian / salt-pepper noise
-+ 180 sec. time limit
-+ Domain-specific plan validators.
-
-# The failures are due to timeouts
-# (the successor function requires many calls to the feedforward neural nets,
-#  resulting in a very slow node generation).
-
-# We next examine the accuracy of the AD and SD (\reftbl{tab:aae-results}).
-# We measured the type-1/2 errors for the valid and invalid transitions (for AD) and states (SD).
-# Low errors show that our networks successfully learned the action models.
-
-** Results
+# + *100 instances* for each domain
+#   + self-avoiding random walks from the goal state
+#   + (benchmark A) 7-step, (benchmark B) 14-step
+#   + no / gaussian / salt-pepper noise
+# + 180 sec. time limit
+# + Domain-specific plan validators.
+# 
+# # The failures are due to timeouts
+# # (the successor function requires many calls to the feedforward neural nets,
+# #  resulting in a very slow node generation).
+# 
+# # We next examine the accuracy of the AD and SD (\reftbl{tab:aae-results}).
+# # We measured the type-1/2 errors for the valid and invalid transitions (for AD) and states (SD).
+# # Low errors show that our networks successfully learned the action models.
+# 
+# ** Results
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1027,7 +997,7 @@ Measure the type-1 / type-2 error in %
 * Conclusion
 
 + *Latplan:* *The /first system/ in history* which completely automatically
-  generates a classical, symbolic planning model from scratch, w/o cheating
+  generates a classical, symbolic planning model from scratch
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 
@@ -1046,20 +1016,20 @@ Measure the type-1 / type-2 error in %
   | Object symbols        | Computer Vision techniques? |
   | Predicate symbols     | ???                         |
   
-  Future work: improved accuracy, runtime efficiency.
+  Future work: improved accuracy, runtime, */and a lot more!!/*
   #+end_center
 
-* Future Work (Input format)
+** Future Work (Input format)
 
 LatPlan is an *architecture* : Any system with SAE is an implementation
 
-*Different SAE → reasons about different types of raw input*
+*Different SAE → reason about different types of raw data*
 
 + Autoencoders for *text*, *audio* [Li 2015, Deng 2010]
 + Example:
   + Transition rule "*This is an apple, this is a pen → oh, ApplePen!*"
     
-+ */Latplan/* brings AI to a new level e.g.
++ When this happens, */Latplan/* brings AI to a new level e.g.
   
   *1000 steps of natural language reasoning with /logic/, not by reflex*
   
@@ -1071,7 +1041,7 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
  "Binary coding of speech spectrograms using a deep auto-encoder." (2010)
 #+end_note
 
-* Future Work (Extended planning formalism)
+** Future Work (Extended planning formalism)
 
 + Latplan assumes nothing about the environment machinery (grids, movable tiles...)
 + Latplan assumes *fully-observable*, *deterministic* domains
@@ -1079,14 +1049,60 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
   + Gumbel-Softmax layer → just a Softmax layer? (probability)
   + $AO^*$, $LAO^*$ algorithms for *optimal planning under uncertainty*
     
-* Other Future Works
+** Future Work (Propositional → First-order)
 
-Extracting rules from AAE/AD (discussed later)
+SAE can generate propositional symbols (state $s = \{q,r\ldots\}$)
+
++ 1st-order logic (predicate $p(a,b)$ )
+
++ We need *object recognition from images* (parameters $a,b$)
+
++ SAE with networks for object recognition (e.g. R-CNN) should achieve this
+
+** Future Work (Knowledge extraction)
+
+AMA_2 (AAE/AD) is a neural network, thus precondition/effects are in a blackbox
+
+Hinders deriving heuristic functions
+
+Knowledge extraction by Konidaris et al.('14,'15), δ-ILP (Deepmind) ?
 
 * AMA_1 Appendix
 
 Using the Remaining Time (Discussion)
 
+** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
+
+MNIST 8-puzzle has cleanly separated objects -> This domain does not.
+
+[[png:results/mandrill-intro-new]]
+
+** Results with photographic, unseparated tiles (Mandrill 8-puzzle)
+
+[[png:results/mandrill-plan-new]]
+
+#+begin_center
+#+begin_larger
+Notice that *latplan has no idea that this is an 8-puzzle*; They are entirely different from the system's point of view
+
+(*/We skip other domains/*)
+#+end_larger
+#+end_center
+
+# #+begin_xlarge
+# #+begin_alignright
+#  → *Optimal Solution*
+# #+end_alignright
+# #+end_xlarge
+** Results with photographic, unseparated tiles (Spider 8-puzzle)
+
+[[png:results/spider-plan-new]]
+
+#+begin_center
+#+begin_larger
+Notice that *latplan has no idea that this is an 8-puzzle*; MNIST, Mandrill, Spider are entirely different from the system's point of view
+#+end_larger
+#+end_center
 ** Tower of Hanoi (3 disks, 4 disks)
 
 Completely different puzzle problems can be solved by the same system
