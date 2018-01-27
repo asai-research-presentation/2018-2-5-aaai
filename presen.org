@@ -64,7 +64,7 @@ break
 ** Symbolic planners cannot solve an */Image-based/* 8-puzzle
 
 #+begin_center
-+ *PDDL for 3x3 Sliding Tile Puzzle* can be solved *optimally* *<< 1sec*
++ *PDDL for 8-puzzle* can be solved *optimally* *<< 1sec*
 #+end_center
 
 #+begin_container-fluid
@@ -105,7 +105,7 @@ break
   #+end_larger
 #+end_alignright
 
-*** Knowledge-Acquisition Bottleneck (Cullen, 1988):
+** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
 The *cost of human* involved for converting *real-world problems* into inputs for
@@ -175,7 +175,7 @@ domain-independent *symbolic* systems
 
 [[png:latplanlogo]]
 
-(Logo embodying the lambda calculus inside a neural architecture)
+(embedding the lambda calculus inside a neural architecture)
 
 ** Problem Setting
 
@@ -245,6 +245,8 @@ They are *randomly sampled* transitions
 + No *expert traces* (unlike AlphaGo)
 + No *rewards* (unlike DRL)
 + No *access to the simulator* (unlike Atari)
+  
+  → cannot ask for more examples
 + 
   #+begin_larger
   No */action symbols/* (unlike any)
@@ -361,7 +363,7 @@ break
 #+end_xlarge
 #+end_center
 
-** State AutoEncoder (SAE)
+** State AutoEncoder (SAE)                                         :noexport:
 SAE is a *neural network* which provides two functions:
 
 + $b = Encode(r)$ : *maps a raw datum $r\;$ to a bit vector $b\;$*
@@ -380,7 +382,7 @@ SAE is a *neural network* which provides two functions:
   #+end_alignright
 #+end_larger
 
-*** NN for Standard Classification Tasks (Supervised)              :noexport:
+** NN for Standard Classification Tasks (Supervised)               :noexport:
 
 # Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
 # 
@@ -409,7 +411,7 @@ SAE is a *neural network* which provides two functions:
 
 #+end_larger
 
-*** Unsupervised Learning for NN: AutoEncoder (AE)
+** Unsupervised Learning for NN: AutoEncoder (AE)
 
 # Auto = "self" --- Autoencoding = "encoding itself"
 
@@ -440,7 +442,7 @@ Target Function: Identity $x=f(x)$
 #+end_larger
 #+end_alignright
 
-*** Variational AutoEncoder (VAE)                                  :noexport:
+** Variational AutoEncoder (VAE)                                   :noexport:
 
 An AutoEncoder that *enforce a certain distribution* on $Z \subset \mathbb{R}^n$ over the dataset $X$
 
@@ -458,7 +460,7 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 #+end_center
 #+end_quote
 
-*** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
+** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
 
 *Additional optimization penalty* which enforces $Z \sim \textbf{Categorical}$:
 
@@ -483,13 +485,13 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
   In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 
-*** State Autoencoder (*/before training/*)
+** State Autoencoder (*/before training/*)
 
-  [[png:sae/state-ae-before]]
+ [[png:sae/state-ae-before]]
 
-*** State Autoencoder (_/after training/_)
+** State Autoencoder (_/after training/_)
 
-  [[png:sae/state-ae]]
+ [[png:sae/state-ae]]
 
 ** Verifying the feasibility of Latplan system and SAE
 
@@ -519,36 +521,37 @@ AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
    :effect       (and (not (b1-false)) (b1-true)
                       (not (b2-true))  (b2-false)))
   #+end_src
++ Planning with Fast Downward, A* (optimal solution)
 
-*** Step 3: Solve the Symbolic Planning Problem
+*** Step 3: Solve the Symbolic Planning Problem                    :noexport:
 
    [[png:overview/planning4]]
 
-*** Step 4: Executing the Symbolic Plan
+*** Step 4: Executing the Symbolic Plan                            :noexport:
 
    [[png:overview/planning5]]
 
-*** Step 5: Obtaining the Visualization
+*** Step 5: Obtaining the Visualization                            :noexport:
 
    [[png:overview/planning6]]
 
-** AMA_1 Experiments
+*** AMA_1 Experiments                                              :noexport:
 
-#+begin_quote
-#+begin_center
-Show that the SAE (neural network) produce */sound propositions/*
-#+end_center
-#+end_quote
+ #+begin_quote
+ #+begin_center
+ Show that the SAE (neural network) produce */sound propositions/*
+ #+end_center
+ #+end_quote
 
-SAE: *trained with a subset of images*
+ SAE: *trained with a subset of images*
 
-AMA_1 : *oracular method* which uses *the entire transitions*
+ AMA_1 : *oracular method* which uses *the entire transitions*
 
-Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
+ Planner: a State-of-the-Art, Fast Downward (Helmert, 08)
 
-+ $A^*$ *(optimal search)* : *It must find an optimal solution*
+ + $A^*$ *(optimal search)* : *It must find an optimal solution*
 
-+ Runtime: ~3sec (instances are too small for symbolic systems)
+ + Runtime: ~3sec (instances are too small for symbolic systems)
 
 *** 8-puzzle Results with MNIST tiles (MNIST 8-puzzle)
 
@@ -613,7 +616,7 @@ Completely different puzzle problems can be solved by the same system
 
 *** Lights Out
 
-Does not assume "objects" are static (does not disappear)
+Does not assume "objects" are static (objects may disappear)
 
 [[png:results/lightsout_new4x4]]
 
@@ -696,13 +699,14 @@ break
 #+begin_span6
 *AMA_1 is impractical*, cannot obtain *entire data* in the real world
 
-#+begin_center
-+ *AMA should* 
+# #+begin_center
+# + *AMA should* 
+# 
+#   *learn / generalize*
+# 
+#   *from small examples*
+# #+end_center
 
-  *learn / generalize*
-
-  *from small examples*
-#+end_center
 #+end_span6
 #+begin_span6
  [[png:overview/ama1]]
@@ -835,7 +839,7 @@ break
 #+end_xlarge
 #+end_center
 
-** AAE does not address preconditions
+** Action Discriminator learns preconditions                       :noexport:
 
   [[png:ama/overview2]]
 
@@ -859,10 +863,12 @@ break
 #+end_row-fluid
 #+end_container-fluid
 
-** Datasets for Invalid transitions are */Fundamentally/* Unavailable
+** Collecting a negative dataset is */fundamentally/* impossible
 
-+ */Invalid transitions/*: *All transitions that are not valid.*
-  + We lack the definition; *Cannot be generated.*
+# + */Invalid transitions/*: *All transitions that are not valid.*
+#   + We lack the definition; *Cannot be generated.*
+
+*Teleportation violates the laws of physics*. (at least in a macro scale)
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -878,11 +884,9 @@ break
 #+end_row-fluid
 #+end_container-fluid
 
-+ *Teleportation violates the laws of physics*. (at least in a macro scale)
-
 #+begin_alignright
 #+begin_larger
-+ *Invalid transitions /never occur/, /never observed/, /no data/ in the real world.*
++ *Invalid transitions /never happens/ → is /never observed/, /no data/ in the real world.*
 #+end_larger
 #+end_alignright
 
