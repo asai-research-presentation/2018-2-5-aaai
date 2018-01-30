@@ -61,9 +61,9 @@ break
 #+end_xlarge
 #+end_center
 
-** Classical Planning with PDDL (symbolic model)
+** Classical Planning: */typically/* with PDDL (symbolic) model
 
-Modern planners can solve *8-puzzle optimally << 0.1sec*
+Modern planners solves *8-puzzle optimally << 0.1sec*
 
 #+begin_container-fluid
 #+begin_center
