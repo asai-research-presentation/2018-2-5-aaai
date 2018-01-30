@@ -201,10 +201,10 @@ domain-independent *symbolic* systems
 #+begin_center
 + A *Long-Standing Problem*...
 
-+ 
-  #+begin_larger
-  *Now we propose a system which automate these processes...*
-  #+end_larger
+# + 
+#   #+begin_larger
+#   *Now we propose a system which automate these processes...*
+#   #+end_larger
 #+end_center
 
 #+end_span6
@@ -283,7 +283,7 @@ The system is given *2 types of input*:
 [[png:overview/2]]
 #+end_right
 
-They are *randomly sampled* transitions
+They are *randomly sampled image transitions*
 
 + No *state descriptions* (unlike AlphaGo)
 + No *expert traces* (unlike AlphaGo)
