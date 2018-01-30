@@ -919,9 +919,9 @@ Is it feasibile to do planning with AAE and AD?
 
 #+end_span6
 #+begin_span6
-+ Action Discriminators accuracy
++ *Action Discriminators achieve a reasonable accuracy*
   
-  easure the type-1 / type-2 error in %
+  the type-1 / type-2 error in %
   
   |          | type1 | type2 |
   |----------+-------+-------|
@@ -932,9 +932,6 @@ Is it feasibile to do planning with AAE and AD?
   | Twisted  |  0.02 |  1.82 |
   | Hanoi    |  0.25 |  3.79 |
 
-  #+begin_alignright
-  *Reasonably accurate.*
-  #+end_alignright
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
