@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="aae-4.svg"
+   sodipodi:docname="aae-3.svg"
    inkscape:export-filename="/home/guicho/Dropbox/FukunagaLabShare/OngoingWorks/Asai/_aae/action_AE.svg.png"
    inkscape:export-xdpi="600"
    inkscape:export-ydpi="600">
@@ -483,7 +483,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.89868091"
-     inkscape:cx="296.17161"
+     inkscape:cx="541.53122"
      inkscape:cy="179.2905"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -507,7 +507,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -525,7 +525,7 @@
        y="221.96463"
        transform="matrix(1,0,-0.30187243,0.95334833,0,0)" />
     <rect
-       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:0.56800022;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#c83737;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:3.9978559;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:0.189;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#c83737;fill-opacity:0.9835391;fill-rule:nonzero;stroke:#000000;stroke-width:3.9978559;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        id="rect15922-3"
        width="90.236427"
        height="128.36739"
@@ -1277,5 +1277,12 @@
          style="font-size:35.00000381px;line-height:1.13;stroke-width:0.85919774">・<tspan
    style="fill:#ffff00;-inkscape-font-specification:'Noto Sans CJK JP Bold';font-family:'Noto Sans CJK JP';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;stroke:#000000"
    id="tspan15920">apply(a, s) = t</tspan></tspan></text>
+    <rect
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#ffffff;fill-opacity:0.79835391;fill-rule:nonzero;stroke:none;stroke-width:3.5433073;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       id="rect4850"
+       width="307.74271"
+       height="42.771019"
+       x="543.60107"
+       y="311.48944" />
   </g>
 </svg>
