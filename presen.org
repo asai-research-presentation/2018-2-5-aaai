@@ -61,11 +61,52 @@ break
 #+end_xlarge
 #+end_center
 
-** Symbolic planners cannot solve an */Image-based/* 8-puzzle
+** Classical Planning with PDDL (symbolic model)
 
+Modern planners can solve *8-puzzle optimally << 0.1sec*
+
+#+begin_container-fluid
 #+begin_center
-+ *PDDL for 8-puzzle* can be solved *optimally* *<< 1sec*
+#+begin_row-fluid
+#+begin_span4
+[[png:8puzzle-standard]]
+Initial State
+#+end_span4
+#+begin_span4
+[[png:8puzzle-standard-goal]]
+Goal State
+#+end_span4
+#+begin_span4
+[[sgif:8puzzle]]
+#+end_span4
+#+end_row-fluid
 #+end_center
+
+#+begin_row-fluid
+#+begin_span5
+#+begin_src lisp
+(empty x0 y0)
+(is panel6 x1 y0)
+(up   y0 y1),
+(down y1 y0)...
+#+end_src
+#+end_span5
+
+#+begin_span7
+#+begin_src lisp
+(:action slide-up ...
+
+ :precondition
+ (and (empty ?x ?y-old) ...)
+
+ :effects
+ (and (not (empty ?x ?y-old))...))
+#+end_src
+#+end_span7
+#+end_row-fluid
+#+end_container-fluid
+
+** They cannot solve an */Image-based/* 8-puzzle
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -97,13 +138,16 @@ break
 #+end_row-fluid
 #+end_container-fluid
 
-#+begin_alignright
-+ *Impractical* in *unknown environments* where */no human/ is available*
+
++ *Impractical* in some environments:
+
+  #+begin_alignright
+  *unknown* and */no human/ is available*
     
   #+begin_larger
   E.g. *autonomous space exploration!*
   #+end_larger
-#+end_alignright
+  #+end_alignright
 
 ** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
