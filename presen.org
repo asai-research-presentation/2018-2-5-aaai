@@ -504,7 +504,7 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 #+end_center
 #+end_quote
 
-** Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
+** Solution: Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
 
 *Additional optimization penalty* which enforces $Z \sim \textbf{Categorical}$:
 
@@ -537,7 +537,7 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
  [[png:sae/state-ae]]
 
-** Verifying the feasibility of Latplan system and SAE
+** Verifying the feasibility of Latplan and SAE
 
 #+begin_quote
 #+begin_center
@@ -825,7 +825,7 @@ Positive = Training Input
 #+end_row-fluid
 #+end_container-fluid
 
-** Collecting a negative dataset is */fundamentally/* impossible
+** Collecting a negative dataset is */fundamentally/* impossible in real world
 
 # + */Invalid transitions/*: *All transitions that are not valid.*
 #   + We lack the definition; *Cannot be generated.*
