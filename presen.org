@@ -848,7 +848,7 @@ Positive = Training Input
 
 #+begin_alignright
 #+begin_larger
-+ *Invalid transitions /never happens/ → is /never observed/, /no data/ in the real world.*
++ *Invalid transitions /never happens/ → is /never observed/, /no data/ available in the real world.*
 #+end_larger
 #+end_alignright
 
