@@ -116,7 +116,7 @@ Goal State
 #+begin_span4
 + 
    #+begin_center
-   *BUT*
+   *BECAUSE*
 
    *WE*
 
