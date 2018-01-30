@@ -145,7 +145,7 @@ Goal State
   *unknown* and */no human/ is available*
     
   #+begin_larger
-  E.g. *autonomous space exploration!*
+  e.g. *autonomous space exploration!*
   #+end_larger
   #+end_alignright
 
