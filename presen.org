@@ -20,12 +20,14 @@ Bridging the Subsymbolic-Symbolic Boundary
 #+end_xlarge
 
 #+begin_larger
-Masataro Asai
+Masataro Asai and Fukunaga Alex
 
 The University of Tokyo
 #+end_larger
 
 12min
+
+Search Agent select-expand-eval
 
 #+begin_larger
 *No details, read the paper! /This is a pitch!/*
@@ -43,7 +45,7 @@ Made by guicho2.71828 (Masataro Asai)
 
 #+begin_center
 #+begin_xlarge
-*/Backgrounds/*
+*/Background/*
 
 *Latplan Architecture*
 
@@ -215,7 +217,7 @@ domain-independent *symbolic* systems
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
 
-** Latent-Space Planner (*/Latplan/*)
+** Latent-Space Planner (*/Latplan/*)                              :noexport:
 
 [[png:latplanlogo]]
 
@@ -288,22 +290,24 @@ They are *randomly sampled image transitions*
 + No *state descriptions* (unlike AlphaGo)
 + No *expert traces* (unlike AlphaGo)
 + No *rewards* (unlike DRL)
-+ No *access to the simulator* (unlike Atari)
++ No *access to the simulator* (unlike DQN for Atari ***)
   
   → cannot ask for more examples
 + 
   #+begin_larger
-  No */action symbols/* (unlike any)
+  No */action symbols/* (unlike any previous work to our knowledge)
 
-  　　(e.g. ↑↓←→AB in Atari, grids in Go)
+  　　(e.g. ↑↓←→Fire in Atari, grids in Go)
 
-  → doesn't know what's happening in each transition
+  → Image pairs are unlabelled ground actions
   #+end_larger
 
-+ So far, ALL existing AMA systems require */symbolic/near-symbolic state/action inputs/*.
++ ALL previous Acion Modelling systems require */symbolic/near-symbolic state/action inputs/*.
 
   (Konidaris et al. 2014, 2015), ARMS (Yang et al. 07), LOCM (Cresswell et
   al. 09), (Argall et al. 09), (Mourao et al. 12), Framer (Lindsay et al. 17)
+
+citation追加
 
 *** Input2: Planning Input -- Initial Image & Goal Image
 
@@ -321,7 +325,7 @@ They are *randomly sampled image transitions*
 
 #+begin_center
 #+begin_xlarge
-*Backgrounds*
+*Background*
 
 */Latplan Architecture/*
 
@@ -389,7 +393,7 @@ Latplan: Latent-space Planner.
 
 #+begin_center
 #+begin_xlarge
-*Backgrounds*
+*Background*
 
 *Latplan Architecture*
 
@@ -473,6 +477,7 @@ Target Function: Identity $x=f(x)$
   (*reconstruction loss*)
 #+end_span7
 #+begin_span5
+adding a label: Latent vector
 [[png:deeplearning/autoenc]]
 #+end_span5
 #+end_row-fluid
@@ -482,7 +487,7 @@ Target Function: Identity $x=f(x)$
 #+begin_larger
 + → However, */✘ Latent vector Z is real-valued/*
 
-  */INCOMPATIBLE to propositional reasoning/*
+  */INCOMPATIBLE with propositional reasoning/*
 #+end_larger
 #+end_alignright
 
@@ -549,10 +554,10 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
 # To test this, we built a *trivial, oracular* AMA system, AMA_1
 
-AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
+AMA_1 : a */trivial, oracular/* Action Model Acquisition (AMA) method *w/o generalization*.
 
-+ *Encode the entire raw state transitions* in the environment
-+ For each transition, perform the following conversion:
++ 1. *Encode all image transitions* in the environment
++ 2. For each transition, perform the following conversion explicitly:
 
   #+begin_src lisp
    0011 → 0101  ;; encoded bit vectors of a transition
@@ -565,7 +570,7 @@ AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
    :effect       (and (not (b1-false)) (b1-true)
                       (not (b2-true))  (b2-false)))
   #+end_src
-+ Planning with Fast Downward, A* (optimal solution)
++ Planning with Fast Downward, A* (optimal solution) *citation*
 
 *** Step 3: Solve the Symbolic Planning Problem                    :noexport:
 
@@ -616,20 +621,7 @@ AMA_1 : a */trivial, oracular/* AMA method *w/o generalization*.
 #+end_center
 #+end_larger
 
-*** Handling the Noisy Input
 
-SAE implementation uses a denoising layer (Denoising AE)
-# Denoising AE を使っているため入力ノイズに左右されずにプランを求められる
-
-[[png:results/noise-new]]
-
-#+begin_larger
-#+begin_alignright
- → *Benefit from existing DL methods immediately*
-
- → *Improved speed, robustness, accuracy*
-#+end_alignright
-#+end_larger
 ** State Autoencoder Conclusion                                    :noexport:
 
 + */SAE can learn from small examples/* ::
@@ -652,7 +644,7 @@ SAE implementation uses a denoising layer (Denoising AE)
 
 #+begin_center
 #+begin_xlarge
-*Backgrounds*
+*Background*
 
 *Latplan Architecture*
 
@@ -672,7 +664,7 @@ break
 
 ** SAE Feasible! Now what?
 
-*AMA_1 is impractical*, cannot obtain *entire data* in the real world
+*AMA_1 is impractical*. Cannot obtain *all necessary valid transitions* in the real world
 
 #+begin_larger
 #+begin_alignright
@@ -727,7 +719,7 @@ break
 
 #+begin_center
 #+begin_xlarge
-*Backgrounds*
+*Background*
 
 *Latplan Architecture*
 
@@ -752,7 +744,7 @@ break
 #+begin_center
 */We skip a lot of interesting motivations here!!/*
 
-motivation: no action label, unsupervised learning, std network not applicable
+motivation: no action label, unsupervised learning, standard predictor network not applicable
 #+end_center
 
 ** Implementing $(a \rightarrow t) | s$                            :noexport:
@@ -779,13 +771,15 @@ motivation: no action label, unsupervised learning, std network not applicable
 
 #+begin_center
 */We skip a lot of interesting motivations here!!/*
+
+motivation: no action label, unsupervised learning, standard predictor network not applicable
 #+end_center
 
 * Overview                                                               :AD:
 
 #+begin_center
 #+begin_xlarge
-*Backgrounds*
+*Background*
 
 *Latplan Architecture*
 
@@ -848,7 +842,7 @@ Positive = Training Input
 
 #+begin_alignright
 #+begin_larger
-+ *Invalid transitions /never happens/ → is /never observed/, /no data/ available in the real world.*
++ *Invalid transitions /never happen/ → /never observed/, /no data/ available in the real world.*
 #+end_larger
 #+end_alignright
 
@@ -916,6 +910,8 @@ Is it feasibile to do planning with AAE and AD?
   |   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
   |   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
   | / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+
+画像集を右に追加
 
 #+end_span6
 #+begin_span6
@@ -1018,7 +1014,7 @@ Measure the type-1 / type-2 error in %
 
 * Conclusion
 
-+ *Latplan:* *The /first system/ in history* which completely automatically
++ *Latplan:* *The /first system/* which completely automatically
   generates a classical, symbolic planning model from scratch
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
@@ -1030,16 +1026,16 @@ Measure the type-1 / type-2 error in %
   *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
 
   #+begin_center
-  *Two of the major grounding problems were solved!*
-  | Types of symbols      |                             |
-  |-----------------------+-----------------------------|
-  | Propositional symbols | *Solved!*                   |
-  | Action symbols        | *Solved!*                   |
-  | Object symbols        | Computer Vision techniques? |
-  | Predicate symbols     | ???                         |
+  Solved *two of the major grounding problems*
+  | Types of symbols      | Latplan handles                    |
+  |-----------------------+------------------------------------|
+  | Propositional symbols | *Yes*                              |
+  | Action symbols        | *Yes*                              |
+  | Object symbols        | _/No/_ Computer Vision techniques? |
+  | Predicate symbols     | _/No/_ ???                         |
   
-  Future work: improved accuracy, runtime, */and a lot more!!/*
   #+end_center
+  # Future work: improved accuracy, runtime, */and a lot more!!/*
 
 ** Future Work (Input format)
 
@@ -1165,6 +1161,20 @@ Does not assume grid-like structures
 #+end_xlarge
 #+end_alignright
 
+** Handling the Noisy Input
+
+SAE implementation uses a denoising layer (Denoising AE)
+# Denoising AE を使っているため入力ノイズに左右されずにプランを求められる
+
+[[png:results/noise-new]]
+
+#+begin_larger
+#+begin_alignright
+ → *Benefit from existing DL methods immediately*
+
+ → *Improved speed, robustness, accuracy*
+#+end_alignright
+#+end_larger
 ** Konidaris et. al (2014, 2015): 
 
 Structured input (e.g. *light switch*, *x/y-distance*) ↔ unstructured image
