@@ -11,13 +11,17 @@
 #+begin_outline-text-1
 #+begin_center
 
-#+begin_xlarge
-Classical Planning in
+[[png:latplanlogo]]
 
-Deep Latent Space:
+(lambda calculus inside neurons)
 
-Bridging the Subsymbolic-Symbolic Boundary
-#+end_xlarge
+# #+begin_xlarge
+# Classical Planning in
+# 
+# Deep Latent Space:
+# 
+# Bridging the Subsymbolic-Symbolic Boundary
+# #+end_xlarge
 
 #+begin_larger
 Masataro Asai and Fukunaga Alex
@@ -26,8 +30,6 @@ The University of Tokyo
 #+end_larger
 
 12min
-
-Search Agent select-expand-eval
 
 #+begin_larger
 *No details, read the paper! /This is a pitch!/*
@@ -63,6 +65,30 @@ break
 #+end_xlarge
 #+end_center
 
+** The current state of AI agents
+
+[[png:agent/search-agent5]]
+
+*** The current state of AI agents
+
+[[png:agent/search-agent4]]
+
+*** The current state of AI agents
+
+[[png:agent/search-agent3]]
+
+*** The current state of AI agents
+
+[[png:agent/search-agent2]]
+
+*** The current state of AI agents
+
+[[png:agent/search-agent1]]
+
+*** The current state of AI agents
+
+[[png:agent/search-agent0]]
+
 ** Classical Planning: */typically/* with PDDL (symbolic) model
 
 Modern planners solves *8-puzzle optimally << 0.1sec*
@@ -83,30 +109,33 @@ Goal State
 #+end_span4
 #+end_row-fluid
 #+end_center
-
-#+begin_row-fluid
-#+begin_span5
-#+begin_src lisp
-(empty x0 y0)
-(is panel6 x1 y0)
-(up   y0 y1),
-(down y1 y0)...
-#+end_src
-#+end_span5
-
-#+begin_span7
-#+begin_src lisp
-(:action slide-up ...
-
- :precondition
- (and (empty ?x ?y-old) ...)
-
- :effects
- (and (not (empty ?x ?y-old))...))
-#+end_src
-#+end_span7
-#+end_row-fluid
 #+end_container-fluid
+
++ 
+  #+begin_container-fluid
+  #+begin_row-fluid
+  #+begin_span5
+  #+begin_src lisp
+  (empty x0 y0)
+  (is panel6 x1 y0)
+  (up   y0 y1)
+  (down y1 y0)...
+  #+end_src
+  #+end_span5
+  
+  #+begin_span7
+  #+begin_src lisp
+  (:action slide-up ...
+  
+   :precondition
+   (and (empty ?x ?y-old) ...)
+  
+   :effects
+   (and (not (empty ?x ?y-old))...))
+  #+end_src
+  #+end_span7
+  #+end_row-fluid
+  #+end_container-fluid
 
 ** They cannot solve an */Image-based/* 8-puzzle
 
@@ -150,30 +179,6 @@ Goal State
   e.g. *autonomous space exploration!*
   #+end_larger
   #+end_alignright
-
-** The current state of AI agents
-
-[[png:agent/search-agent5]]
-
-*** The current state of AI agents
-
-[[png:agent/search-agent4]]
-
-*** The current state of AI agents
-
-[[png:agent/search-agent3]]
-
-*** The current state of AI agents
-
-[[png:agent/search-agent2]]
-
-*** The current state of AI agents
-
-[[png:agent/search-agent1]]
-
-*** The current state of AI agents
-
-[[png:agent/search-agent0]]
 
 ** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
@@ -309,19 +314,21 @@ The system is given *2 types of input*:
 [[png:overview/2]]
 #+end_right
 
-They are *randomly sampled image transitions*
+*Randomly sampled image transitions*
 
 + No *state descriptions* (unlike AlphaGo)
 + No *expert traces* (unlike AlphaGo)
 + No *rewards* (unlike DRL)
-+ No *access to the simulator* (unlike DQN for Atari ***)
++ No *access to the simulator* (unlike DQN+Atari)
   
   → cannot ask for more examples
 + 
   #+begin_larger
-  No */action symbols/* (unlike any previous work to our knowledge)
+  No */action symbols/*
 
   　　(e.g. ↑↓←→Fire in Atari, grids in Go)
+
+  → unlike *any previous work to our knowledge*
 
   → Image pairs are unlabelled ground actions
   #+end_larger
@@ -331,9 +338,11 @@ They are *randomly sampled image transitions*
   (Konidaris et al. 2014, 2015), ARMS (Yang et al. 07), LOCM (Cresswell et
   al. 09), (Argall et al. 09), (Mourao et al. 12), Framer (Lindsay et al. 17)
 
-citation追加
+#+begin_note
+DQN (Mnih et al. '15), AlphaGo (Silver et al. '16)
+#+end_note
 
-*** Input2: Planning Input -- Initial Image & Goal Image
+*** Input2: Planning Input
 
 [[png:overview/input2]]
 
@@ -594,7 +603,7 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method *w/o generalizatio
    :effect       (and (not (b1-false)) (b1-true)
                       (not (b2-true))  (b2-false)))
   #+end_src
-+ Planning with Fast Downward, A* (optimal solution) *citation*
++ 3. Planning with Fast Downward (Helmert 08), A* (optimal solution)
 
 *** Step 3: Solve the Symbolic Planning Problem                    :noexport:
 
@@ -641,7 +650,7 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method *w/o generalizatio
 #+end_xlarge
 
 #+begin_center
-(*/We skip other domains/*)
+(*/We skip other domains, noisy results/*)
 #+end_center
 #+end_larger
 
@@ -680,19 +689,25 @@ break
 #+begin_xlarge
 */AMA_2 Overview/*
 
-*Action AutoEncoder (AAE)*
+*/Action AutoEncoder (AAE)/*
 
-*Action Discriminator (AD)*
+*/Action Discriminator (AD)/*
 #+end_xlarge
 #+end_center
 
 ** SAE Feasible! Now what?
 
-*AMA_1 is impractical*. Cannot obtain *all necessary valid transitions* in the real world
+#+begin_larger
+*/✗/* *AMA_1 is impractical*.
+#+end_larger
+
+AMA_1 requires *all valid transitions* in the real world
 
 #+begin_larger
 #+begin_alignright
 + → *AMA_2*, a novel neural architecture
+
+  　which does not
 #+end_alignright
 #+end_larger
 
@@ -739,7 +754,14 @@ break
 *** AMA_2 Overview
 
   [[png:ama/overview3]]
-* Overview                                                              :AAE:
+
+#+begin_center
+*I completely skip the description of AAE and AD*
+
+*/please read the paper/*
+#+end_center
+
+* Overview                                                     :AAE:noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -761,7 +783,7 @@ break
 #+end_xlarge
 #+end_center
 
-** Implementing $(a \rightarrow t) | s$
+** Implementing AAE
 
 [[png:aae/aae-0]]
 
@@ -771,7 +793,7 @@ break
 motivation: no action label, unsupervised learning, standard predictor network not applicable
 #+end_center
 
-** Implementing $(a \rightarrow t) | s$                            :noexport:
+** Implementing AAE                            :noexport:
 
 [[png:aae/aae-1]]
 
@@ -781,7 +803,7 @@ motivation: no action label, unsupervised learning, standard predictor network n
 motivation: no action label, unsupervised learning, std network not applicable
 #+end_center
 
-** Implementing $(a \rightarrow t) | s$                            :noexport:
+** Implementing AAE                            :noexport:
 
 [[png:aae/aae-2]]
 
@@ -789,7 +811,7 @@ motivation: no action label, unsupervised learning, std network not applicable
 */We skip a lot of interesting motivations here!!/*
 #+end_center
 
-** Implementing $(a \rightarrow t) | s$
+** Implementing AAE
 
 [[png:aae/aae-3]]
 
@@ -799,7 +821,7 @@ motivation: no action label, unsupervised learning, std network not applicable
 motivation: no action label, unsupervised learning, standard predictor network not applicable
 #+end_center
 
-* Overview                                                               :AD:
+* Overview                                                      :AD:noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -843,12 +865,14 @@ Positive = Training Input
 #+end_row-fluid
 #+end_container-fluid
 
-** Collecting a negative dataset is */fundamentally/* impossible in real world
+** Negative datasets are */fundamentally/* unavailable in the real world
 
 # + */Invalid transitions/*: *All transitions that are not valid.*
 #   + We lack the definition; *Cannot be generated.*
 
-*Teleportation violates the laws of physics*. (at least in a macro scale)
+*Invalid transitions /never happen./*
+
+E.g. *Teleportation violates the laws of physics*. (at least in a macro scale)
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -865,9 +889,14 @@ Positive = Training Input
 #+end_container-fluid
 
 #+begin_alignright
-#+begin_larger
-+ *Invalid transitions /never happen/ → /never observed/, /no data/ available in the real world.*
-#+end_larger
++ 
+  #+begin_larger
+  *They cannot be /observed/ in the real world.*
+  
+  → */Negative datasets are not available/*
+  #+end_larger
+
+  without the help from human.
 #+end_alignright
 
 ** Soluton: PU-Learning (Elkan & Noto, KDD 08')
@@ -878,85 +907,122 @@ Learning a *positive / negative classifier* from *positive / /unlabelled/ datase
   
   Some are valid, some are invalid
 
-** Successor Function
+* Successor Function
 
-AAE *enumerates* the canditates; AD/SD *filters* the invalid.
+AAE: *enumerates*, AD: *filtering* the invalid.
 
 \begin{align*}
   Succ(s) &= \{t = apply(a,s) \; | \; a \in \{0\ldots 127\},\\
-          & \qquad \land AD(s,t) \geq 0.5 \\
-          & \qquad \land SD(t) \geq 0.5 \}
+          & \qquad \land AD(s,t) \geq 0.5 \}
 \end{align*}
 
 # & \qquad \land SD(t) \geq 0.5 \\
 # & \qquad \land Encode(Decode(s)) \equiv s \\
 # & \qquad \land Apply(Action(t,s),s) \equiv t \}
 
-We have *action symbols and propositional states!*
-
+#+begin_center
 Now we can run $A^*$ with *goal-count* heuristics
+
+with *action symbols and propositional states*
+#+end_center
+
 
 * AMA_2 Experiments
 
 Is it feasibile to do planning with AAE and AD?
 
-# + *100 instances* for each domain
-#   + self-avoiding random walks from the goal state
-#   + (benchmark A) 7-step, (benchmark B) 14-step
-#   + no / gaussian / salt-pepper noise
-# + 180 sec. time limit
-# + Domain-specific plan validators.
-# 
-# # The failures are due to timeouts
-# # (the successor function requires many calls to the feedforward neural nets,
-# #  resulting in a very slow node generation).
-# 
-# # We next examine the accuracy of the AD and SD (\reftbl{tab:aae-results}).
-# # We measured the type-1/2 errors for the valid and invalid transitions (for AD) and states (SD).
-# # Low errors show that our networks successfully learned the action models.
-# 
-# ** Results
-
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-+ *Easy instances: Majority of instances are solved*
-  
-  *Harder instances: Still many instances are solved*
+*Easy instances: Majority of instances are solved*
 
-  |   | /          |   < |     |   > |   < |    |   > |
-  |   | step       |   7 |   7 |   7 |  14 | 14 |  14 |
-  |   | noise      | std |   G | s/p | std |  G | s/p |
-  |---+------------+-----+-----+-----+-----+----+-----|
-  |   | MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
-  |   | Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
-  |   | Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
-  |   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
-  |   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
-  | / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+*Harder instances: Still many instances are solved*
 
-画像集を右に追加
-
+#+begin_smaller
+|   | /          |   < |     |   > |   < |    |   > |
+|   | step       |   7 |   7 |   7 |  14 | 14 |  14 |
+|   | noise      | std |   G | s/p | std |  G | s/p |
+|---+------------+-----+-----+-----+-----+----+-----|
+|   | MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
+|   | Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
+|   | Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
+|   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
+|   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
+| / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+#+end_smaller
 #+end_span6
 #+begin_span6
-+ *Action Discriminators achieve the reasonable accuracy*
-  
-  the type-1 / type-2 error in %
-  
-  |          | type1 | type2 |
-  |----------+-------+-------|
-  | MNIST    |  1.55 |  6.15 |
-  | Mandrill |  1.10 |  2.93 |
-  | Spider   |  1.22 |  4.97 |
-  | L. Out   |  0.03 |  1.64 |
-  | Twisted  |  0.02 |  1.82 |
-  | Hanoi    |  0.25 |  3.79 |
-
+[[png:results/mandrill-intro-new]]
+[[png:results/mandrill-plan-new]]
+[[png:results/hanoi4]]
+[[png:results/lightsout_new4x4]]
+[[png:results/lightsout_twisted_new4x4]]
+[[png:results/noise-new]]
+[[png:results/spider-plan-new]]
+[[png:results/mnist-plan-new]]
 #+end_span6
 #+end_row-fluid
 #+end_container-fluid
 
-* AMA_2 Experiments 2                                              :noexport:
+** AMA_2 Experiments
+
+Is it feasibile to do planning with AAE and AD?
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span6
+*Easy instances: Majority of instances are solved*
+
+*Harder instances: Still many instances are solved*
+
+#+begin_smaller
+|   | /          |   < |     |   > |   < |    |   > |
+|   | step       |   7 |   7 |   7 |  14 | 14 |  14 |
+|   | noise      | std |   G | s/p | std |  G | s/p |
+|---+------------+-----+-----+-----+-----+----+-----|
+|   | MNIST      |  72 |  64 |  64 |   6 |  4 |   3 |
+|   | Mandrill   | 100 | 100 | 100 |   9 | 14 |  14 |
+|   | Spider     |  94 |  99 |  98 |  29 | 36 |  38 |
+|   | LightsOut  | 100 |  99 | 100 |  59 | 60 |  51 |
+|   | Twisted LO |  96 |  65 |  98 |  75 | 68 |  72 |
+| / | Hanoi      |  37 |  44 |  39 |  15 | 18 |  17 |
+#+end_smaller
+#+end_span6
+#+begin_span6
+*Action Discriminators achieve the reasonable accuracy*
+
+the type-1 / type-2 error in %
+
+|          | type1 | type2 |
+|----------+-------+-------|
+| MNIST    |  1.55 |  6.15 |
+| Mandrill |  1.10 |  2.93 |
+| Spider   |  1.22 |  4.97 |
+| L. Out   |  0.03 |  1.64 |
+| Twisted  |  0.02 |  1.82 |
+| Hanoi    |  0.25 |  3.79 |
+#+end_span6
+#+end_row-fluid
+#+end_container-fluid
+
+** Experimental setting                                            :noexport:
+
++ *100 instances* for each domain
+  + self-avoiding random walks from the goal state
+  + (benchmark A) 7-step, (benchmark B) 14-step
+  + no / gaussian / salt-pepper noise
++ 180 sec. time limit
++ Domain-specific plan validators.
+
+# The failures are due to timeouts
+# (the successor function requires many calls to the feedforward neural nets,
+#  resulting in a very slow node generation).
+
+# We next examine the accuracy of the AD and SD (\reftbl{tab:aae-results}).
+# We measured the type-1/2 errors for the valid and invalid transitions (for AD) and states (SD).
+# Low errors show that our networks successfully learned the action models.
+
+** AMA_2 Experiments 2                                             :noexport:
 
 How accurate are Action Discriminators and State Discriminators?
 
@@ -995,7 +1061,7 @@ Measure the type-1 / type-2 error in %
 #+end_row-fluid
 #+end_container-fluid
 
-* AMA_2 Experiments 2                                              :noexport:
+** AMA_2 Experiments 2                                             :noexport:
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -1039,7 +1105,7 @@ Measure the type-1 / type-2 error in %
 * Conclusion
 
 + *Latplan:* *The /first system/* which completely automatically
-  generates a classical, symbolic planning model from scratch
+  generates a classical, symbolic planning model *from scratch* (no manual tagging)
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 
@@ -1049,14 +1115,19 @@ Measure the type-1 / type-2 error in %
   
   *Action Discriminator(AD)* : */transition/ → /bool/* with *PU-Learning*
 
+  　
+  
   #+begin_center
   Solved *two of the major grounding problems*
-  | Types of symbols      | Latplan handles                    |
-  |-----------------------+------------------------------------|
-  | Propositional symbols | *Yes*                              |
-  | Action symbols        | *Yes*                              |
-  | Object symbols        | _/No/_ Computer Vision techniques? |
-  | Predicate symbols     | _/No/_ ???                         |
+  |                   <r> | <c>                 |
+  |      Types of symbols | Handled by Latplan? |
+  |-----------------------+---------------------|
+  | Propositional symbols | *Yes*               |
+  |        Action symbols | *Yes*               |
+  |        Object symbols | _/No/_              |
+  |     Predicate symbols | _/No/_              |
+  |       Problem symbols | _/No/_              |
+  |        Domain symbols | _/No/_              |
   
   #+end_center
   # Future work: improved accuracy, runtime, */and a lot more!!/*
@@ -1073,11 +1144,11 @@ Example:
 
 　Transition rule "*This is an apple, this is a pen → oh, ApplePen!*"
     
-When this happens, */Latplan/* brings AI to a new level e.g.
+When this happens, */Latplan/* brings AI to a level like:
   
-*1000 steps of natural language reasoning with /logic/, not by reflex*
+　 *1000 steps of natural language reasoning with /logic/, not by reflex*
   
-Fundamentally impossible for short-sighted / greedy agents
+　Fundamentally impossible for short-sighted / greedy agents
 
 #+begin_note
  "A hierarchical neural autoencoder for paragraphs and documents." (2015)

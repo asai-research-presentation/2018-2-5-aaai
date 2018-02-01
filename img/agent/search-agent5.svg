@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="110.68196mm"
-   height="38.521084mm"
-   viewBox="0 0 110.68196 38.521084"
+   width="145.52084mm"
+   height="48.288231mm"
+   viewBox="0 0 145.52084 48.288231"
    version="1.1"
    id="svg871"
    inkscape:version="0.92.1 r15371"
@@ -25,16 +25,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="204.93048"
-     inkscape:cy="19.95954"
+     inkscape:zoom="0.9899495"
+     inkscape:cx="265.07538"
+     inkscape:cy="25.920341"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="826"
-     inkscape:window-x="768"
-     inkscape:window-y="26"
+     inkscape:window-width="1024"
+     inkscape:window-height="704"
+     inkscape:window-x="0"
+     inkscape:window-y="20"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -57,12 +57,12 @@
      inkscape:label="レイヤー 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-5.7465484,-4.1449851)">
+     transform="translate(-5.7465478,7.3860534)">
     <flowRoot
        xml:space="preserve"
        id="flowRoot1416"
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.33333397px;line-height:125%;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.77952766;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-       transform="matrix(0.26458333,0,0,0.26458333,-7.0826425,-6.9490077)"><flowRegion
+       transform="matrix(0.34667807,0,0,0.34667807,-11.063276,-21.796242)"><flowRegion
          id="flowRegion1418"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.33333397px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';text-align:start;text-anchor:start"><rect
            id="rect1420"
@@ -73,9 +73,8 @@
            style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.33333397px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';text-align:start;text-anchor:start" /></flowRegion><flowPara
          id="flowPara1422"><flowSpan
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.33333397px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#800080"
-   id="flowSpan1450">function</flowSpan> SearchAgent(init, expand, goal):</flowPara><flowPara
-         id="flowPara1426">    OPEN ← { <flowSpan
+   id="flowSpan1450">function</flowSpan> SearchAgent():</flowPara><flowPara
+         id="flowPara1440">    OPEN ← { <flowSpan
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:13.33333397px;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';fill:#ff0000"
-   id="flowSpan1446">init</flowSpan> }</flowPara><flowPara
-         id="flowPara1440" /></flowRoot>  </g>
+   id="flowSpan1446">init</flowSpan> }</flowPara></flowRoot>  </g>
 </svg>
