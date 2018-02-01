@@ -151,6 +151,67 @@ Goal State
   #+end_larger
   #+end_alignright
 
+** The current state of AI agents                                  :noexport:
+
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span7
++ function SearchAgent(init, rule, goal):
+  + OPEN \leftarrow \{ init \}
+  + until goal found:
+    + node \leftarrow select(OPEN)
+    + Children \leftarrow expand(node)
+    + for each c \in Children:
+      + key \leftarrow evaluate(c)
+      + insert(OPEN, c, key)
+#+end_span7
+#+begin_span1
++ 
++ 
++ 
++ 
++ 
++ 
++ ← covered by Reinforcement Learning
++ (DQN (Mnih et al. 16), AlphaGo (Silver et al. 15))
+#+end_span1
+#+begin_span1
++ 
++ ← *How to represent a node?*
++ 
++ 
++ ← *How to expand the node?*
++ These are beyond the capabilities of
++ the current State of the Art
++ 
+#+end_span1
+#+end_row-fluid
+#+end_container-fluid
+
+** The current state of AI agents
+
+[[png:agent/search-agent5]]
+
+** The current state of AI agents
+
+[[png:agent/search-agent4]]
+
+** The current state of AI agents
+
+[[png:agent/search-agent3]]
+
+** The current state of AI agents
+
+[[png:agent/search-agent2]]
+
+** The current state of AI agents
+
+[[png:agent/search-agent1]]
+
+** The current state of AI agents
+
+[[png:agent/search-agent0]]
+
 ** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
