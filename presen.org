@@ -578,7 +578,7 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
 # To test this, we built a *trivial, oracular* AMA system, AMA_1
 
-AMA_1 : a */trivial, oracular/* Action Model Acquisition (AMA) method *w/o generalization*.
+AMA_1 : an */oracular/* Action Model Acquisition (AMA) method *w/o generalization*.
 
 + 1. *Encode all image transitions* in the environment
 + 2. For each transition, perform the following conversion explicitly:
