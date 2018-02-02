@@ -13,8 +13,6 @@
 
 [[png:latplanlogo]]
 
-(lambda calculus inside neurons)
-
 # #+begin_xlarge
 # Classical Planning in
 # 
