@@ -747,6 +747,14 @@ AMA_1 requires *all valid transitions* in the real world
 
 *** AMA_2 Overview
 
+  [[png:ama/overview2-2]]
+
+*** AMA_2 Overview
+
+  [[png:ama/overview2-1]]
+
+*** AMA_2 Overview
+
   [[png:ama/overview2]]
 
 *** AMA_2 Overview
