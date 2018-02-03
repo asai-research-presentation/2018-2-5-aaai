@@ -63,27 +63,55 @@ break
 #+end_xlarge
 #+end_center
 
-** The current state of AI agents
+** The generic AI agent architechture
 
 [[png:agent/search-agent5]]
 
-*** The current state of AI agents
+#+begin_resume
+I first talk about the generic AI agent architecture.
+
+A search agent first inserts the initial node into the open list.
+
+then until the goal is found, it selects a node 
+from the open list, and expand the node to obtain the children.
+Then for each child, it evaluates the child and store it in the open list with the result of evaluation.
+
+This agent structure is very generic, so it applies not only to the classical best-first search agent
+but also the greedy agent, which includes Reinforcement Learning agent.
+
+Now let's think about *which* part of this generic architecture has been successfully automated by the deep learning
+so that it does not require the manual feature engineering.
+
+It turns out, Reinforcement Learning only solves the evaluation part.
+However, there are more parts that are not yet addressed by reinforcement learning.
+
+First, State representation. The famous AlphaGo, which uses an evaluation function trained by reinforcement learning,
+assumes that the state representation is given apriori.
+
+Second, state transition rules. This is also typically assumed to be given apriori.
+In Alphago or AlphaZero, the game rules of Go or Chess are hard coded by human.
+Also, in DQN which operates on Atari Environment, the system has access to the simulator.
+
+It is precisely these parts that we address in this presentation.
+#+end_resume
+
+*** The generic AI agent architechture
 
 [[png:agent/search-agent4]]
 
-*** The current state of AI agents
+*** The generic AI agent architechture
 
 [[png:agent/search-agent3]]
 
-*** The current state of AI agents
+*** The generic AI agent architechture
 
 [[png:agent/search-agent2]]
 
-*** The current state of AI agents
+*** The generic AI agent architechture
 
 [[png:agent/search-agent1]]
 
-*** The current state of AI agents
+*** The generic AI agent architechture
 
 [[png:agent/search-agent0]]
 
@@ -197,7 +225,7 @@ domain-independent *symbolic* systems
 
   #+begin_center
   #+begin_larger
-  */Symbols/ = identifiable entities*
+  */Symbols/ = identifiable entities in PDDL*
   #+end_larger
   #+end_center
   
@@ -244,11 +272,9 @@ domain-independent *symbolic* systems
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
 
-** Latent-Space Planner (*/Latplan/*)                              :noexport:
+** Latent-Space Planner (*/Latplan/*)
 
 [[png:latplanlogo]]
-
-(embedding the lambda calculus inside a neural architecture)
 
 ** Problem Setting
 
@@ -278,17 +304,23 @@ Latent-Space Planner
 
 */No Prior Knowledge/* : */Domain-independent Image-based planner/*
 
+　
+
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span6
-Tower of Hanoi
+#+begin_center
+*Tower of Hanoi*
 
 [[sjpg:hanoi]]
+#+end_center
 #+end_span6
 #+begin_span4
-Lights-Out
+#+begin_center
+*Lights-Out*
 
 [[sjpg:lightsout]]
+#+end_center
 #+end_span4
 #+end_row-fluid
 #+end_container-fluid
@@ -326,12 +358,12 @@ The system is given *2 types of input*:
 
   　　(e.g. ↑↓←→Fire in Atari, grids in Go)
 
-  → unlike *any previous work to our knowledge*
+  → unlike *any previous work to our knowledge*,
 
-  → Image pairs are unlabelled ground actions
+  　 Image pairs are */unlabelled/ ground actions*
   #+end_larger
 
-+ ALL previous Acion Modelling systems require */symbolic/near-symbolic state/action inputs/*.
++ *ALL* previous Acion Modelling systems require */symbolic/near-symbolic state/action inputs/*.
 
   (Konidaris et al. 2014, 2015), ARMS (Yang et al. 07), LOCM (Cresswell et
   al. 09), (Argall et al. 09), (Mourao et al. 12), Framer (Lindsay et al. 17)
@@ -585,7 +617,9 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
 
 # To test this, we built a *trivial, oracular* AMA system, AMA_1
 
-AMA_1 : an */oracular/* Action Model Acquisition (AMA) method *w/o generalization*.
+AMA_1 : an */oracular/* Action Model Acquisition (AMA) method
+
+　　　　　 *w/o generalization*.
 
 + 1. *Encode all image transitions* in the environment
 + 2. For each transition, perform the following conversion explicitly:
@@ -633,7 +667,7 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method *w/o generalizatio
 
  + Runtime: ~3sec (instances are too small for symbolic systems)
 
-*** 8-puzzle Results with MNIST tiles (MNIST 8-puzzle)
+*** 8-puzzle with MNIST tiles (MNIST 8-puzzle)
 
 8-puzzle using digits from MNIST database
 
@@ -696,6 +730,14 @@ break
 ** SAE Feasible! Now what?
 
 #+begin_larger
+*/○/* *SAE is practical*.
+#+end_larger
+
+Trained with *20k* out of *360k* state examples. (8-puzzle)
+
+　
+
+#+begin_larger
 */✗/* *AMA_1 is impractical*.
 #+end_larger
 
@@ -703,9 +745,9 @@ AMA_1 requires *all valid transitions* in the real world
 
 #+begin_larger
 #+begin_alignright
-+ → *AMA_2*, a novel neural architecture
++ → SAE + *AMA_2*, a novel neural architecture
 
-  　which does not
+  　which learns from small examples
 #+end_alignright
 #+end_larger
 
@@ -737,23 +779,23 @@ AMA_1 requires *all valid transitions* in the real world
 
 [[png:ama/overview0]]
 
-*** AMA_2 Overview
+*** Action Auto Encoder
 
   [[png:ama/overview1]]
 
-*** AMA_2 Overview
+*** Action Auto Encoder
 
   [[png:ama/overview1-1]]
 
-*** AMA_2 Overview
+*** Action Discriminator
 
   [[png:ama/overview2-2]]
 
-*** AMA_2 Overview
+*** Action Discriminator
 
   [[png:ama/overview2-1]]
 
-*** AMA_2 Overview
+*** Action Discriminator
 
   [[png:ama/overview2]]
 
@@ -995,7 +1037,7 @@ Is it feasibile to do planning with AAE and AD?
 #+end_smaller
 #+end_span6
 #+begin_span6
-*Action Discriminators achieve the reasonable accuracy*
+*Action Discriminators achieved the reasonable accuracy*
 
 the type-1 / type-2 error in %
 
@@ -1150,9 +1192,11 @@ Example:
 
 　Transition rule "*This is an apple, this is a pen → oh, ApplePen!*"
     
-When this happens, */Latplan/* brings AI to a level like:
+When this happens, */Latplan/* allows Dialogue Systems to perform:
   
 　 *1000 steps of natural language reasoning with /logic/, not by reflex*
+
+　Solved by *rigorously tested State-of-the-Art Classical Planner*
   
 　Fundamentally impossible for short-sighted / greedy agents
 
