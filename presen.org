@@ -116,7 +116,7 @@ It is precisely these parts that we address in this presentation.
 [[png:agent/search-agent0]]
 
 #+begin_alignright
-*The scope of our paper that RL people can digest ↑*
+*The scope of our paper ↑*
 #+end_alignright
 
 ** Classical Planning: */typically/* with a PDDL (symbolic) model
@@ -141,31 +141,30 @@ Goal State
 #+end_center
 #+end_container-fluid
 
-+ 
-  #+begin_container-fluid
-  #+begin_row-fluid
-  #+begin_span5
-  #+begin_src lisp
-  (empty x0 y0)
-  (is panel6 x1 y0)
-  (up   y0 y1)
-  (down y1 y0)...
-  #+end_src
-  #+end_span5
-  
-  #+begin_span7
-  #+begin_src lisp
-  (:action slide-up ...
-  
-   :precondition
-   (and (empty ?x ?y-old) ...)
-  
-   :effects
-   (and (not (empty ?x ?y-old))...))
-  #+end_src
-  #+end_span7
-  #+end_row-fluid
-  #+end_container-fluid
+#+begin_container-fluid
+#+begin_row-fluid
+#+begin_span5
+#+begin_src lisp
+(empty x0 y0)
+(is panel6 x1 y0)
+(up   y0 y1)
+(down y1 y0)...
+#+end_src
+#+end_span5
+
+#+begin_span7
+#+begin_src lisp
+(:action slide-up ...
+
+ :precondition
+ (and (empty ?x ?y-old) ...)
+
+ :effects
+ (and (not (empty ?x ?y-old))...))
+#+end_src
+#+end_span7
+#+end_row-fluid
+#+end_container-fluid
 
 ** They cannot solve an */Image-based/* 8-puzzle
 
@@ -247,7 +246,7 @@ domain-independent *symbolic* systems
   
   #+begin_center
   #+begin_larger
-  */Describe/ actions.*
+  */Describe/ the transitions with symbols.*
   #+end_larger
   #+end_center
   
@@ -1318,6 +1317,10 @@ SAE implementation uses a denoising layer (Denoising AE)
 ** Konidaris et. al (2014, 2015): 
 
 Structured input (e.g. *light switch*, *x/y-distance*) ↔ unstructured image
+
+　33 variables ↔ 42x42 = 1764 variables (pixels)
+
+　Inputs are highly entangled; no straightforward representation exists
 
 Action Symbols (*move, interact*)
 
