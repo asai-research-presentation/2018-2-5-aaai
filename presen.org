@@ -1322,7 +1322,9 @@ Structured input (e.g. *light switch*, *x/y-distance*) ↔ unstructured image
 
 　Inputs are highly entangled; no straightforward representation exists
 
-Action Symbols (*move, interact*): modes of transitions are already segmented by human
+Action Symbols (*move, interact*):
+
+　modes of transitions are already segmented by human
 
 Just converting Semi-MDP /model/ to a PDDL /model/.
 
