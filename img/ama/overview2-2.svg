@@ -568,7 +568,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -682,7 +682,7 @@
          x="166.37148"
          y="12.952051"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:6.3499999px;line-height:110.00000238%;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';text-align:end;text-anchor:end;fill:#000000;stroke:none;stroke-width:0.26458332"
-         id="tspan10043">(learn the <tspan
+         id="tspan10043">(learns the <tspan
    style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:110.00000238%;font-family:'Noto Sans';-inkscape-font-specification:'Noto Sans Bold';text-align:end;text-anchor:end;fill:#ff0000"
    id="tspan127">preconditions</tspan>)</tspan></text>
     <text
