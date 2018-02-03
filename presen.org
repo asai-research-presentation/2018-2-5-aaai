@@ -1148,7 +1148,7 @@ Measure the type-1 / type-2 error in %
 * Conclusion
 
 + *Latplan:* *The /first system/* which completely automatically
-  generates a classical, symbolic planning model *from scratch* (no manual tagging)
+  generates a classical, symbolic planning model *from scratch (no human symbols)*
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 
