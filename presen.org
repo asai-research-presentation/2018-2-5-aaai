@@ -212,14 +212,14 @@ Goal State
 ** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
 #+begin_quote
-The *cost of human* involved for converting *real-world problems* into inputs for
+The *cost of human* involved for converting *real-world problems* into the inputs for
 domain-independent *symbolic* systems
 #+end_quote
 
 #+begin_container-fluid
 #+begin_row-fluid
 #+begin_span12
-+ *For /image-based/ tasks*, we must *automate 2 processes*:
++ We must *automate 2 processes*:
 #+end_span12
 #+end_row-fluid
 #+begin_row-fluid
@@ -279,7 +279,7 @@ domain-independent *symbolic* systems
 
 [[png:latplanlogo]]
 
-** Problem Setting
+*** Problem Setting                                                :noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -732,10 +732,10 @@ break
 #+end_xlarge
 #+end_center
 
-** SAE Feasible! Now what?
+** SAE propositions feasible! Now what?
 
 #+begin_larger
-*/○/* *SAE is practical*.
+*/○/* *SAE is practical.*
 #+end_larger
 
 Trained with *20k* out of *360k* state examples. (8-puzzle)
@@ -743,10 +743,16 @@ Trained with *20k* out of *360k* state examples. (8-puzzle)
 　
 
 #+begin_larger
-*/✗/* *AMA_1 is impractical*.
+*/✗/* *AMA_1 is impractical.*
 #+end_larger
 
 AMA_1 requires *all valid transitions* in the real world
+
+　
+
+#+begin_larger
+*/✗/* Therefore *SAE + AMA_1 impractical.*
+#+end_larger
 
 #+begin_larger
 #+begin_alignright
@@ -1144,10 +1150,15 @@ Measure the type-1 / type-2 error in %
 # #+end_alignright
 # #+end_larger
 
-* Conclusion
+* Conclusion : Latplan
 
-+ *Latplan:* *The /first system/* which completely automatically
-  generates a classical, symbolic planning model *from scratch (no human symbols)*
+#+begin_center
+*The /first completely automated system/*
+#+end_center
+
++ *Unstructured images → A symbolic planning model*
+  
+  *from scratch (no human symbols, structured data)*
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 
@@ -1182,17 +1193,13 @@ LatPlan is an *architecture* : Any system with SAE is an implementation
 
 　Autoencoders for *text*, *audio* [Li 2015, Deng 2010]
 
-+ Example:
++ */Latplan/ + Dialogue System*:
   
-  Transition rule "*This is an apple, this is a pen → oh, ApplePen!*"
+  Transition rule "_/This is an apple, this is a pen → oh, ApplePen/_"
     
-+ When this happens, */Latplan/* allows Dialogue Systems to perform:
+  */1000/ steps of natural language reasoning with /logic/, not by reflex*
   
-  *1000 steps of natural language reasoning with /logic/, not by reflex*
-
-  Solved by *rigorously tested State-of-the-Art Classical Planner*
-  
-  Fundamentally impossible for short-sighted / greedy agents
+  　↑　Because classical planning can handle long sequences
 
 #+begin_note
  "A hierarchical neural autoencoder for paragraphs and documents." (2015)
@@ -1746,6 +1753,6 @@ Symbols are strong abstraction mechanisms becasue
      
      Heuristic functions use modus ponens to derive guidance
 
-* This is the start of *neural-symbolic* AI.
+* *Neural-Symbolic* AI.
 
 [[png:latplanlogo-in-sicp]]
