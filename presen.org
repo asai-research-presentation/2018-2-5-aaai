@@ -22,7 +22,7 @@
 # #+end_xlarge
 
 #+begin_larger
-Masataro Asai and Fukunaga Alex
+Masataro Asai and Alex Fukunaga
 
 The University of Tokyo
 #+end_larger
@@ -41,7 +41,7 @@ Made by guicho2.71828 (Masataro Asai)
 #+end_note
 #+end_outline-text-1
 
-* Overview                                              :background:
+* Overview                                              :background:noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -63,7 +63,7 @@ break
 #+end_xlarge
 #+end_center
 
-** The generic AI agent architechture
+* Generic AI agent architechture
 
 [[png:agent/search-agent5]]
 
@@ -95,23 +95,23 @@ Also, in DQN which operates on Atari Environment, the system has access to the s
 It is precisely these parts that we address in this presentation.
 #+end_resume
 
-*** The generic AI agent architechture
+** Generic AI agent architechture
 
 [[png:agent/search-agent4]]
 
-*** The generic AI agent architechture
+** Generic AI agent architechture
 
 [[png:agent/search-agent3]]
 
-*** The generic AI agent architechture
+** Generic AI agent architechture
 
 [[png:agent/search-agent2]]
 
-*** The generic AI agent architechture
+** Generic AI agent architechture
 
 [[png:agent/search-agent1]]
 
-*** The generic AI agent architechture
+** Generic AI agent architechture
 
 [[png:agent/search-agent0]]
 
@@ -119,7 +119,7 @@ It is precisely these parts that we address in this presentation.
 *The scope of our paper ↑*
 #+end_alignright
 
-** Classical Planning: */typically/* with a PDDL (symbolic) model
+* Classical Planning: */typically/* with a PDDL (symbolic) model
 
 Modern planners *solve an 8-puzzle optimally << 0.1sec*
 
@@ -166,7 +166,7 @@ Goal State
 #+end_row-fluid
 #+end_container-fluid
 
-** They cannot solve an */Image-based/* 8-puzzle
+* They cannot solve an */Image-based/* 8-puzzle
 
 #+begin_container-fluid
 #+begin_row-fluid
@@ -199,7 +199,7 @@ Goal State
 #+end_container-fluid
 
 
-+ *Impractical* in some environments:
++ *Impractical* in many environments:
 
   #+begin_alignright
   *unknown* and */no human/ is available*
@@ -209,19 +209,51 @@ Goal State
   #+end_larger
   #+end_alignright
 
-** Knowledge-Acquisition Bottleneck (Cullen, 1988):
 
-#+begin_quote
-The *cost of human* involved for converting *real-world problems* into the inputs for
-domain-independent *symbolic* systems
-#+end_quote
+* We must *automate 2 processes*:
+
+# * Knowledge-Acquisition Bottleneck:
+# 
+# #+begin_quote
+# The *cost of human* involved for converting *real-world problems* into the inputs for
+# domain-independent *symbolic* systems
+# #+end_quote
+
+
 
 #+begin_container-fluid
 #+begin_row-fluid
-#+begin_span12
-+ We must *automate 2 processes*:
-#+end_span12
+#+begin_span4
+[[png:overview/1]]
+
+#+end_span4
+#+begin_span1
+→
+#+end_span1
+#+begin_span7
+# #+begin_src lisp
+# (empty x0 y0)
+# (is panel6 x1 y0)
+# (up   y0 y1)
+# (down y1 y0)...
+# #+end_src
+#+begin_src lisp
+(:action slide-up ...
+
+ :precondition
+ (and (empty ?x ?y-old) ...)
+
+ :effects
+ (and (not (empty ?x ?y-old))...))
+#+end_src
+#+end_span7
 #+end_row-fluid
+
+# #+begin_row-fluid
+# #+begin_span12
+# + We must *automate 2 processes*:
+# #+end_span12
+# #+end_row-fluid
 #+begin_row-fluid
 #+begin_span6
 + *1. Symbol Grounding:*
@@ -275,11 +307,11 @@ domain-independent *symbolic* systems
 # The knowledge acquisition bottleneck: time for reassessment? : Cullen, J and Bryman, A Expert Syst. Vol 5 No 3 (August 1988) pp 216-225
 # #+end_note
 
-** Latent-Space Planner (*/Latplan/*)
+* Latent-Space Planner (*/Latplan/*)
 
 [[png:latplanlogo]]
 
-*** Problem Setting                                                :noexport:
+** Problem Setting                                                 :noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -291,19 +323,26 @@ Latent-Space Planner
 #+end_xlarge
 #+end_center
 
-*** Task: Solving an Imaged-Based 8-puzzle w/o Prior Explicit Knowledge
+** Task: Solving an Imaged-Based 8-puzzle w/o Prior Explicit Knowledge :noexport:
 
 *Prior Knowledge* : labels/symbols such as "9 tiles", "moving"
 
 [[sjpg:puzzle]]
 
-*** Task: Solving an Imaged-Based 8-puzzle */w/o Prior Explicit Knowledge/*
+** Task: Solving an Imaged-Based 8-puzzle */without any Prior Explicit Knowledge/*
 
-*/Prior Knowledge/* : labels/symbols such as "9 tiles", "moving"
+#+begin_center
+*/System is not given any labels/symbols/* : e.g. "9 tiles", "moving"
+
+Given only *raw, unsegmented images = unstructured*
+
+No notion of *motion*
+
+#+end_center
 
 [[sjpg:puzzle]]
 
-*** Task: Solving */ANY/* Imaged-Based tasks
+** Task: Solving */ANY/* Imaged-Based task
 
 #+begin_larger
 → */Domain-independent Image-based Classical Planner/*
@@ -330,7 +369,7 @@ Latent-Space Planner
 #+end_row-fluid
 #+end_container-fluid
 
-*** Inputs
+** Inputs
 
 #+begin_xlarge
 The system is given *2 types of input*:
@@ -339,17 +378,25 @@ The system is given *2 types of input*:
 + Planning Input
 #+end_xlarge
 
-*** Input1: Training Input -- Image Pairs
+** Input1: Training Input -- Image Pairs
 
 [[png:overview/1]]
 
-*** Input1: Training Input -- Image Pairs
+#+begin_center
+Agent performed some action to the before-state, resulting in the after state
+#+end_center
+
+** Input1: Training Input -- Image Pairs
 
 #+begin_right
 [[png:overview/2]]
 #+end_right
 
-*Randomly sampled, noisy image transitions*
+*Randomly sampled transitions*
+
+#+begin_alignright
+*as noisy image pairs*
+#+end_alignright
 
 + No *state descriptions* (unlike AlphaGo)
 + No *expert traces* (unlike AlphaGo)
@@ -377,19 +424,19 @@ The system is given *2 types of input*:
 DQN (Mnih et al. '15), AlphaGo (Silver et al. '16)
 #+end_note
 
-*** Input2: Planning Input
+** Input2: Planning Input
 
 [[png:overview/input2]]
 
-*** Output: Visualized Plan
+** Output: Visualized Plan
 
 #+HTML: <embed src="img/overview/3.svg" type="image/svg+xml"  />
 
-*** Output: Visualized Plan
+** Output: Visualized Plan
 
 #+HTML: <embed src="img/overview/3-hanoi.svg" type="image/svg+xml"  />
 
-* Overview                                            :architecture:
+* Overview                                            :architecture:noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -411,7 +458,7 @@ break
 #+end_xlarge
 #+end_center
 
-** Latent-Space Planner (*/LatPlan/*) architechture
+* Latent-Space Planner (*/LatPlan/*) architechture
 
   [[png:overview/planning1]]
 
@@ -419,23 +466,23 @@ break
 We must bridge the gap between these two worlds!
 #+end_alignright
 
-** Step 1: Propositional Symbol Grounding
+* Step 1: Propositional Symbol Grounding
 
  [[png:overview/planning2]]
 
-** Step 2: Action Model Acquisition (AMA)
+* Step 2: Action Model Acquisition (AMA)
 
  [[png:overview/planning3]]
 
-** Step 3: Solve the Symbolic Planning Problem
+* Step 3: Solve the Symbolic Planning Problem
 
-  [[png:overview/planning4]]
+ [[png:overview/planning4]]
 
-** Step 4: Executing the Symbolic Plan
+* Step 4: Executing the Symbolic Plan
 
-  [[png:overview/planning5]]
+ [[png:overview/planning5]]
 
-** Step 5: Obtaining the Visualization
+* Step 5: Obtaining the Visualization
 
   [[png:overview/planning6]]
 
@@ -457,7 +504,7 @@ Latplan: Latent-space Planner.
 + *runs in a /completely automated, unsupervised/ manner.*
 #+end_larger
 
-* Overview                                                     :SAE:
+* Overview                                                     :SAE:noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -479,7 +526,7 @@ break
 #+end_xlarge
 #+end_center
 
-** State AutoEncoder (SAE)                                         :noexport:
+* State AutoEncoder (SAE)                                          :noexport:
 SAE is a *neural network* which provides two functions:
 
 + $b = Encode(r)$ : *maps a raw datum $r\;$ to a bit vector $b\;$*
@@ -498,7 +545,7 @@ SAE is a *neural network* which provides two functions:
   #+end_alignright
 #+end_larger
 
-** NN for Standard Classification Tasks (Supervised)               :noexport:
+* NN for Standard Classification Tasks (Supervised)                :noexport:
 
 # Target Function $y=f(x)\;$ trained by SGD minimizing $|y-f(x)|$
 # 
@@ -527,7 +574,7 @@ SAE is a *neural network* which provides two functions:
 
 #+end_larger
 
-** Unsupervised Learning for NN: AutoEncoder (AE)
+* Unsupervised Learning for NN: AutoEncoder (AE)
 
 # Auto = "self" --- Autoencoding = "encoding itself"
 
@@ -559,7 +606,7 @@ adding a label: Latent vector
 #+end_larger
 #+end_alignright
 
-** Variational AutoEncoder (VAE)                                   :noexport:
+* Variational AutoEncoder (VAE)                                    :noexport:
 
 An AutoEncoder that *enforce a certain distribution* on $Z \subset \mathbb{R}^n$ over the dataset $X$
 
@@ -577,7 +624,7 @@ Reparametrization for $N(\mu,\sigma)$: $\mu + \sigma N(0,1)$
 #+end_center
 #+end_quote
 
-** Solution: Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
+* Solution: Gumbel-Softmax VAE (Jang, Gu, ICLR2017)
 
 *Additional optimization penalty* which enforces $Z \sim \textbf{Categorical}$:
 
@@ -602,15 +649,15 @@ Example: Represent an MNIST image with 30 variables of 8 categories.
   In particular, *2 categories → propositional variables (true/false)*
 #+end_center
 
-** State Autoencoder (*/before training/*)
+* State Autoencoder (*/before training/*)
 
  [[png:sae/state-ae-before]]
 
-** State Autoencoder (_/after training/_)
+* State Autoencoder (_/after training/_)
 
  [[png:sae/state-ae]]
 
-** Verifying the feasibility of Latplan and SAE
+* Verifying the feasibility of Latplan and SAE
 
 #+begin_quote
 #+begin_center
@@ -642,19 +689,19 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method
   #+end_src
 + 3. Planning with Fast Downward (Helmert 08), A* (optimal solution)
 
-*** Step 3: Solve the Symbolic Planning Problem                    :noexport:
+** Step 3: Solve the Symbolic Planning Problem                     :noexport:
 
-   [[png:overview/planning4]]
+  [[png:overview/planning4]]
 
-*** Step 4: Executing the Symbolic Plan                            :noexport:
+** Step 4: Executing the Symbolic Plan                             :noexport:
 
-   [[png:overview/planning5]]
+  [[png:overview/planning5]]
 
-*** Step 5: Obtaining the Visualization                            :noexport:
+** Step 5: Obtaining the Visualization                             :noexport:
 
-   [[png:overview/planning6]]
+  [[png:overview/planning6]]
 
-*** AMA_1 Experiments                                              :noexport:
+** AMA_1 Experiments                                               :noexport:
 
  #+begin_quote
  #+begin_center
@@ -672,7 +719,7 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method
 
  + Runtime: ~3sec (instances are too small for symbolic systems)
 
-*** 8-puzzle with MNIST tiles (MNIST 8-puzzle)
+** 8-puzzle with MNIST tiles (MNIST 8-puzzle)
 
 8-puzzle using digits from MNIST database
 
@@ -687,12 +734,12 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method
 #+end_xlarge
 
 #+begin_center
-(*/We skip other domains, noisy results/*)
+(*/See paper for other domains with noisy inputs/*)
 #+end_center
 #+end_larger
 
 
-** State Autoencoder Conclusion                                    :noexport:
+* State Autoencoder Conclusion                                     :noexport:
 
 + */SAE can learn from small examples/* ::
 
@@ -710,7 +757,7 @@ AMA_1 : an */oracular/* Action Model Acquisition (AMA) method
 
      　Completeness is guaranteed
 
-* Overview                                                             :AMA2:
+* Overview                                                    :AMA2:noexport:
 
 #+begin_center
 #+begin_xlarge
@@ -732,7 +779,7 @@ break
 #+end_xlarge
 #+end_center
 
-** SAE propositions feasible! Now what?
+* SAE propositions feasible! Now what?
 
 #+begin_larger
 */○/* *SAE is practical.*
@@ -751,18 +798,18 @@ AMA_1 requires *all valid transitions* in the real world
 　
 
 #+begin_larger
-*/✗/* Therefore *SAE + AMA_1 impractical.*
+*/✗/* Therefore *SAE + /AMA_1/ is impractical.*
 #+end_larger
 
 #+begin_larger
 #+begin_alignright
 + → SAE + *AMA_2*, a novel neural architecture
 
-  　which learns from small examples
+  　which learns from few examples
 #+end_alignright
 #+end_larger
 
-** The Task of AMA_2 : The */Real/* AMA method                     :noexport:
+* The Task of AMA_2 : The */Real/* AMA method                      :noexport:
 
 *Input:* Propositional transitions $\{ (s,t) \ldots \}$
 
@@ -786,23 +833,23 @@ AMA_1 requires *all valid transitions* in the real world
    :effects      (and (empty x0 y1) (not ...)))
   #+end_src
 
-** AMA_2 Overview
+* AMA_2 Overview
 
 [[png:ama/overview0]]
 
-*** Action Auto Encoder
+** Action Auto Encoder
 
-  [[png:ama/overview1]]
+ [[png:ama/overview1]]
 
-*** Action Auto Encoder
+** Action Auto Encoder → */Incorrect Transitions/*
 
-  [[png:ama/overview1-1]]
+ [[png:ama/overview1-1]]
 
-*** Action Discriminator
+** Action Discriminator → */Prunes the Incorrect/*
 
-  [[png:ama/overview2-2]]
+ [[png:ama/overview2-2]]
 
-*** Action Discriminator
+** Action Discriminator → */Prunes the Incorrect/*
 
   [[png:ama/overview2-1]]
 
@@ -810,7 +857,7 @@ AMA_1 requires *all valid transitions* in the real world
 Elkan, Noto 08
 #+end_note
 
-*** Action Discriminator
+** Action Discriminator → */Prunes the Incorrect/*
 
   [[png:ama/overview2]]
 
@@ -818,7 +865,7 @@ Elkan, Noto 08
 Elkan, Noto 08
 #+end_note
 
-*** AMA_2 Overview
+** AMA_2 Overview
 
   [[png:ama/overview3]]
 
@@ -1021,7 +1068,7 @@ Is it feasibile to do planning with AAE and AD?
 #+begin_span6
 *Easy instances: Majority of instances are solved*
 
-*Harder instances: Still many instances are solved*
+*Harder instances: Some instances are solved*
 
 #+begin_smaller
 |   | /          |   < |     |   > |   < |    |   > |
@@ -1037,7 +1084,7 @@ Is it feasibile to do planning with AAE and AD?
 #+end_smaller
 #+end_span6
 #+begin_span6
-*Action Discriminators achieved the reasonable accuracy*
+*Action Discriminators achieved reasonable accuracy*
 
 the type-1 / type-2 error in %
 
@@ -1156,9 +1203,12 @@ Measure the type-1 / type-2 error in %
 *The /first completely automated system/*
 #+end_center
 
-+ *Unstructured images → A symbolic planning model*
++ 
+  #+begin_center
+  *Unstructured images → A symbolic planning model*
   
   *from scratch (no human symbols, structured data)*
+  #+end_center
   # + Input : Unlabelled pairs of images, initial image, goal image
   # + Output : Visualized plans to achieve the goal
 
@@ -1179,8 +1229,8 @@ Measure the type-1 / type-2 error in %
   |        Action symbols | *Yes*               |
   |        Object symbols | _/No/_              |
   |     Predicate symbols | _/No/_              |
-  |       Problem symbols | _/No/_              |
-  |        Domain symbols | _/No/_              |
+  # |       Problem symbols | _/No/_              |
+  # |        Domain symbols | _/No/_              |
   
   #+end_center
   # Future work: improved accuracy, runtime, */and a lot more!!/*
